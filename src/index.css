@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=League+Spartan:wght@700;800;900&family=Sora:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-anton: "Anton", sans-serif;
+  --font-spartan: "League Spartan", sans-serif;
+  --font-display: "Sora", sans-serif;
+  --font-heading: "Space Grotesk", sans-serif;
+  --font-sans: "Hanken Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", sans-serif;
+  
+  --color-theme: #ACB6FF;
+  --color-accent: #C084FC;
+  --color-neon-pink: #D476FF;
+  --color-neon-blue: #00E5FF;
+  --color-background-deep: #070707;
+  --color-surface-card: #121212;
+  --color-surface-card-hover: #1e1e1e;
+}
+
+@layer base {
+  body {
+    background-color: #070707;
+    color: var(--color-theme);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.8s ease, color 0.8s ease;
+  }
+}
+
+/* Custom visual helpers */
+.svg-outline {
+  fill: none;
+  stroke: var(--color-theme);
+  stroke-width: 2px;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 0.8s ease;
+}
+
+.svg-fill {
+  fill: var(--color-theme);
+  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), fill 0.8s ease;
+}
+
+/* Smooth custom cursor or neon glows */
+.neon-glow-pink {
+  box-shadow: 0 0 20px rgba(241, 95, 143, 0.35);
+}
+
+.neon-glow-blue {
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.35);
+}
+
+#dashed-line-anim {
+  clip-path: inset(100% 0 0 0);
+  will-change: clip-path;
+}
+
+/* Custom selection */
+::selection {
+  background-color: var(--color-neon-pink);
+  color: #070707;
+}
+
