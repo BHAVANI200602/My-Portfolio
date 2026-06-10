@@ -86,7 +86,7 @@ export default function ProjectsSection() {
             
             {/* J (Zoom Portal) */}
             <motion.span 
-              style={{ scale: jScale, opacity: jOpacity, transformOrigin: "50% 35%" }} 
+              style={{ scale: jScale, opacity: jOpacity, transformOrigin: "75% 30%" }} 
               className="inline-block z-20 text-[#ACB6FF] font-bold"
             >
               J

@@ -11,6 +11,7 @@ import EducationSection from "./components/EducationSection";
 import SkillsSection from "./components/SkillsSection";
 import ProjectsSection from "./components/ProjectsSection";
 import FooterSection from "./components/FooterSection";
+import NavBar from "./components/NavBar";
 
 export default function App() {
   const [isDived, setIsDived] = useState(false);
@@ -39,6 +40,8 @@ export default function App() {
           pointerEvents: isDived ? "auto" : "none",
         }}
       >
+        <NavBar />
+        
         {/* Tracking dash indicator vector */}
         <DashedScrollLine />
 
