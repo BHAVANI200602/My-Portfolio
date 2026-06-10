@@ -65,14 +65,16 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
               <text
                 className="svg-outline fill-none !stroke-slate-300 stroke-[2.5px]"
                 x="0"
-                y="100"
+                y="95"
+                textLength="800"
+                lengthAdjust="spacingAndGlyphs"
                 dominantBaseline="middle"
                 textAnchor="start"
                 style={{
-                  fontFamily: '"Bebas Neue", sans-serif',
-                  fontSize: "115px",
-                  fontWeight: 400,
-                  letterSpacing: "0.03em"
+                  fontFamily: '"Anton", sans-serif',
+                  fontSize: "92px",
+                  fontWeight: 900,
+                  letterSpacing: "0.01em"
                 }}
               >
                 BHAVANI SHANKAR
@@ -80,15 +82,17 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
               <g className="svg-fill-wrapper">
                 <text
                   className="svg-fill !fill-slate-300"
+                  textLength="800"
+                  lengthAdjust="spacingAndGlyphs"
                   style={{
                     transform: revealed ? "translateY(0)" : "translateY(100%)",
-                    fontFamily: '"Bebas Neue", sans-serif',
-                    fontSize: "115px",
-                    fontWeight: 400,
-                    letterSpacing: "0.03em"
+                    fontFamily: '"Anton", sans-serif',
+                    fontSize: "92px",
+                    fontWeight: 900,
+                    letterSpacing: "0.01em"
                   }}
                   x="0"
-                  y="100"
+                  y="95"
                   dominantBaseline="middle"
                   textAnchor="start"
                 >
