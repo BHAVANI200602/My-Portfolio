@@ -23,7 +23,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
   return (
     <section
       id="section-1"
-      className="relative min-h-screen w-full flex flex-col justify-center items-start overflow-hidden px-6 md:px-16 lg:px-24 pt-24 pb-16 z-10 bg-black"
+      className="relative min-h-screen w-full flex flex-col justify-center items-start overflow-hidden px-4 md:px-8 lg:px-12 pt-24 pb-16 z-10 bg-black"
     >
       {/* Deep Space Horizon Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-[#0B0F19] to-black z-0 pointer-events-none" />
@@ -38,74 +38,43 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       {/* Foreground gradient to blend into next section */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black pointer-events-none z-20" />
 
-      <div className="relative w-full max-w-[1200px] z-30 flex flex-col items-start justify-center text-left pt-12 md:pt-20">
+      <div className="relative w-full max-w-[1400px] z-30 flex flex-col items-start justify-center text-left pt-12 md:pt-20">
         
         {/* Accent Greeting */}
         <div 
-          className="mb-4 sm:mb-6 transition-all duration-700 delay-100"
+          className="mb-0 sm:mb-1 transition-all duration-700 delay-100"
           style={{
             opacity: revealed ? 1 : 0,
             transform: revealed ? "translateY(0)" : "translateY(10px)",
           }}
         >
-          <p className="text-[#00E5FF] font-mono text-sm md:text-lg tracking-[0.2em] uppercase drop-shadow-[0_0_8px_rgba(0,229,255,0.6)]">
+          <p className="text-[#00E5FF] font-sans font-bold text-lg md:text-2xl tracking-tight">
             Hi, I am
           </p>
         </div>
 
-        {/* Liquid Heading: "BHAVANI SHANKAR" aligned to the side */}
-        <div className={`relative mb-8 sm:mb-12 w-full max-w-4xl transition-all duration-700 ${revealed ? "is-revealed" : "opacity-0 translate-y-4"}`}>
-          <div className="w-full relative select-none leading-none">
-            <svg
-              className="w-full h-auto overflow-visible"
-              viewBox="0 0 800 130"
-              preserveAspectRatio="xMinYMid meet"
-              aria-label="BHAVANI SHANKAR"
+        {/* Massive HTML Heading: "BHAVANI SHANKAR" with CSS stroke/fill animation for tight spacing */}
+        <div className={`relative mb-1 sm:mb-2 w-full transition-all duration-700 ${revealed ? "opacity-100" : "opacity-0 translate-y-4"}`}>
+          <div className="relative inline-block select-none leading-[0.9]">
+            {/* Outline Text */}
+            <h1 className="font-sans font-black text-[15vw] md:text-[10rem] lg:text-[12rem] tracking-tighter text-transparent uppercase m-0 p-0" style={{ WebkitTextStroke: "2px #cbd5e1" }}>
+              BHAVANI SHANKAR
+            </h1>
+            {/* Filled Text that animates up from the bottom */}
+            <h1 
+              className="font-sans font-black text-[15vw] md:text-[10rem] lg:text-[12rem] tracking-tighter text-slate-300 uppercase m-0 p-0 absolute top-0 left-0 transition-all duration-[1200ms] ease-out"
+              style={{
+                clipPath: revealed ? "inset(0% 0 0 0)" : "inset(100% 0 0 0)",
+              }}
             >
-              <text
-                className="svg-outline fill-none !stroke-slate-300 stroke-[2.5px]"
-                x="0"
-                y="95"
-                textLength="800"
-                lengthAdjust="spacingAndGlyphs"
-                dominantBaseline="middle"
-                textAnchor="start"
-                style={{
-                  fontFamily: '"Anton", sans-serif',
-                  fontSize: "92px",
-                  fontWeight: 900,
-                  letterSpacing: "0.01em"
-                }}
-              >
-                BHAVANI SHANKAR
-              </text>
-              <g className="svg-fill-wrapper">
-                <text
-                  className="svg-fill !fill-slate-300"
-                  textLength="800"
-                  lengthAdjust="spacingAndGlyphs"
-                  style={{
-                    transform: revealed ? "translateY(0)" : "translateY(100%)",
-                    fontFamily: '"Anton", sans-serif',
-                    fontSize: "92px",
-                    fontWeight: 900,
-                    letterSpacing: "0.01em"
-                  }}
-                  x="0"
-                  y="95"
-                  dominantBaseline="middle"
-                  textAnchor="start"
-                >
-                  BHAVANI SHANKAR
-                </text>
-              </g>
-            </svg>
+              BHAVANI SHANKAR
+            </h1>
           </div>
         </div>
 
         {/* Premium Word-by-word Reveal Subheading */}
-        <div className="max-w-4xl mt-4 sm:mt-6 md:mt-8">
-          <p className="font-sans font-bold text-2xl md:text-4xl lg:text-[42px] text-slate-300 tracking-tight leading-[1.15]">
+        <div className="max-w-4xl mt-0 md:mt-2">
+          <p className="font-sans font-bold text-2xl md:text-4xl lg:text-5xl text-slate-300 tracking-tight leading-[1.1]">
             {["Developer", "learning,", "building,", "and", "understanding", "systems."].map((word, i) => (
               <span key={i} className="inline-block overflow-hidden pb-1 pr-[0.25em]">
                 <span
