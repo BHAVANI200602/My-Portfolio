@@ -31,6 +31,18 @@ export default function App() {
         />
       )}
 
+      {/* Navigation Bar: rendered outside the transition wrapper to guarantee fixed viewport positioning */}
+      <div 
+        style={{
+          opacity: isDived ? 1 : 0,
+          visibility: isDived ? "visible" : "hidden",
+          pointerEvents: isDived ? "auto" : "none",
+          transition: "opacity 1s ease-in-out"
+        }}
+      >
+        <NavBar />
+      </div>
+
       {/* Main Portfolio Framework always exists but hidden until dived */}
       <div 
         className="w-full relative min-h-screen flex flex-col justify-between bg-[#070707] text-[#ACB6FF] transition-opacity duration-1000 ease-in-out select-none"
@@ -40,8 +52,6 @@ export default function App() {
           pointerEvents: isDived ? "auto" : "none",
         }}
       >
-        <NavBar />
-        
         {/* Tracking dash indicator vector */}
         <DashedScrollLine />
 
