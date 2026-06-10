@@ -23,14 +23,36 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
   return (
     <section
       id="section-1"
-      className="relative min-h-screen w-full flex flex-col justify-center items-start overflow-hidden px-6 md:px-16 lg:px-24 pt-24 pb-16 z-10"
+      className="relative min-h-screen w-full flex flex-col justify-center items-start overflow-hidden px-6 md:px-16 lg:px-24 pt-24 pb-16 z-10 bg-black"
     >
+      {/* Deep Space Horizon Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-[#0B0F19] to-black z-0 pointer-events-none" />
+      {/* Glowing Horizon Line */}
+      <div className="absolute top-[45%] left-0 w-full h-[250px] -translate-y-1/2 bg-[#ACB6FF]/20 blur-[120px] pointer-events-none z-0" />
+
       {/* Implements the interactive WebGL Shader Background */}
-      <BackgroundShader />
+      <div className="absolute inset-0 z-10 mix-blend-screen opacity-80 pointer-events-none">
+        <BackgroundShader />
+      </div>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-[#070707]/30 via-transparent to-[#070707] pointer-events-none z-20" />
+      {/* Foreground gradient to blend into next section */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black pointer-events-none z-20" />
 
-      <div className="relative w-full max-w-[1200px] z-30 flex flex-col items-start justify-center text-left">
+      <div className="relative w-full max-w-[1200px] z-30 flex flex-col items-start justify-center text-left pt-12 md:pt-20">
+        
+        {/* Accent Greeting */}
+        <div 
+          className="mb-4 sm:mb-6 transition-all duration-700 delay-100"
+          style={{
+            opacity: revealed ? 1 : 0,
+            transform: revealed ? "translateY(0)" : "translateY(10px)",
+          }}
+        >
+          <p className="text-[#00E5FF] font-mono text-sm md:text-lg tracking-[0.2em] uppercase drop-shadow-[0_0_8px_rgba(0,229,255,0.6)]">
+            Hi, I am
+          </p>
+        </div>
+
         {/* Liquid Heading: "BHAVANI SHANKAR" aligned to the side */}
         <div className={`relative mb-8 sm:mb-12 w-full max-w-4xl transition-all duration-700 ${revealed ? "is-revealed" : "opacity-0 translate-y-4"}`}>
           <div className="w-full relative select-none leading-none">
@@ -41,7 +63,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
               aria-label="BHAVANI SHANKAR"
             >
               <text
-                className="svg-outline fill-none stroke-theme stroke-[2.5px]"
+                className="svg-outline fill-none stroke-white stroke-[2.5px]"
                 x="0"
                 y="95"
                 dominantBaseline="middle"
@@ -55,9 +77,9 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
               >
                 BHAVANI SHANKAR
               </text>
-              <g className="svg-fill-wrapper">
+              <g className="svg-fill-wrapper" style={{ filter: "drop-shadow(0px 0px 15px rgba(255, 255, 255, 0.4))" }}>
                 <text
-                  className="svg-fill fill-theme"
+                  className="svg-fill fill-white"
                   style={{
                     transform: revealed ? "translateY(0)" : "translateY(100%)",
                     fontFamily: '"Anton", sans-serif',
@@ -78,8 +100,8 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         </div>
 
         {/* Premium Word-by-word Reveal Subheading */}
-        <div className="max-w-3xl mt-6 sm:mt-10 md:mt-12">
-          <p className="font-spartan font-black text-lg md:text-2xl lg:text-3xl text-theme/95 uppercase tracking-wide leading-relaxed flex flex-wrap justify-start gap-x-3 gap-y-1">
+        <div className="max-w-3xl mt-2 sm:mt-6 md:mt-8">
+          <p className="font-spartan font-black text-lg md:text-2xl lg:text-3xl text-slate-300 uppercase tracking-wide leading-relaxed flex flex-wrap justify-start gap-x-3 gap-y-1">
             {["DEVELOPER", "LEARNING,", "BUILDING,", "AND", "UNDERSTANDING", "SYSTEMS."].map((word, i) => (
               <span
                 key={i}
@@ -99,13 +121,13 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
 
         {/* Quietly elegant professional bio */}
         <div
-          className="w-full max-w-2xl mt-10 text-left transition-all duration-1000 delay-500"
+          className="w-full max-w-2xl mt-8 md:mt-10 text-left transition-all duration-1000 delay-500"
           style={{
             opacity: revealed ? 1 : 0,
             transform: revealed ? "translateY(0)" : "translateY(20px)",
           }}
         >
-          <p className="text-theme/90 leading-relaxed font-sans text-sm md:text-base font-light italic">
+          <p className="text-slate-400 leading-relaxed font-sans text-sm md:text-base font-light italic">
             &ldquo;{PERSONAL_BIO.aboutMe}&rdquo;
           </p>
         </div>
@@ -122,27 +144,27 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
             href={PERSONAL_BIO.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-zinc-900 to-black hover:from-white/10 hover:to-white/5 border border-white/10 hover:border-neon-blue group text-theme font-mono text-xs rounded transition-all duration-300 shadow-md"
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-zinc-900 to-black hover:from-white/10 hover:to-white/5 border border-white/10 hover:border-neon-blue group text-white font-mono text-xs rounded transition-all duration-300 shadow-md"
           >
-            <Github className="w-4 h-4 text-theme/80 group-hover:text-neon-blue transition-colors" />
+            <Github className="w-4 h-4 text-slate-400 group-hover:text-neon-blue transition-colors" />
             <span>GITHUB</span>
           </a>
           <a
             href={PERSONAL_BIO.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-zinc-900 to-black hover:from-white/10 hover:to-white/5 border border-white/10 hover:border-neon-pink group text-theme font-mono text-xs rounded transition-all duration-300 shadow-md"
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-zinc-900 to-black hover:from-white/10 hover:to-white/5 border border-white/10 hover:border-neon-pink group text-white font-mono text-xs rounded transition-all duration-300 shadow-md"
           >
-            <Linkedin className="w-4 h-4 text-theme/80 group-hover:text-neon-pink transition-colors" />
+            <Linkedin className="w-4 h-4 text-slate-400 group-hover:text-neon-pink transition-colors" />
             <span>LINKEDIN</span>
           </a>
           <a
             href={PERSONAL_BIO.leetcode}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-zinc-900 to-black hover:from-white/10 hover:to-white/5 border border-white/10 hover:border-yellow-400 group text-theme font-mono text-xs rounded transition-all duration-300 shadow-md"
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-zinc-900 to-black hover:from-white/10 hover:to-white/5 border border-white/10 hover:border-yellow-400 group text-white font-mono text-xs rounded transition-all duration-300 shadow-md"
           >
-            <Code className="w-4 h-4 text-theme/80 group-hover:text-yellow-400 transition-colors" />
+            <Code className="w-4 h-4 text-slate-400 group-hover:text-yellow-400 transition-colors" />
             <span>LEETCODE</span>
           </a>
         </div>
