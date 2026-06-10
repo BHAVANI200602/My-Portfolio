@@ -57,12 +57,12 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         <div className={`relative mb-1 sm:mb-2 w-full transition-all duration-700 ${revealed ? "opacity-100" : "opacity-0 translate-y-4"}`}>
           <div className="relative inline-block select-none leading-[0.9]">
             {/* Outline Text */}
-            <h1 className="font-sans font-black text-[15vw] md:text-[10rem] lg:text-[12rem] tracking-tighter text-transparent uppercase m-0 p-0" style={{ WebkitTextStroke: "2px #cbd5e1" }}>
+            <h1 className="font-nexa font-black text-[15vw] md:text-[10rem] lg:text-[12rem] tracking-tighter text-transparent uppercase m-0 p-0" style={{ WebkitTextStroke: "2px #cbd5e1" }}>
               BHAVANI SHANKAR
             </h1>
             {/* Filled Text that animates up from the bottom */}
             <h1 
-              className="font-sans font-black text-[15vw] md:text-[10rem] lg:text-[12rem] tracking-tighter text-slate-300 uppercase m-0 p-0 absolute top-0 left-0 transition-all duration-[1200ms] ease-out"
+              className="font-nexa font-black text-[15vw] md:text-[10rem] lg:text-[12rem] tracking-tighter text-slate-300 uppercase m-0 p-0 absolute top-0 left-0 transition-all duration-[1200ms] ease-out"
               style={{
                 clipPath: revealed ? "inset(0% 0 0 0)" : "inset(100% 0 0 0)",
               }}
