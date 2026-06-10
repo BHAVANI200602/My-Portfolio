@@ -119,9 +119,9 @@ export default function ProjectsSection() {
             y: detailsY,
             pointerEvents: isInteractive ? "auto" : "none",
           }}
-          className="relative w-full max-w-5xl px-2 sm:px-4 md:px-8 z-20"
+          className="relative w-full max-w-6xl px-2 sm:px-4 md:px-8 z-20"
         >
-          <div className="bg-white border-2 border-black rounded shadow-[6px_6px_0px_#000000] p-4 sm:p-6 md:p-8 flex flex-col md:flex-row gap-6 md:gap-10 items-stretch max-h-[85vh] md:max-h-[580px] overflow-y-auto">
+          <div className="bg-white border-2 border-black rounded shadow-[8px_8px_0px_#000000] p-6 sm:p-8 md:p-10 flex flex-col md:flex-row gap-8 md:gap-12 items-stretch max-h-[90vh] md:max-h-[700px] md:min-h-[550px] overflow-y-auto">
             
             {/* INDEX LIST COLUMN */}
             <div className="md:w-1/3 flex flex-col justify-between border-b md:border-b-0 md:border-r border-black/10 pb-6 md:pb-0 pr-0 md:pr-8 shrink-0">
@@ -186,18 +186,7 @@ export default function ProjectsSection() {
                         className="p-1.5 border border-black text-black hover:bg-black hover:text-[#ACB6FF] rounded transition-all shadow-sm"
                         title="Source Code"
                       >
-                        <Github className="w-3.5 h-3.5" />
-                      </a>
-                    )}
-                    {activeProject.liveUrl && (
-                      <a
-                        href={activeProject.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-2.5 py-1 border border-black bg-neon-blue/15 hover:bg-neon-blue text-black/95 hover:text-black rounded transition-all shadow-sm flex items-center gap-1 font-mono text-[9px] font-bold"
-                      >
-                        <ExternalLink className="w-3 h-3" />
-                        <span>LIVE PREVIEW</span>
+                        <Github className="w-4 h-4" />
                       </a>
                     )}
                   </div>

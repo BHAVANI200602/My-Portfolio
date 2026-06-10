@@ -63,7 +63,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
               aria-label="BHAVANI SHANKAR"
             >
               <text
-                className="svg-outline fill-none !stroke-white stroke-[2.5px]"
+                className="svg-outline fill-none !stroke-slate-300 stroke-[2.5px]"
                 x="0"
                 y="95"
                 dominantBaseline="middle"
@@ -79,7 +79,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
               </text>
               <g className="svg-fill-wrapper">
                 <text
-                  className="svg-fill !fill-white"
+                  className="svg-fill !fill-slate-300"
                   style={{
                     transform: revealed ? "translateY(0)" : "translateY(100%)",
                     fontFamily: '"Anton", sans-serif',
