@@ -20,15 +20,15 @@ export default function NavBar() {
 
     setIsTransitioning(true);
 
-    // After the aurora wave covers the screen (700ms), scroll instantly
+    // Jump scroll right when the curtain fully covers the screen (750ms)
     setTimeout(() => {
       el.scrollIntoView({ behavior: "instant" });
-    }, 700);
+    }, 750);
 
-    // Remove the wave
+    // Remove the wave completely once the animation finishes
     setTimeout(() => {
       setIsTransitioning(false);
-    }, 1500);
+    }, 1750);
   };
 
   return (
@@ -50,44 +50,19 @@ export default function NavBar() {
         </div>
       </nav>
 
-      {/* 2. The Aurora Transition Wave */}
+      {/* 2. Simple Theme Curtain Transition */}
       <AnimatePresence>
         {isTransitioning && (
           <motion.div
             initial={{ y: "100%" }}
             animate={{ y: ["100%", "0%", "0%", "-100%"] }}
             transition={{ 
-              duration: 1.5, 
-              times: [0, 0.45, 0.55, 1], 
-              ease: [0.76, 0, 0.24, 1] 
+              times: [0, 0.42, 0.52, 1],
+              duration: 1.7,
+              ease: [0.76, 0, 0.24, 1]
             }}
-            className="fixed inset-0 z-[100] pointer-events-none flex flex-col items-center justify-center bg-[#070707] overflow-hidden"
-          >
-            {/* The Aurora mist layers */}
-            <div 
-              className="absolute inset-0 opacity-80 mix-blend-screen" 
-              style={{
-                backgroundImage: "radial-gradient(circle at 50% 150%, #ACB6FF 0%, transparent 60%), radial-gradient(circle at 80% -50%, #D476FF 0%, transparent 60%), radial-gradient(circle at -20% 50%, #00E5FF 0%, transparent 50%)",
-                filter: "blur(60px)"
-              }}
-            />
-            
-            <div 
-              className="absolute inset-0 opacity-50 mix-blend-screen" 
-              style={{
-                backgroundImage: "radial-gradient(circle at 50% 50%, #ACB6FF 0%, transparent 40%)",
-                filter: "blur(40px)"
-              }}
-            />
-
-            {/* Loading / Teleporting UI inside the wave */}
-            <div className="relative z-10 flex flex-col items-center gap-4">
-              <div className="w-12 h-12 rounded-full border border-[#ACB6FF]/20 border-t-[#ACB6FF] animate-spin" />
-              <div className="font-mono text-[10px] uppercase tracking-[0.4em] text-[#ACB6FF]/80 animate-pulse">
-                Establishing Link
-              </div>
-            </div>
-          </motion.div>
+            className="fixed inset-0 z-[100] bg-[#ACB6FF] pointer-events-none"
+          />
         )}
       </AnimatePresence>
     </>
