@@ -60,19 +60,19 @@ export default function EducationSection() {
           </div>
 
           <div className="max-w-md mt-4">
-            <p className="font-spartan font-black text-lg text-[#ACB6FF]/80 uppercase tracking-widest leading-relaxed flex flex-wrap gap-x-2 gap-y-1">
+            <p className="font-sans font-bold text-xl md:text-2xl text-[#ACB6FF]/80 tracking-tight leading-[1.15] flex flex-wrap gap-x-[0.3em] gap-y-1">
               {["Academic", "background", "and", "educational", "studies."].map((word, i) => (
-                <span
-                  key={i}
-                  className="inline-block transition-all duration-700"
-                  style={{
-                    transitionDelay: `${0.1 + i * 0.08}s`,
-                    opacity: isInView ? 1 : 0,
-                    transform: isInView ? "translateY(0)" : "translateY(12px)",
-                    filter: isInView ? "blur(0px)" : "blur(3px)",
-                  }}
-                >
-                  {word}
+                <span key={i} className="inline-block overflow-hidden pb-0.5">
+                  <span
+                    className="inline-block transition-all duration-700"
+                    style={{
+                      transitionDelay: `${0.1 + i * 0.08}s`,
+                      opacity: isInView ? 1 : 0,
+                      transform: isInView ? "translateY(0)" : "translateY(100%)",
+                    }}
+                  >
+                    {word}
+                  </span>
                 </span>
               ))}
             </p>
@@ -113,7 +113,7 @@ export default function EducationSection() {
                     </div>
                   </div>
 
-                  <h3 className="font-display font-semibold text-lg md:text-xl text-[#ACB6FF] tracking-wide mb-1 transition-colors duration-300 group-hover:text-neon-pink">
+                  <h3 className="font-sans font-bold text-lg md:text-xl text-[#ACB6FF] tracking-tight leading-tight mb-1 transition-colors duration-300 group-hover:text-neon-pink">
                     {edu.degree}
                   </h3>
                   <div className="text-sm font-medium text-neon-blue uppercase tracking-widest mb-4">

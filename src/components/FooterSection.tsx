@@ -41,7 +41,7 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
           <span className="font-mono text-[10px] tracking-[0.4em] text-[#D476FF] uppercase mb-4 block select-none">
             // JOIN_THE_NETWORK
           </span>
-          <h3 className="font-display font-bold text-2xl md:text-3xl text-[#ACB6FF] tracking-tight max-w-xl">
+          <h3 className="font-sans font-bold text-2xl md:text-3xl text-[#ACB6FF] tracking-tight leading-[1.15] max-w-xl">
             Let's build systems that lower the barrier to complex operations.
           </h3>
         </motion.div>

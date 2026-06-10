@@ -75,19 +75,19 @@ export default function SkillsSection() {
           </div>
 
           <div className="max-w-md mt-4">
-            <p className="font-spartan font-black text-lg text-theme/80 uppercase tracking-widest leading-relaxed flex flex-wrap gap-x-2 gap-y-1">
+            <p className="font-sans font-bold text-xl md:text-2xl text-theme/80 tracking-tight leading-[1.15] flex flex-wrap gap-x-[0.3em] gap-y-1">
               {["Core", "technologies,", "frameworks,", "and", "development", "tools."].map((word, i) => (
-                <span
-                  key={i}
-                  className="inline-block transition-all duration-700"
-                  style={{
-                    transitionDelay: `${0.1 + i * 0.08}s`,
-                    opacity: isInView ? 1 : 0,
-                    transform: isInView ? "translateY(0)" : "translateY(12px)",
-                    filter: isInView ? "blur(0px)" : "blur(3px)",
-                  }}
-                >
-                  {word}
+                <span key={i} className="inline-block overflow-hidden pb-0.5">
+                  <span
+                    className="inline-block transition-all duration-700"
+                    style={{
+                      transitionDelay: `${0.1 + i * 0.08}s`,
+                      opacity: isInView ? 1 : 0,
+                      transform: isInView ? "translateY(0)" : "translateY(100%)",
+                    }}
+                  >
+                    {word}
+                  </span>
                 </span>
               ))}
             </p>
