@@ -12,20 +12,10 @@ export default function ProjectsSection() {
     offset: ["start start", "end end"],
   });
 
-  // Left letters (P, R, O) translate left and fade out
-  const leftX = useTransform(scrollYProgress, [0, 0.42], ["0vw", "-150vw"]);
-  const leftOpacity = useTransform(scrollYProgress, [0, 0.28, 0.38], [1, 1, 0]);
-
-  // Right letters (E, C, T, S) translate right and fade out
-  const rightX = useTransform(scrollYProgress, [0, 0.42], ["0vw", "150vw"]);
-  const rightOpacity = useTransform(scrollYProgress, [0, 0.28, 0.38], [1, 1, 0]);
-
-  // Target letter 'J' scales up exponentially to flood the screen safely on all sizes
-  const jScale = useTransform(scrollYProgress, [0, 0.25, 0.36, 0.45], [1, 3, 35, 1200]);
-  const jOpacity = useTransform(scrollYProgress, [0.42, 0.48], [1, 0]);
-
-  // Text overall wrapper opacity
-  const textOpacity = useTransform(scrollYProgress, [0, 0.44, 0.48], [1, 1, 0]);
+  // Premium smooth global zoom and fade for the entire word
+  const wordScale = useTransform(scrollYProgress, [0, 0.42], [1, 15]);
+  const wordOpacity = useTransform(scrollYProgress, [0.32, 0.45], [1, 0]);
+  const wordY = useTransform(scrollYProgress, [0, 0.42], ["0vh", "-10vh"]);
 
   // Background smooth color morph: seamlessly shifts from deep background dark into light periwinkle canvas page
   const bgColor = useTransform(
@@ -62,51 +52,17 @@ export default function ProjectsSection() {
         style={{ backgroundColor: bgColor }}
         className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center items-center px-4 md:px-8 z-10"
       >
-        {/* COMPONENT 1: Word-Spreading Immersive Zoom Portal */}
+        {/* COMPONENT 1: Premium Immersive Zoom */}
         <motion.div
           style={{
-            opacity: textOpacity,
+            opacity: wordOpacity,
+            scale: wordScale,
+            y: wordY,
           }}
           className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-10 px-4"
         >
-          <div className="font-anton flex items-center justify-center uppercase leading-none text-[20vw] md:text-[16vw] gap-2 md:gap-4 tracking-normal text-[#ACB6FF] select-none w-full max-w-7xl mx-auto">
-            {/* P */}
-            <motion.span style={{ x: leftX, opacity: leftOpacity }} className="inline-block origin-center">
-              P
-            </motion.span>
-            {/* R */}
-            <motion.span style={{ x: leftX, opacity: leftOpacity }} className="inline-block origin-center">
-              R
-            </motion.span>
-            {/* O */}
-            <motion.span style={{ x: leftX, opacity: leftOpacity }} className="inline-block origin-center">
-              O
-            </motion.span>
-            
-            {/* J (Zoom Portal) */}
-            <motion.span 
-              style={{ scale: jScale, opacity: jOpacity, transformOrigin: "70% 38%" }} 
-              className="inline-block z-20 text-[#ACB6FF] font-bold"
-            >
-              J
-            </motion.span>
-            
-            {/* E */}
-            <motion.span style={{ x: rightX, opacity: rightOpacity }} className="inline-block origin-center">
-              E
-            </motion.span>
-            {/* C */}
-            <motion.span style={{ x: rightX, opacity: rightOpacity }} className="inline-block origin-center">
-              C
-            </motion.span>
-            {/* T */}
-            <motion.span style={{ x: rightX, opacity: rightOpacity }} className="inline-block origin-center">
-              T
-            </motion.span>
-            {/* S */}
-            <motion.span style={{ x: rightX, opacity: rightOpacity }} className="inline-block origin-center">
-              S
-            </motion.span>
+          <div className="font-anton flex items-center justify-center uppercase leading-none text-[18vw] md:text-[14vw] tracking-widest text-[#ACB6FF] select-none w-full max-w-7xl mx-auto origin-center drop-shadow-[0_0_25px_rgba(172,182,255,0.4)]">
+            PROJECTS
           </div>
         </motion.div>
 
