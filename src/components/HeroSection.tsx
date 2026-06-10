@@ -104,20 +104,20 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         </div>
 
         {/* Premium Word-by-word Reveal Subheading */}
-        <div className="max-w-3xl mt-2 sm:mt-6 md:mt-8">
-          <p className="font-spartan font-black text-lg md:text-2xl lg:text-3xl text-slate-300 uppercase tracking-wide leading-relaxed flex flex-wrap justify-start gap-x-3 gap-y-1">
-            {["DEVELOPER", "LEARNING,", "BUILDING,", "AND", "UNDERSTANDING", "SYSTEMS."].map((word, i) => (
-              <span
-                key={i}
-                className="inline-block transition-all duration-800"
-                style={{
-                  transitionDelay: `${0.1 + i * 0.08}s`,
-                  opacity: revealed ? 1 : 0,
-                  transform: revealed ? "translateY(0) scale(1)" : "translateY(15px) scale(0.95)",
-                  filter: revealed ? "blur(0px)" : "blur(4px)",
-                }}
-              >
-                {word}
+        <div className="max-w-4xl mt-4 sm:mt-6 md:mt-8">
+          <p className="font-sans font-bold text-2xl md:text-4xl lg:text-[42px] text-slate-300 tracking-tight leading-[1.15]">
+            {["Developer", "learning,", "building,", "and", "understanding", "systems."].map((word, i) => (
+              <span key={i} className="inline-block overflow-hidden pb-1 pr-[0.25em]">
+                <span
+                  className="inline-block transition-all duration-800"
+                  style={{
+                    transitionDelay: `${0.1 + i * 0.06}s`,
+                    opacity: revealed ? 1 : 0,
+                    transform: revealed ? "translateY(0)" : "translateY(100%)",
+                  }}
+                >
+                  {word}
+                </span>
               </span>
             ))}
           </p>
