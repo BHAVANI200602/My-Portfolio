@@ -23,7 +23,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
   return (
     <section
       id="section-1"
-      className="relative min-h-screen w-full flex flex-col justify-center items-start overflow-hidden px-4 md:px-8 lg:px-12 pt-24 pb-16 z-10 bg-black"
+      className="relative min-h-screen w-full flex flex-col justify-end items-start overflow-hidden px-4 md:px-8 lg:px-12 pt-24 pb-20 md:pb-28 z-10 bg-black"
     >
       {/* Deep Space Horizon Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-[#0B0F19] to-black z-0 pointer-events-none" />
@@ -39,10 +39,10 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black pointer-events-none z-20" />
 
       {/* All text content wrapper */}
-      <div className="relative w-full max-w-5xl z-30 flex flex-col items-start justify-center text-left px-0 pt-8 md:pt-16 gap-6 md:gap-8">
+      <div className="relative w-full max-w-5xl z-30 flex flex-col items-start text-left px-0 gap-0">
 
         {/* — Magazine layout block — */}
-        <div className="flex flex-col gap-1 md:gap-2 w-full">
+        <div className="flex flex-col gap-0 w-full">
 
           {/* Label: Hi, I am — same font as subheadings, small */}
           <div
@@ -50,7 +50,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
             style={{ opacity: revealed ? 1 : 0, transition: "opacity 0.6s ease" }}
           >
             <span
-              className="inline-block font-sans font-bold text-sm md:text-base tracking-[0.18em] uppercase text-[#00E5FF] transition-transform duration-700"
+              className="inline-block font-sans font-bold text-sm md:text-base tracking-[0.18em] text-[#00E5FF] transition-transform duration-700 mb-1"
               style={{ transform: revealed ? "translateY(0)" : "translateY(100%)" }}
             >
               Hi, I am
@@ -80,7 +80,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
 
           {/* Thin separator line */}
           <div
-            className="w-16 h-[1.5px] bg-[#ACB6FF]/30 my-2 md:my-3 transition-all duration-1000"
+            className="w-12 h-[1.5px] bg-[#ACB6FF]/30 mt-2 mb-2 md:mt-3 md:mb-3 transition-all duration-1000"
             style={{
               opacity: revealed ? 1 : 0,
               transitionDelay: "0.4s",
@@ -113,7 +113,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
 
         {/* Quietly elegant professional bio */}
         <div
-          className="w-full max-w-2xl text-left transition-all duration-1000 delay-500"
+          className="w-full max-w-2xl mt-5 md:mt-6 text-left transition-all duration-1000 delay-500"
           style={{
             opacity: revealed ? 1 : 0,
             transform: revealed ? "translateY(0)" : "translateY(20px)",
@@ -126,7 +126,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
 
         {/* Social links */}
         <div
-          className="flex flex-wrap items-center justify-start gap-4 transition-all duration-1000 delay-700"
+          className="flex flex-wrap items-center justify-start gap-4 mt-5 md:mt-6 transition-all duration-1000 delay-700"
           style={{
             opacity: revealed ? 1 : 0,
             transform: revealed ? "translateY(0)" : "translateY(15px)",
