@@ -53,53 +53,46 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
           </p>
         </div>
 
-        {/* Massive HTML Heading: mobile = stacked, desktop = single line */}
-        <div className={`relative mb-1 sm:mb-2 w-full transition-all duration-700 ${revealed ? "opacity-100" : "opacity-0 translate-y-4"}`}>
-          
-          {/* Mobile: two stacked words */}
-          <div className="flex flex-col md:hidden select-none leading-none gap-2">
-            {["BHAVANI", "SHANKAR"].map((word, wi) => (
-              <div key={wi} className="relative inline-block">
-                {/* Outline */}
-                <h1
-                  className="font-anton text-[22vw] tracking-[0.02em] text-transparent uppercase m-0 p-0"
-                  style={{ WebkitTextStroke: "1.5px #cbd5e1" }}
-                >
-                  {word}
-                </h1>
-                {/* Fill */}
-                <h1
-                  className="font-anton text-[22vw] tracking-[0.02em] text-slate-300 uppercase m-0 p-0 absolute top-0 left-0 transition-all duration-[1200ms] ease-out"
-                  style={{
-                    clipPath: revealed ? "inset(0% 0 0 0)" : "inset(100% 0 0 0)",
-                    transitionDelay: `${wi * 0.15}s`,
-                  }}
-                >
-                  {word}
-                </h1>
-              </div>
-            ))}
-          </div>
-
-          {/* Desktop: single line */}
-          <div className="hidden md:inline-block relative select-none leading-[0.9]">
-            {/* Outline */}
-            <h1
-              className="font-anton text-[11rem] lg:text-[13rem] tracking-[0.02em] text-transparent uppercase m-0 p-0"
-              style={{ WebkitTextStroke: "2px #cbd5e1" }}
-            >
-              BHAVANI SHANKAR
-            </h1>
-            {/* Fill */}
-            <h1
-              className="font-anton text-[11rem] lg:text-[13rem] tracking-[0.02em] text-slate-300 uppercase m-0 p-0 absolute top-0 left-0 transition-all duration-[1200ms] ease-out"
-              style={{
-                clipPath: revealed ? "inset(0% 0 0 0)" : "inset(100% 0 0 0)",
-              }}
-            >
-              BHAVANI SHANKAR
-            </h1>
-          </div>
+        {/* Main Name — DM Serif Display Italic, character write-in */}
+        <div className="relative mb-2 w-full select-none">
+          <h1
+            className="font-dm-serif italic text-[14vw] sm:text-[12vw] md:text-[9rem] lg:text-[11rem] leading-[0.92] tracking-[-0.01em] text-slate-300 m-0 p-0 flex flex-wrap"
+            aria-label="Bhavani Shankar"
+          >
+            {/* Split into two word groups so they wrap naturally on mobile */}
+            {[
+              { word: "Bhavani", chars: "Bhavani".split("") },
+              { word: " Shankar", chars: " Shankar".split("") },
+            ].map(({ word, chars }, wi) => {
+              // Global char index offset for correct stagger timing
+              const offset = wi === 0 ? 0 : 7;
+              const total = 15; // total chars including space
+              return (
+                <span key={word} className="inline-block whitespace-pre">
+                  {chars.map((ch, ci) => {
+                    const globalIdx = offset + ci;
+                    // Exponential curve: slow start, fast finish
+                    const delay = 2.2 * Math.pow(globalIdx / total, 0.55);
+                    return (
+                      <span
+                        key={ci}
+                        className="inline-block transition-all"
+                        style={{
+                          transitionDuration: "420ms",
+                          transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+                          transitionDelay: revealed ? `${delay}s` : "0s",
+                          opacity: revealed ? 1 : 0,
+                          transform: revealed ? "translateY(0) skewX(0deg)" : "translateY(18px) skewX(-6deg)",
+                        }}
+                      >
+                        {ch}
+                      </span>
+                    );
+                  })}
+                </span>
+              );
+            })}
+          </h1>
         </div>
 
         {/* Premium Word-by-word Reveal Subheading */}
