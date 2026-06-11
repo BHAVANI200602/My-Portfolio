@@ -38,8 +38,11 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       {/* Foreground gradient to blend into next section */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black pointer-events-none z-20" />
 
+      {/* All text content wrapper */}
+      <div className="relative w-full max-w-5xl z-30 flex flex-col items-start justify-center text-left px-0 pt-8 md:pt-16 gap-6 md:gap-8">
+
         {/* — Magazine layout block — */}
-        <div className="flex flex-col gap-1 md:gap-2 w-full max-w-5xl">
+        <div className="flex flex-col gap-1 md:gap-2 w-full">
 
           {/* Label: Hi, I am — same font as subheadings, small */}
           <div
@@ -110,7 +113,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
 
         {/* Quietly elegant professional bio */}
         <div
-          className="w-full max-w-2xl mt-8 md:mt-10 text-left transition-all duration-1000 delay-500"
+          className="w-full max-w-2xl text-left transition-all duration-1000 delay-500"
           style={{
             opacity: revealed ? 1 : 0,
             transform: revealed ? "translateY(0)" : "translateY(20px)",
@@ -121,9 +124,9 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
           </p>
         </div>
 
-        {/* Clean, high contrast Social and Profile triggers */}
+        {/* Social links */}
         <div
-          className="flex flex-wrap items-center justify-start gap-4 mt-8 transition-all duration-1000 delay-700"
+          className="flex flex-wrap items-center justify-start gap-4 transition-all duration-1000 delay-700"
           style={{
             opacity: revealed ? 1 : 0,
             transform: revealed ? "translateY(0)" : "translateY(15px)",
@@ -157,7 +160,8 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
             <span>LEETCODE</span>
           </a>
         </div>
-      </div>
+
+      </div>{/* end text content wrapper */}
 
       {/* Pulsing down-scroll anchor */}
       <div 
