@@ -53,25 +53,22 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
           </p>
         </div>
 
-        {/* Main Name — DM Serif Display Italic, character write-in */}
+        {/* Main Name — Anton, sentence case, character write-in */}
         <div className="relative mb-2 w-full select-none">
           <h1
-            className="font-dm-serif italic text-[14vw] sm:text-[12vw] md:text-[9rem] lg:text-[11rem] leading-[0.92] tracking-[-0.01em] text-slate-300 m-0 p-0 flex flex-wrap"
+            className="font-anton text-[14vw] sm:text-[12vw] md:text-[9rem] lg:text-[11rem] leading-[0.92] tracking-[0.02em] text-slate-300 m-0 p-0 flex flex-wrap"
             aria-label="Bhavani Shankar"
           >
-            {/* Split into two word groups so they wrap naturally on mobile */}
             {[
               { word: "Bhavani", chars: "Bhavani".split("") },
               { word: " Shankar", chars: " Shankar".split("") },
             ].map(({ word, chars }, wi) => {
-              // Global char index offset for correct stagger timing
               const offset = wi === 0 ? 0 : 7;
-              const total = 15; // total chars including space
+              const total = 15;
               return (
                 <span key={word} className="inline-block whitespace-pre">
                   {chars.map((ch, ci) => {
                     const globalIdx = offset + ci;
-                    // Exponential curve: slow start, fast finish
                     const delay = 2.2 * Math.pow(globalIdx / total, 0.55);
                     return (
                       <span
