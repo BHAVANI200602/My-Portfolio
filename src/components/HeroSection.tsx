@@ -57,7 +57,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         <div className={`relative mb-1 sm:mb-2 w-full transition-all duration-700 ${revealed ? "opacity-100" : "opacity-0 translate-y-4"}`}>
           
           {/* Mobile: two stacked words */}
-          <div className="flex flex-col md:hidden select-none leading-[0.88]">
+          <div className="flex flex-col md:hidden select-none leading-none gap-2">
             {["BHAVANI", "SHANKAR"].map((word, wi) => (
               <div key={wi} className="relative inline-block">
                 {/* Outline */}
