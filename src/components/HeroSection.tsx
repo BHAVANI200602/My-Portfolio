@@ -38,69 +38,33 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       {/* Foreground gradient to blend into next section */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black pointer-events-none z-20" />
 
-      <div className="relative w-full max-w-[1400px] z-30 flex flex-col items-start justify-center text-left pt-12 md:pt-20">
-        
-        {/* Accent Greeting */}
-        <div 
-          className="mb-0 sm:mb-1 transition-all duration-700 delay-100"
-          style={{
-            opacity: revealed ? 1 : 0,
-            transform: revealed ? "translateY(0)" : "translateY(10px)",
-          }}
-        >
-          <p className="text-[#00E5FF] font-sans font-bold text-lg md:text-2xl tracking-tight">
-            Hi, I am
-          </p>
-        </div>
+        {/* — Magazine layout block — */}
+        <div className="flex flex-col gap-1 md:gap-2 w-full max-w-5xl">
 
-        {/* Main Name — Anton, sentence case, character write-in */}
-        <div className="relative mb-2 w-full select-none">
+          {/* Label: Hi, I am — same font as subheadings, small */}
+          <div
+            className="overflow-hidden"
+            style={{ opacity: revealed ? 1 : 0, transition: "opacity 0.6s ease" }}
+          >
+            <span
+              className="inline-block font-sans font-bold text-sm md:text-base tracking-[0.18em] uppercase text-[#00E5FF] transition-transform duration-700"
+              style={{ transform: revealed ? "translateY(0)" : "translateY(100%)" }}
+            >
+              Hi, I am
+            </span>
+          </div>
+
+          {/* Main Name — Anton, word-by-word slide-up, properly sized */}
           <h1
-            className="font-anton text-[14vw] sm:text-[12vw] md:text-[9rem] lg:text-[11rem] leading-[0.92] tracking-[0.02em] text-slate-300 m-0 p-0 flex flex-wrap"
+            className="font-anton text-[13vw] sm:text-[10vw] md:text-[7rem] lg:text-[8.5rem] leading-[0.9] tracking-[0.01em] text-slate-300 m-0 p-0 flex flex-wrap"
             aria-label="Bhavani Shankar"
           >
-            {[
-              { word: "Bhavani", chars: "Bhavani".split("") },
-              { word: " Shankar", chars: " Shankar".split("") },
-            ].map(({ word, chars }, wi) => {
-              const offset = wi === 0 ? 0 : 7;
-              const total = 15;
-              return (
-                <span key={word} className="inline-block whitespace-pre">
-                  {chars.map((ch, ci) => {
-                    const globalIdx = offset + ci;
-                    const delay = 2.2 * Math.pow(globalIdx / total, 0.55);
-                    return (
-                      <span
-                        key={ci}
-                        className="inline-block transition-all"
-                        style={{
-                          transitionDuration: "420ms",
-                          transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
-                          transitionDelay: revealed ? `${delay}s` : "0s",
-                          opacity: revealed ? 1 : 0,
-                          transform: revealed ? "translateY(0) skewX(0deg)" : "translateY(18px) skewX(-6deg)",
-                        }}
-                      >
-                        {ch}
-                      </span>
-                    );
-                  })}
-                </span>
-              );
-            })}
-          </h1>
-        </div>
-
-        {/* Premium Word-by-word Reveal Subheading */}
-        <div className="max-w-4xl mt-0 md:mt-2">
-          <p className="font-sans font-bold text-2xl md:text-4xl lg:text-5xl text-slate-300 tracking-tight leading-[1.1]">
-            {["Developer", "learning,", "building,", "and", "understanding", "systems."].map((word, i) => (
-              <span key={i} className="inline-block overflow-hidden pb-1 pr-[0.25em]">
+            {["Bhavani", "Shankar"].map((word, i) => (
+              <span key={word} className="inline-block overflow-hidden pr-[0.18em] pb-1">
                 <span
-                  className="inline-block transition-all duration-800"
+                  className="inline-block transition-all duration-700"
                   style={{
-                    transitionDelay: `${0.1 + i * 0.06}s`,
+                    transitionDelay: revealed ? `${0.1 + i * 0.12}s` : "0s",
                     opacity: revealed ? 1 : 0,
                     transform: revealed ? "translateY(0)" : "translateY(100%)",
                   }}
@@ -109,7 +73,39 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
                 </span>
               </span>
             ))}
-          </p>
+          </h1>
+
+          {/* Thin separator line */}
+          <div
+            className="w-16 h-[1.5px] bg-[#ACB6FF]/30 my-2 md:my-3 transition-all duration-1000"
+            style={{
+              opacity: revealed ? 1 : 0,
+              transitionDelay: "0.4s",
+              transform: revealed ? "scaleX(1)" : "scaleX(0)",
+              transformOrigin: "left",
+            }}
+          />
+
+          {/* Subheading — word-by-word slide-up */}
+          <div className="max-w-3xl">
+            <p className="font-sans font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl text-slate-300 tracking-tight leading-[1.1] flex flex-wrap">
+              {["Developer", "learning,", "building,", "and", "understanding", "systems."].map((word, i) => (
+                <span key={i} className="inline-block overflow-hidden pb-0.5 pr-[0.25em]">
+                  <span
+                    className="inline-block transition-all duration-700"
+                    style={{
+                      transitionDelay: revealed ? `${0.45 + i * 0.06}s` : "0s",
+                      opacity: revealed ? 1 : 0,
+                      transform: revealed ? "translateY(0)" : "translateY(100%)",
+                    }}
+                  >
+                    {word}
+                  </span>
+                </span>
+              ))}
+            </p>
+          </div>
+
         </div>
 
         {/* Quietly elegant professional bio */}
