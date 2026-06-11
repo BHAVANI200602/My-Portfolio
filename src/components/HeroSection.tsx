@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Github, Linkedin, Code } from "lucide-react";
-import { motion } from "motion/react";
 import { PERSONAL_BIO } from "../data";
 import BackgroundShader from "./BackgroundShader";
 
@@ -8,101 +7,104 @@ interface HeroSectionProps {
   isDived?: boolean;
 }
 
-type IntroPhase = "idle" | "center-reveal" | "move-to-layout" | "full-reveal";
-
 export default function HeroSection({ isDived = false }: HeroSectionProps) {
-  const [phase, setPhase] = useState<IntroPhase>("idle");
+  // Phase 1: Name and greeting revealed on black screen
+  const [nameRevealed, setNameRevealed] = useState(false);
+  // Phase 2: Background and the rest of the text revealed
+  const [backgroundRevealed, setBackgroundRevealed] = useState(false);
 
   useEffect(() => {
     if (isDived) {
-      // Sequence timing orchestration
+      // 1. Immediately reveal name and greeting
+      const timer1 = setTimeout(() => setNameRevealed(true), 150);
       
-      // 1. Curtains open -> Name reveals in center
-      const timer1 = setTimeout(() => setPhase("center-reveal"), 200);
-      
-      // 2. Name glides to bottom left
-      const timer2 = setTimeout(() => setPhase("move-to-layout"), 2400);
-      
-      // 3. Rest of the page fades in
-      const timer3 = setTimeout(() => setPhase("full-reveal"), 3400);
+      // 2. Reveal background and rest of content after a delay
+      const timer2 = setTimeout(() => setBackgroundRevealed(true), 1200);
 
       return () => {
         clearTimeout(timer1);
         clearTimeout(timer2);
-        clearTimeout(timer3);
       };
     } else {
-      setPhase("idle");
+      setNameRevealed(false);
+      setBackgroundRevealed(false);
     }
   }, [isDived]);
-
-  // Booleans for easier rendering logic
-  const isCenter = phase === "center-reveal";
-  const isMovingOrFull = phase === "move-to-layout" || phase === "full-reveal";
-  const isFullReveal = phase === "full-reveal";
-  const showNameText = phase !== "idle";
 
   return (
     <section
       id="section-1"
       className="relative min-h-screen w-full flex flex-col justify-end items-start overflow-hidden px-4 md:px-8 lg:px-12 pt-24 pb-20 md:pb-28 z-10 bg-black"
     >
-      {/* Background elements - Only show during full-reveal */}
+      {/* Background elements - Only show when backgroundRevealed is true */}
       <div 
         className="absolute inset-0 bg-gradient-to-b from-[#020617] via-[#0B0F19] to-black z-0 pointer-events-none transition-opacity duration-1000"
-        style={{ opacity: isFullReveal ? 1 : 0 }}
+        style={{ opacity: backgroundRevealed ? 1 : 0 }}
       />
       <div 
-        className="absolute top-[45%] left-0 w-full h-[250px] -translate-y-1/2 bg-[#ACB6FF]/20 blur-[120px] pointer-events-none z-0 transition-opacity duration-1000 delay-300"
-        style={{ opacity: isFullReveal ? 1 : 0 }}
+        className="absolute top-[45%] left-0 w-full h-[250px] -translate-y-1/2 bg-[#ACB6FF]/20 blur-[120px] pointer-events-none z-0 transition-opacity duration-1000"
+        style={{ opacity: backgroundRevealed ? 1 : 0 }}
       />
       
       {/* Implements the interactive WebGL Shader Background */}
       <div 
         className="absolute inset-0 z-10 mix-blend-screen opacity-80 pointer-events-none transition-opacity duration-1000"
-        style={{ opacity: isFullReveal ? 1 : 0 }}
+        style={{ opacity: backgroundRevealed ? 1 : 0 }}
       >
         <BackgroundShader />
       </div>
 
       <div 
         className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black pointer-events-none z-20 transition-opacity duration-1000" 
-        style={{ opacity: isFullReveal ? 1 : 0 }}
+        style={{ opacity: backgroundRevealed ? 1 : 0 }}
       />
-
-      {/* 
-        This absolute container forces the layout target to the dead center of the screen
-        during the 'center-reveal' phase. We use framer-motion's layout system to seamlessly
-        animate the element from this absolute center container down to the normal static 
-        flexbox container below.
-      */}
-      {isCenter && (
-        <div className="absolute inset-0 z-40 flex items-center justify-center pointer-events-none">
-           <MagazineHeader showNameText={showNameText} />
-        </div>
-      )}
 
       {/* All text content wrapper - static layout at bottom left */}
       <div className="relative w-full max-w-5xl z-30 flex flex-col items-start text-left px-0 gap-0">
 
         {/* — Magazine layout block — */}
-        <div className="flex flex-col gap-0 w-full relative">
+        <div className="flex flex-col gap-0 w-full">
           
-          {/* 
-            When NOT in center phase, we render the header in its final layout position.
-            Framer motion 'layoutId' handles the smooth interpolated move between the absolute center
-            and this position.
-          */}
-          {isMovingOrFull && (
-            <MagazineHeader showNameText={showNameText} />
-          )}
+          {/* Label: Hi, I am */}
+          <div
+            className="overflow-hidden"
+            style={{ opacity: nameRevealed ? 1 : 0, transition: "opacity 0.6s ease" }}
+          >
+            <span
+              className="inline-block font-sans font-bold text-sm md:text-base tracking-[0.18em] text-[#00E5FF] transition-transform duration-700 mb-1"
+              style={{ transform: nameRevealed ? "translateY(0)" : "translateY(100%)" }}
+            >
+              Hi, I am
+            </span>
+          </div>
+
+          {/* Main Name — Anton, word-by-word slide-up */}
+          <h1
+            className="font-anton text-[13vw] sm:text-[10vw] md:text-[7rem] lg:text-[8.5rem] leading-[0.9] tracking-[0.01em] text-slate-300 m-0 p-0 flex flex-wrap"
+            aria-label="Bhavani Shankar"
+          >
+            {["Bhavani", "Shankar"].map((word, i) => (
+              <span key={word} className="inline-block overflow-hidden pr-[0.18em] pb-1">
+                <span
+                  className="inline-block transition-all duration-700"
+                  style={{
+                    transitionDelay: nameRevealed ? `${0.1 + i * 0.12}s` : "0s",
+                    opacity: nameRevealed ? 1 : 0,
+                    transform: nameRevealed ? "translateY(0)" : "translateY(100%)",
+                  }}
+                >
+                  {word}
+                </span>
+              </span>
+            ))}
+          </h1>
 
           {/* Thin separator line */}
           <div
             className="w-12 h-[1.5px] bg-[#ACB6FF]/30 mt-2 mb-2 md:mt-3 md:mb-3 transition-all duration-1000"
             style={{
-              opacity: isFullReveal ? 1 : 0,
-              transform: isFullReveal ? "scaleX(1)" : "scaleX(0)",
+              opacity: backgroundRevealed ? 1 : 0,
+              transform: backgroundRevealed ? "scaleX(1)" : "scaleX(0)",
               transformOrigin: "left",
             }}
           />
@@ -115,9 +117,9 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
                   <span
                     className="inline-block transition-all duration-700"
                     style={{
-                      transitionDelay: isFullReveal ? `${0.2 + i * 0.06}s` : "0s",
-                      opacity: isFullReveal ? 1 : 0,
-                      transform: isFullReveal ? "translateY(0)" : "translateY(100%)",
+                      transitionDelay: backgroundRevealed ? `${0.2 + i * 0.06}s` : "0s",
+                      opacity: backgroundRevealed ? 1 : 0,
+                      transform: backgroundRevealed ? "translateY(0)" : "translateY(100%)",
                     }}
                   >
                     {word}
@@ -133,8 +135,8 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         <div
           className="w-full max-w-2xl mt-5 md:mt-6 text-left transition-all duration-1000 delay-500"
           style={{
-            opacity: isFullReveal ? 1 : 0,
-            transform: isFullReveal ? "translateY(0)" : "translateY(20px)",
+            opacity: backgroundRevealed ? 1 : 0,
+            transform: backgroundRevealed ? "translateY(0)" : "translateY(20px)",
           }}
         >
           <p className="text-slate-400 leading-relaxed font-sans text-sm md:text-base font-light italic">
@@ -146,8 +148,8 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         <div
           className="flex flex-wrap items-center justify-start gap-4 mt-5 md:mt-6 transition-all duration-1000 delay-700"
           style={{
-            opacity: isFullReveal ? 1 : 0,
-            transform: isFullReveal ? "translateY(0)" : "translateY(15px)",
+            opacity: backgroundRevealed ? 1 : 0,
+            transform: backgroundRevealed ? "translateY(0)" : "translateY(15px)",
           }}
         >
           <a
@@ -184,7 +186,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       {/* Pulsing down-scroll anchor */}
       <div 
         className="absolute bottom-8 right-6 md:right-16 lg:right-24 hidden lg:flex flex-col items-end gap-2 font-mono text-[10px] tracking-[0.3em] text-[#ACB6FF]/40 select-none cursor-pointer hover:text-neon-pink transition-colors duration-300 z-30 transition-opacity"
-        style={{ opacity: isFullReveal ? 1 : 0 }}
+        style={{ opacity: backgroundRevealed ? 1 : 0 }}
         onClick={() => {
           document.getElementById("section-2")?.scrollIntoView({ behavior: "smooth" });
         }}
@@ -206,55 +208,5 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         }
       `}</style>
     </section>
-  );
-}
-
-// Extracted component for the Name and Greeting so it can be animated via Framer Motion's layoutId
-function MagazineHeader({ showNameText }: { showNameText: boolean }) {
-  return (
-    <motion.div 
-      layoutId="magazine-header"
-      className="flex flex-col items-start justify-center gap-0 w-full max-w-5xl px-4 md:px-0"
-      transition={{ 
-        type: "spring", 
-        stiffness: 40, 
-        damping: 18,
-        mass: 1.2
-      }}
-    >
-      {/* Label: Hi, I am — same font as subheadings, small */}
-      <div
-        className="overflow-hidden"
-        style={{ opacity: showNameText ? 1 : 0, transition: "opacity 0.6s ease" }}
-      >
-        <span
-          className="inline-block font-sans font-bold text-sm md:text-base tracking-[0.18em] text-[#00E5FF] transition-transform duration-700 mb-1"
-          style={{ transform: showNameText ? "translateY(0)" : "translateY(100%)" }}
-        >
-          Hi, I am
-        </span>
-      </div>
-
-      {/* Main Name — Anton, word-by-word slide-up, properly sized */}
-      <h1
-        className="font-anton text-[13vw] sm:text-[10vw] md:text-[7rem] lg:text-[8.5rem] leading-[0.9] tracking-[0.01em] text-slate-300 m-0 p-0 flex flex-wrap"
-        aria-label="Bhavani Shankar"
-      >
-        {["Bhavani", "Shankar"].map((word, i) => (
-          <span key={word} className="inline-block overflow-hidden pr-[0.18em] pb-1">
-            <span
-              className="inline-block transition-all duration-700"
-              style={{
-                transitionDelay: showNameText ? `${0.2 + i * 0.12}s` : "0s",
-                opacity: showNameText ? 1 : 0,
-                transform: showNameText ? "translateY(0)" : "translateY(100%)",
-              }}
-            >
-              {word}
-            </span>
-          </span>
-        ))}
-      </h1>
-    </motion.div>
   );
 }
