@@ -53,19 +53,46 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
           </p>
         </div>
 
-        {/* Massive HTML Heading: "BHAVANI SHANKAR" with CSS stroke/fill animation for tight spacing */}
+        {/* Massive HTML Heading: mobile = stacked, desktop = single line */}
         <div className={`relative mb-1 sm:mb-2 w-full transition-all duration-700 ${revealed ? "opacity-100" : "opacity-0 translate-y-4"}`}>
-          <div className="relative inline-block select-none leading-[0.9]">
-            {/* Outline Text */}
+          
+          {/* Mobile: two stacked words */}
+          <div className="flex flex-col md:hidden select-none leading-[0.88]">
+            {["BHAVANI", "SHANKAR"].map((word, wi) => (
+              <div key={wi} className="relative inline-block">
+                {/* Outline */}
+                <h1
+                  className="font-anton text-[22vw] tracking-[0.02em] text-transparent uppercase m-0 p-0"
+                  style={{ WebkitTextStroke: "1.5px #cbd5e1" }}
+                >
+                  {word}
+                </h1>
+                {/* Fill */}
+                <h1
+                  className="font-anton text-[22vw] tracking-[0.02em] text-slate-300 uppercase m-0 p-0 absolute top-0 left-0 transition-all duration-[1200ms] ease-out"
+                  style={{
+                    clipPath: revealed ? "inset(0% 0 0 0)" : "inset(100% 0 0 0)",
+                    transitionDelay: `${wi * 0.15}s`,
+                  }}
+                >
+                  {word}
+                </h1>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop: single line */}
+          <div className="hidden md:inline-block relative select-none leading-[0.9]">
+            {/* Outline */}
             <h1
-              className="font-anton text-[15vw] md:text-[11rem] lg:text-[13rem] tracking-[0.02em] text-transparent uppercase m-0 p-0"
+              className="font-anton text-[11rem] lg:text-[13rem] tracking-[0.02em] text-transparent uppercase m-0 p-0"
               style={{ WebkitTextStroke: "2px #cbd5e1" }}
             >
               BHAVANI SHANKAR
             </h1>
-            {/* Filled Text that clips up from bottom */}
+            {/* Fill */}
             <h1
-              className="font-anton text-[15vw] md:text-[11rem] lg:text-[13rem] tracking-[0.02em] text-slate-300 uppercase m-0 p-0 absolute top-0 left-0 transition-all duration-[1200ms] ease-out"
+              className="font-anton text-[11rem] lg:text-[13rem] tracking-[0.02em] text-slate-300 uppercase m-0 p-0 absolute top-0 left-0 transition-all duration-[1200ms] ease-out"
               style={{
                 clipPath: revealed ? "inset(0% 0 0 0)" : "inset(100% 0 0 0)",
               }}
