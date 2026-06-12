@@ -33,6 +33,12 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
     };
   }, []);
 
+  useEffect(() => {
+    if (isComplete) {
+      handleDive();
+    }
+  }, [isComplete]);
+
   const handleDive = () => {
     setIsDiving(true);
     
@@ -60,9 +66,10 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
         transition={{ duration: 0.4, delay: 0.65, ease: "easeInOut" }}
       />
 
-      {/* 2. Immersive Periwinkle Curtain: sweeps from bottom -> fills screen -> lifts to top */}
+      {/* 2. Immersive Theme Curtain: sweeps from bottom -> fills screen -> lifts to top */}
       <motion.div 
-        className="absolute inset-0 bg-[#ACB6FF] z-30"
+        className="absolute inset-0 z-30"
+        style={{ backgroundColor: "var(--color-theme)" }}
         initial={{ y: "100%" }}
         animate={isDiving ? { y: ["100%", "0%", "0%", "-100%"] } : { y: "100%" }}
         transition={
@@ -95,8 +102,8 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
                 style={{
                   color: "transparent",
                   WebkitTextFillColor: "transparent",
-                  WebkitTextStroke: "2px #ACB6FF",
-                  backgroundImage: "linear-gradient(to top, #ACB6FF 50%, transparent 50%)",
+                  WebkitTextStroke: "2px var(--color-theme)",
+                  backgroundImage: "linear-gradient(to top, var(--color-theme) 50%, transparent 50%)",
                   backgroundSize: "100% 200%",
                   backgroundPosition: `0% ${progress}%`,
                   WebkitBackgroundClip: "text",
@@ -105,41 +112,11 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
               >
                 {progress}%
               </h2>
-              <div className="mt-4 font-mono text-xs uppercase tracking-[0.2em] text-[#ACB6FF]/40">
+              <div className="mt-4 font-mono text-xs uppercase tracking-[0.2em] text-[var(--color-theme)]/40">
                 Calibrating Systems Architect Portfolio
               </div>
             </motion.div>
-          ) : (
-            <motion.div
-              key="dive-button"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.05 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="text-center cursor-pointer px-4 w-full"
-              onClick={handleDive}
-            >
-              <button
-                className="relative group border-none bg-transparent outline-none cursor-pointer p-0 w-full"
-                disabled={isDiving}
-              >
-                {/* Visual glow ring */}
-                {!isDiving && (
-                  <div className="absolute -inset-4 rounded-full bg-[#ACB6FF]/5 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 pointer-events-none" />
-                )}
-
-                {/* Elegant Solid Text with Letter Spacing Transition */}
-                <div className="font-anton select-none text-[5.0rem] md:text-[7.5rem] uppercase leading-none text-center inline-block text-[#ACB6FF] tracking-wider transition-colors duration-500 group-hover:text-[#D476FF]">
-                  DIVE IN
-                </div>
-
-                {/* Status instruction tag */}
-                <div className="mt-6 font-mono text-xs uppercase tracking-[0.3em] text-[#ACB6FF]/60">
-                  Click to establish link
-                </div>
-              </button>
-            </motion.div>
-          )}
+          ) : null}
         </AnimatePresence>
       </motion.div>
     </div>

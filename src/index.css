@@ -12,10 +12,10 @@
   --font-sans: "Hanken Grotesk", sans-serif;
   --font-mono: "JetBrains Mono", sans-serif;
   
-  --color-theme: #ACB6FF;
-  --color-accent: #C084FC;
-  --color-neon-pink: #D476FF;
-  --color-neon-blue: #00E5FF;
+  --color-theme: #c5d0b4; /* Pale Matcha */
+  --color-accent: #e8ddcb; /* Sandy Beige */
+  --color-neon-pink: #c86a51; /* Muted Terracotta */
+  --color-neon-blue: #faf9f6; /* Soft White */
   --color-background-deep: #070707;
   --color-surface-card: #121212;
   --color-surface-card-hover: #1e1e1e;
