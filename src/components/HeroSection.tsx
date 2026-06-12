@@ -217,8 +217,11 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
             opacity: 1;
             width: 0;
           }
-          70% {
+          60% {
             opacity: 1;
+          }
+          85% {
+            opacity: 0;
           }
           100% {
             transform: translateX(-40vw) translateY(40vw) rotate(-45deg);
@@ -260,7 +263,7 @@ function ShootingStars() {
   }, []);
 
   return (
-    <div className="absolute top-0 right-0 w-full md:w-2/3 lg:w-1/2 h-1/2 pointer-events-none z-10 overflow-hidden opacity-60">
+    <div className="absolute top-0 right-0 w-full md:w-2/3 lg:w-1/2 h-1/2 pointer-events-none z-10 opacity-60">
       {stars.map((star) => (
         <div 
           key={star.id}
