@@ -59,6 +59,9 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         style={{ opacity: backgroundRevealed ? 1 : 0 }}
       />
 
+      {/* Subtle shooting stars in the distant top-right horizon */}
+      {backgroundRevealed && <ShootingStars />}
+
       {/* All text content wrapper - static layout at bottom left */}
       <div className="relative w-full max-w-5xl z-30 flex flex-col items-start text-left px-0 gap-0">
 
@@ -197,7 +200,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         </div>
       </div>
 
-      {/* Bounce CSS override within react tag */}
+      {/* Bounce and Shooting Star CSS overrides within react tag */}
       <style>{`
         @keyframes bounce-custom {
           0%, 100% { transform: translateY(0); }
@@ -206,7 +209,62 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         .animate-bounce-custom {
           animation: bounce-custom 2s infinite ease-in-out;
         }
+
+        /* Shooting Star Animations */
+        @keyframes shooting-star {
+          0% {
+            transform: translateX(0) translateY(0) rotate(-45deg);
+            opacity: 1;
+            width: 0;
+          }
+          70% {
+            opacity: 1;
+          }
+          100% {
+            transform: translateX(-300px) translateY(300px) rotate(-45deg);
+            opacity: 0;
+            width: 120px;
+          }
+        }
+        .animate-shooting-star {
+          animation: shooting-star 3s linear infinite;
+        }
       `}</style>
     </section>
+  );
+}
+
+// Sub-component for rendering scattered shooting stars in the top right
+function ShootingStars() {
+  return (
+    <div className="absolute top-0 right-0 w-1/2 h-1/2 pointer-events-none z-10 overflow-hidden opacity-60">
+      {/* Star 1: Cyan, fast */}
+      <div 
+        className="absolute top-[10%] right-[20%] h-[1px] animate-shooting-star shadow-[0_0_8px_#00E5FF]"
+        style={{
+          background: "linear-gradient(90deg, #00E5FF, transparent)",
+          animationDuration: "4s",
+          animationDelay: "0s"
+        }}
+      />
+      {/* Star 2: Periwinkle, slower */}
+      <div 
+        className="absolute top-[30%] right-[5%] h-[1px] animate-shooting-star shadow-[0_0_8px_#ACB6FF]"
+        style={{
+          background: "linear-gradient(90deg, #ACB6FF, transparent)",
+          animationDuration: "6s",
+          animationDelay: "2.5s"
+        }}
+      />
+      {/* Star 3: Very faint, deep horizon */}
+      <div 
+        className="absolute top-[5%] right-[40%] h-[1px] animate-shooting-star shadow-[0_0_4px_#ACB6FF]"
+        style={{
+          background: "linear-gradient(90deg, rgba(172,182,255,0.5), transparent)",
+          animationDuration: "7s",
+          animationDelay: "4s"
+        }}
+      />
+    </div>
   );
 }
