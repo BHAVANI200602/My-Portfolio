@@ -221,50 +221,60 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
             opacity: 1;
           }
           100% {
-            transform: translateX(-300px) translateY(300px) rotate(-45deg);
+            transform: translateX(-40vw) translateY(40vw) rotate(-45deg);
             opacity: 0;
-            width: 120px;
+            width: 15vw;
           }
         }
         .animate-shooting-star {
-          animation: shooting-star 3s linear infinite;
+          animation: shooting-star linear infinite;
         }
       `}</style>
     </section>
   );
 }
 
-// Sub-component for rendering scattered shooting stars in the top right
+// Sub-component for rendering scattered dynamic shooting stars
 function ShootingStars() {
+  const [stars, setStars] = useState<Array<{ id: number; top: number; right: number; delay: number; duration: number }>>([]);
+
+  useEffect(() => {
+    // Dynamically generate a set of stars with randomized parameters
+    // so they feel organic and spread nicely on both mobile and desktop.
+    const generateStars = () => {
+      // 4 stars to keep it neat and not overwhelming
+      const newStars = Array.from({ length: 4 }).map((_, i) => ({
+        id: i,
+        // Keep them constrained to the upper right quadrant dynamically
+        top: Math.random() * 35, 
+        right: Math.random() * 40,
+        // Stagger delays so they don't all fire at once
+        delay: Math.random() * 6,
+        // Varying speeds
+        duration: 4 + Math.random() * 4,
+      }));
+      setStars(newStars);
+    };
+
+    generateStars();
+  }, []);
+
   return (
-    <div className="absolute top-0 right-0 w-1/2 h-1/2 pointer-events-none z-10 overflow-hidden opacity-60">
-      {/* Star 1: Cyan, fast */}
-      <div 
-        className="absolute top-[10%] right-[20%] h-[1px] animate-shooting-star shadow-[0_0_8px_#00E5FF]"
-        style={{
-          background: "linear-gradient(90deg, #00E5FF, transparent)",
-          animationDuration: "4s",
-          animationDelay: "0s"
-        }}
-      />
-      {/* Star 2: Periwinkle, slower */}
-      <div 
-        className="absolute top-[30%] right-[5%] h-[1px] animate-shooting-star shadow-[0_0_8px_#ACB6FF]"
-        style={{
-          background: "linear-gradient(90deg, #ACB6FF, transparent)",
-          animationDuration: "6s",
-          animationDelay: "2.5s"
-        }}
-      />
-      {/* Star 3: Very faint, deep horizon */}
-      <div 
-        className="absolute top-[5%] right-[40%] h-[1px] animate-shooting-star shadow-[0_0_4px_#ACB6FF]"
-        style={{
-          background: "linear-gradient(90deg, rgba(172,182,255,0.5), transparent)",
-          animationDuration: "7s",
-          animationDelay: "4s"
-        }}
-      />
+    <div className="absolute top-0 right-0 w-full md:w-2/3 lg:w-1/2 h-1/2 pointer-events-none z-10 overflow-hidden opacity-60">
+      {stars.map((star) => (
+        <div 
+          key={star.id}
+          className="absolute h-[1px] animate-shooting-star"
+          style={{
+            top: `${star.top}%`,
+            right: `${star.right}%`,
+            background: "linear-gradient(90deg, #ACB6FF, transparent)",
+            boxShadow: "0 0 8px #ACB6FF",
+            animationDuration: `${star.duration}s`,
+            animationDelay: `${star.delay}s`
+          }}
+        />
+      ))}
     </div>
   );
 }
