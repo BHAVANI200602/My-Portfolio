@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { PROJECTS } from "../data";
 import { Github, ExternalLink, FolderDot, Sparkles } from "lucide-react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent } from "motion/react";
 
 export default function ProjectsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -40,8 +40,17 @@ export default function ProjectsSection() {
   const detailsScale = useTransform(scrollYProgress, [0.44, 0.52, 1], [0.88, 1, 1]);
   const detailsY = useTransform(scrollYProgress, [0.44, 0.52, 1], [40, 0, 0]);
 
-  const [selectedProjectId, setSelectedProjectId] = useState<string>("browser-agent");
-  const activeProject = PROJECTS.find((p) => p.id === selectedProjectId) || PROJECTS[0];
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeProject = PROJECTS[activeIndex] || PROJECTS[0];
+
+  // Derive active project purely from scroll range [0.5, 1.0]
+  useMotionValueEvent(scrollYProgress, "change", (val) => {
+    if (val >= 0.5) {
+      const tp = (val - 0.5) / 0.5; // normalize to 0..1
+      const idx = Math.min(Math.floor(tp * PROJECTS.length), PROJECTS.length - 1);
+      setActiveIndex(Math.max(0, idx));
+    }
+  });
 
   // Interactivity gate: prevent clicking card items when card is transparent
   const [isInteractive, setIsInteractive] = useState(false);
@@ -111,136 +120,182 @@ export default function ProjectsSection() {
           </div>
         </motion.div>
 
-        {/* COMPONENT 2: Detailed Case-Study Card View */}
+        {/* COMPONENT 2: Vertical Timeline Layout */}
         <motion.div
           style={{
             opacity: detailsOpacity,
-            scale: detailsScale,
             y: detailsY,
             pointerEvents: isInteractive ? "auto" : "none",
           }}
-          className="relative w-full max-w-6xl px-2 sm:px-4 md:px-8 z-20"
+          className="absolute inset-0 z-20 flex w-full h-full"
         >
-          <div className="bg-white border-2 border-black rounded shadow-[8px_8px_0px_#000000] p-6 sm:p-8 md:p-10 flex flex-col md:flex-row gap-8 md:gap-12 items-stretch max-h-[90vh] md:max-h-[700px] md:min-h-[550px] overflow-y-auto">
-            
-            {/* INDEX LIST COLUMN */}
-            <div className="md:w-1/3 flex flex-col justify-between border-b md:border-b-0 md:border-r border-black/10 pb-6 md:pb-0 pr-0 md:pr-8 shrink-0">
-              <div>
-                <div className="text-[10px] flex justify-between items-center font-mono text-black/50 uppercase tracking-widest mb-4">
-                  <span>INDEX_OF_WORKS</span>
-                  <span className="md:hidden text-[9px] text-[#D476FF] tracking-normal font-sans animate-pulse">Swipe &raquo;</span>
-                </div>
-                <div className="flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-x-visible pb-2.5 md:pb-0 snap-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-                  {PROJECTS.map((proj) => (
-                    <button
-                      key={proj.id}
-                      onClick={() => setSelectedProjectId(proj.id)}
-                      className={`group flex items-center justify-between p-3 rounded-sm border text-left transition-all duration-300 font-mono w-[220px] sm:w-[260px] md:w-full shrink-0 snap-start ${
-                        selectedProjectId === proj.id
-                          ? "bg-black text-[var(--color-neon-pink)] border-black shadow-[3px_3px_0_var(--color-theme)]"
-                          : "bg-transparent text-black/65 border-black/10 hover:border-black hover:text-black hover:bg-black/5"
-                      }`}
-                    >
-                      <div className="flex items-center space-x-3 overflow-hidden w-full">
-                        <FolderDot
-                          className={`w-4 h-4 shrink-0 transition-colors duration-300 ${
-                            selectedProjectId === proj.id
-                              ? "text-neon-pink animate-pulse"
-                              : "text-black/30 group-hover:text-black"
-                          }`}
-                        />
-                        <div className="flex flex-col overflow-hidden w-full">
-                          <span className="text-xs font-bold uppercase tracking-wider truncate">
-                            {proj.title}
-                          </span>
-                          <span className="text-[9px] opacity-65 tracking-normal truncate">
-                            {proj.subtitle}
-                          </span>
-                        </div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
+          {/* ── LEFT: Vertical timeline + big scrolling project name ── */}
+          <div className="relative w-[44%] h-full flex flex-col justify-center border-r border-black/10 overflow-hidden">
+            <span className="absolute top-10 left-10 md:left-14 font-mono text-[9px] tracking-[0.35em] text-black/30 uppercase select-none">
+              // Featured_Work
+            </span>
 
-              <div className="hidden md:block pt-6 border-t border-black/5 font-mono text-[9px] text-zinc-400 leading-normal uppercase">
-                &raquo; Click the indexes above to inspect each system case study dynamically
-              </div>
+            {/* Vertical line */}
+            <div className="absolute left-[38px] md:left-[54px] top-20 bottom-20 w-px bg-black/12" />
+
+            {/* Dots */}
+            <div className="absolute left-[32px] md:left-[48px] top-20 bottom-20 flex flex-col justify-between pointer-events-none">
+              {PROJECTS.map((_, i) => (
+                <div key={i} className="flex items-center justify-center w-[14px] h-[14px]">
+                  <div
+                    className={`rounded-full border transition-all duration-500 ${
+                      i === activeIndex
+                        ? "w-3 h-3 border-[var(--color-neon-pink)] bg-[var(--color-neon-pink)]/30 shadow-[0_0_8px_var(--color-neon-pink)]"
+                        : "w-2 h-2 border-black/20 bg-transparent"
+                    }`}
+                  />
+                </div>
+              ))}
             </div>
 
-            {/* DETAILS PREVIEW COLUMN */}
-            <div className="md:w-2/3 flex flex-col justify-between pt-4 md:pt-0">
-              <div>
-                {/* Year Indicator & Links Header */}
-                <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-                  <span className="px-2.5 py-1 bg-black text-[var(--color-neon-pink)] font-mono text-[9px] tracking-widest uppercase rounded-sm">
-                    RELEASE: {activeProject.year}
-                  </span>
+            {/* Name block */}
+            <div className="pl-16 md:pl-24 pr-6 flex flex-col select-none">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={`n-${activeIndex}`}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.28 }}
+                  className="font-mono text-[10px] tracking-[0.3em] text-[var(--color-neon-pink)] mb-5 block"
+                >
+                  {String(activeIndex + 1).padStart(2, "0")} — {String(PROJECTS.length).padStart(2, "0")}
+                </motion.span>
+              </AnimatePresence>
 
-                  <div className="flex items-center space-x-2">
+              {/* Big project name */}
+              <div className="overflow-hidden">
+                <AnimatePresence mode="wait">
+                  <motion.h2
+                    key={`t-${activeIndex}`}
+                    initial={{ y: "80%", opacity: 0, filter: "blur(5px)" }}
+                    animate={{ y: "0%",  opacity: 1, filter: "blur(0px)" }}
+                    exit={{   y: "-65%", opacity: 0, filter: "blur(6px)" }}
+                    transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
+                    className="font-anton uppercase leading-[0.88] tracking-tight text-[#1a1208]"
+                    style={{ fontSize: "clamp(2.2rem, 4.6vw, 5.2rem)" }}
+                  >
+                    {activeProject.title}
+                  </motion.h2>
+                </AnimatePresence>
+              </div>
+
+              {/* Subtitle */}
+              <div className="overflow-hidden mt-3">
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={`s-${activeIndex}`}
+                    initial={{ y: "100%", opacity: 0 }}
+                    animate={{ y: "0%",  opacity: 0.5  }}
+                    exit={{   y: "-80%", opacity: 0    }}
+                    transition={{ duration: 0.5, delay: 0.07, ease: [0.22, 1, 0.36, 1] }}
+                    className="font-mono text-[9px] tracking-[0.22em] text-black uppercase"
+                  >
+                    {activeProject.subtitle}
+                  </motion.p>
+                </AnimatePresence>
+              </div>
+
+              {/* Year badge */}
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={`y-${activeIndex}`}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.38, delay: 0.14 }}
+                  className="inline-block mt-8 font-mono text-[9px] tracking-widest uppercase text-black/50 border border-black/18 px-2.5 py-1 rounded-sm w-fit"
+                >
+                  {activeProject.year}
+                </motion.span>
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* ── RIGHT: Details with shadow-curtain wipe reveal ── */}
+          <div className="relative w-[56%] h-full overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeProject.id}
+                className="absolute inset-0 flex items-center px-8 md:px-14"
+              >
+                {/* Curtain */}
+                <motion.div
+                  className="absolute inset-0 bg-[#e8ddcb] z-20 origin-left"
+                  initial={{ scaleX: 1 }}
+                  animate={{
+                    scaleX: 0,
+                    transition: { duration: 0.55, ease: [0.76, 0, 0.24, 1], delay: 0.06 },
+                  }}
+                  exit={{
+                    scaleX: 1,
+                    transition: { duration: 0.40, ease: [0.76, 0, 0.24, 1] },
+                  }}
+                />
+
+                <div className="relative z-10 w-full max-w-lg">
+                  <p className="font-sans text-sm md:text-[15px] text-black/60 leading-relaxed mb-6">
+                    {activeProject.description}
+                  </p>
+
+                  {activeProject.bulletPoints && activeProject.bulletPoints.length > 0 && (
+                    <div className="mb-6">
+                      <span className="font-mono text-[9px] tracking-[0.3em] text-[var(--color-neon-pink)] uppercase mb-3 block">
+                        Highlights
+                      </span>
+                      <ul className="space-y-2">
+                        {activeProject.bulletPoints.slice(0, 3).map((pt, i) => (
+                          <li key={i} className="flex items-start gap-2.5 text-sm text-black/55 font-sans leading-snug">
+                            <span className="text-[var(--color-neon-pink)] mt-0.5 shrink-0 leading-none">›</span>
+                            {pt}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  <div className="flex flex-wrap gap-1.5 mb-7">
+                    {activeProject.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="font-mono text-[8px] tracking-wider uppercase px-2.5 py-1 border border-black/12 text-black/40 rounded-sm"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center gap-3">
                     {activeProject.githubUrl && (
                       <a
                         href={activeProject.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-1.5 border border-black text-black hover:bg-black hover:text-[var(--color-neon-pink)] rounded transition-all shadow-sm"
-                        title="Source Code"
+                        className="inline-flex items-center gap-2 font-mono text-[9px] tracking-widest uppercase text-black/65 border border-black/22 hover:border-black px-4 py-2.5 rounded-sm transition-all duration-300 hover:bg-black/5"
                       >
-                        <Github className="w-4 h-4" />
+                        <Github className="w-3.5 h-3.5" />
+                        Source
+                      </a>
+                    )}
+                    {activeProject.liveUrl && (
+                      <a
+                        href={activeProject.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 font-mono text-[9px] tracking-widest uppercase text-[var(--color-neon-pink)] border border-[var(--color-neon-pink)]/30 hover:border-[var(--color-neon-pink)] px-4 py-2.5 rounded-sm transition-all duration-300"
+                      >
+                        Live →
                       </a>
                     )}
                   </div>
                 </div>
-
-                {/* Typography details */}
-                <div className="mb-4">
-                  <h3 className="font-anton uppercase text-2xl md:text-3xl text-black tracking-wider leading-none">
-                    {activeProject.title}
-                  </h3>
-                  <p className="font-mono text-[10px] text-neon-pink font-semibold uppercase tracking-wider mt-1">
-                    // {activeProject.subtitle}
-                  </p>
-                </div>
-
-                {/* Honest description (no jargon) */}
-                <p className="text-black/85 text-xs md:text-sm font-sans font-light leading-relaxed mb-6 border-l border-black/20 pl-3">
-                  {activeProject.description}
-                </p>
-
-                {/* Core points */}
-                <div className="space-y-2.5 mb-6">
-                  <h4 className="font-display font-bold text-[10px] uppercase tracking-wider text-black flex items-center gap-1.5 border-b border-black/10 pb-1 mb-2">
-                    <Sparkles className="w-3 h-3 text-neon-pink" />
-                    <span>Highlights & Capabilities</span>
-                  </h4>
-                  <ul className="space-y-1.5 font-sans text-xs text-black/80">
-                    {activeProject.bulletPoints.map((pt, i) => (
-                      <li key={i} className="flex gap-2 items-start">
-                        <span className="font-mono text-neon-pink font-semibold select-none">
-                          &rsaquo;
-                        </span>
-                        <span>{pt}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              {/* Technologies tags bar */}
-              <div>
-                <div className="flex flex-wrap gap-1">
-                  {activeProject.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2.5 py-0.5 bg-black/5 text-black border border-black/15 font-mono text-[9px] uppercase font-semibold rounded-sm"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
+              </motion.div>
+            </AnimatePresence>
           </div>
         </motion.div>
       </motion.div>
