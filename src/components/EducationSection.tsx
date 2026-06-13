@@ -60,7 +60,7 @@ export default function EducationSection() {
           </div>
 
           <div className="max-w-md mt-4">
-            <p className="font-sans font-bold text-xl md:text-2xl text-[#ACB6FF]/80 tracking-tight leading-[1.15] flex flex-wrap gap-x-[0.3em] gap-y-1">
+            <p className="font-sans font-bold text-xl md:text-2xl text-[var(--color-neon-blue)]/80 tracking-tight leading-[1.15] flex flex-wrap gap-x-[0.3em] gap-y-1">
               {["Academic", "background", "and", "educational", "studies."].map((word, i) => (
                 <span key={i} className="inline-block overflow-hidden pb-0.5">
                   <span
@@ -103,17 +103,17 @@ export default function EducationSection() {
                   <div className="absolute top-0 right-0 w-24 h-24 bg-neon-blue/5 rounded-full blur-2xl group-hover/card:opacity-100 opacity-0 transition-opacity duration-500 pointer-events-none" />
 
                   <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-                    <div className="flex items-center space-x-2 px-2.5 py-1 rounded bg-zinc-900 border border-white/10 font-mono text-[10px] tracking-widest text-[#ACB6FF]/80">
+                    <div className="flex items-center space-x-2 px-2.5 py-1 rounded bg-zinc-900 border border-white/10 font-mono text-[10px] tracking-widest text-[var(--color-neon-blue)]/80">
                       <Calendar className="w-3 h-3 text-neon-pink" />
                       <span>{edu.period}</span>
                     </div>
-                    <div className="flex items-center space-x-1.5 text-[11px] text-[#ACB6FF]/60 font-mono">
-                      <MapPin className="w-3 h-3 text-[#ACB6FF]/40" />
+                    <div className="flex items-center space-x-1.5 text-[11px] text-[var(--color-neon-blue)]/60 font-mono">
+                      <MapPin className="w-3 h-3 text-[var(--color-neon-blue)]/40" />
                       <span>{edu.location}</span>
                     </div>
                   </div>
 
-                  <h3 className="font-sans font-bold text-lg md:text-xl text-[#ACB6FF] tracking-tight leading-tight mb-1 transition-colors duration-300 group-hover:text-neon-pink">
+                  <h3 className="font-sans font-bold text-lg md:text-xl text-[var(--color-neon-blue)] tracking-tight leading-tight mb-1 transition-colors duration-300 group-hover:text-neon-pink">
                     {edu.degree}
                   </h3>
                   <div className="text-sm font-medium text-neon-blue uppercase tracking-widest mb-4">

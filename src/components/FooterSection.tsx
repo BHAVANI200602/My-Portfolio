@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ArrowUp, Mail, Github, Linkedin, Code2, Check, Copy } from "lucide-react";
 import { motion } from "motion/react";
-import FooterAurora from "./FooterAurora";
+
 
 interface FooterSectionProps {
   scrollToTop: () => void;
@@ -19,14 +19,11 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
 
   return (
     <footer className="relative w-full bg-[#070707] border-t border-white/5 pt-28 pb-32 overflow-hidden z-20">
-      {/* Match hero aurora at the bottom background */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
-        <FooterAurora />
-        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-[#070707]/40 to-[#070707] pointer-events-none" />
-      </div>
+      {/* Ambient Pulsing Corners */}
+      <div className="absolute bottom-[-10%] left-[-5%] w-[30vw] h-[30vw] bg-[var(--color-theme)]/20 rounded-full blur-[100px] animate-pulse pointer-events-none z-0" style={{ animationDuration: '4s' }} />
+      <div className="absolute bottom-[-10%] right-[-5%] w-[30vw] h-[30vw] bg-[var(--color-neon-pink)]/15 rounded-full blur-[100px] animate-pulse pointer-events-none z-0" style={{ animationDuration: '6s' }} />
 
-      {/* Radiant atmospheric background ambient light */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-[300px] bg-gradient-to-b from-[#ACB6FF]/5 to-transparent rounded-full blur-[80px] pointer-events-none z-10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-transparent via-[#070707]/40 to-[#070707] pointer-events-none z-0" />
 
       <div className="relative w-full max-w-6xl mx-auto px-6 md:px-12 flex flex-col items-center justify-center text-center z-10">
         
@@ -38,10 +35,10 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
           transition={{ duration: 1.0, ease: "easeOut" }}
           className="mb-14 flex flex-col items-center"
         >
-          <span className="font-mono text-[10px] tracking-[0.4em] text-[#D476FF] uppercase mb-4 block select-none">
+          <span className="font-mono text-[10px] tracking-[0.4em] text-[var(--color-neon-pink)] uppercase mb-4 block select-none">
             // JOIN_THE_NETWORK
           </span>
-          <h3 className="font-sans font-bold text-2xl md:text-3xl text-[#ACB6FF] tracking-tight leading-[1.15] max-w-xl">
+          <h3 className="font-sans font-bold text-2xl md:text-3xl text-[var(--color-theme)] tracking-tight leading-[1.15] max-w-xl">
             Let's build systems that lower the barrier to complex operations.
           </h3>
         </motion.div>
@@ -56,14 +53,14 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
         >
           {/* Interactive Copiable Email Element */}
           <div className="flex flex-col items-center gap-3 max-w-full">
-            <span className="font-mono text-[9px] uppercase tracking-widest text-[#ACB6FF]/50 select-none">
+            <span className="font-mono text-[9px] uppercase tracking-widest text-[var(--color-theme)]/50 select-none">
               direct communication channel
             </span>
-            <div className="relative group flex items-center gap-1.5 sm:gap-2.5 px-4 sm:px-6 py-2.5 sm:py-3 bg-white/[0.02] hover:bg-white/[0.04] border border-white/10 hover:border-[#ACB6FF]/40 rounded-full transition-all duration-300 max-w-full overflow-hidden">
-              <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#ACB6FF] shrink-0" />
+            <div className="relative group flex items-center gap-1.5 sm:gap-2.5 px-4 sm:px-6 py-2.5 sm:py-3 bg-white/[0.02] hover:bg-white/[0.04] border border-white/10 hover:border-[var(--color-theme)]/40 rounded-full transition-all duration-300 max-w-full overflow-hidden">
+              <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[var(--color-theme)] shrink-0" />
               <a
                 href={`mailto:${email}`}
-                className="font-mono text-xs sm:text-sm md:text-base text-white/90 hover:text-[#ACB6FF] transition-colors truncate max-w-[170px] xs:max-w-none"
+                className="font-mono text-xs sm:text-sm md:text-base text-white/90 hover:text-[var(--color-theme)] transition-colors truncate max-w-[170px] xs:max-w-none"
               >
                 {email}
               </a>
@@ -94,7 +91,7 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
               href="https://github.com/BHAVANI200602"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-white/70 hover:text-[#D476FF] hover:border-[#D476FF] hover:shadow-[0_0_15px_rgba(212,118,255,0.2)] bg-neutral-900/30 transition-all duration-300 scale-100 hover:scale-110"
+              className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-white/70 hover:text-[var(--color-neon-pink)] hover:border-[var(--color-neon-pink)] hover:shadow-[0_0_15px_rgba(212,118,255,0.2)] bg-neutral-900/30 transition-all duration-300 scale-100 hover:scale-110"
               title="GitHub Profile"
             >
               <Github className="w-5 h-5" />
@@ -105,7 +102,7 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
               href="https://www.linkedin.com/in/bhavani-02-24-2006-shankar/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-white/70 hover:text-[#00E5FF] hover:border-[#00E5FF] hover:shadow-[0_0_15px_rgba(0,229,255,0.2)] bg-neutral-900/30 transition-all duration-300 scale-100 hover:scale-110"
+              className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-white/70 hover:text-[var(--color-theme)] hover:border-[var(--color-theme)] hover:shadow-[0_0_15px_rgba(0,229,255,0.2)] bg-neutral-900/30 transition-all duration-300 scale-100 hover:scale-110"
               title="LinkedIn Profile"
             >
               <Linkedin className="w-5 h-5" />
@@ -116,7 +113,7 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
               href="https://leetcode.com/u/GV2023006238/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-white/70 hover:text-[#C084FC] hover:border-[#C084FC] hover:shadow-[0_0_15px_rgba(192,132,252,0.2)] bg-neutral-900/30 transition-all duration-300 scale-100 hover:scale-110"
+              className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-white/70 hover:text-[var(--color-neon-pink)] hover:border-[var(--color-neon-pink)] hover:shadow-[0_0_15px_rgba(192,132,252,0.2)] bg-neutral-900/30 transition-all duration-300 scale-100 hover:scale-110"
               title="LeetCode Profile"
             >
               <Code2 className="w-5 h-5" />
@@ -127,12 +124,12 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
           <div className="flex flex-col items-center gap-2">
             <button
               onClick={scrollToTop}
-              className="group flex items-center justify-center w-14 h-14 rounded-full border-2 border-[#ACB6FF] hover:border-[#D476FF] bg-transparent text-[#ACB6FF] hover:text-[#D476FF] hover:shadow-[0_0_20px_rgba(212,118,255,0.35)] transition-all duration-500 scale-100 hover:scale-105 active:scale-95"
+              className="group flex items-center justify-center w-14 h-14 rounded-full border-2 border-[var(--color-theme)] hover:border-[var(--color-neon-pink)] bg-transparent text-[var(--color-theme)] hover:text-[var(--color-neon-pink)] hover:shadow-[0_0_20px_rgba(212,118,255,0.35)] transition-all duration-500 scale-100 hover:scale-105 active:scale-95"
               title="Scroll to Top"
             >
               <ArrowUp className="w-6 h-6 group-hover:-translate-y-1 transition-transform duration-300" />
             </button>
-            <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#ACB6FF]/40 group-hover:text-[#ACB6FF] transition-colors mt-1 select-none">
+            <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[var(--color-theme)]/40 group-hover:text-[var(--color-theme)] transition-colors mt-1 select-none">
               scroll to top
             </span>
           </div>

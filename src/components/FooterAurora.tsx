@@ -56,25 +56,23 @@ export default function FooterAurora() {
       resizeObserver.observe(canvas.parentElement);
     }
 
-    // Dynamic, smooth-shifting color loops matching our beautiful font theme:
-    // - Theme Periwinkle: "172, 182, 255" (#ACB6FF)
-    // - Accent Violet: "192, 132, 252" (#C084FC)
-    // - Neon Pink-Magenta: "212, 118, 255" (#D476FF)
-    // - Royal Blue/Indigo: "99, 102, 241" (#6366F1)
+    // Dynamic, smooth-shifting color loops matching the top header aurora theme
     function getDynamicColor(time: number, normX: number, layerIdx: number, part: "primary" | "secondary") {
-      const cycle = time * 0.16 + normX * 0.8 + layerIdx * 1.5;
+      const cycle = time * 0.18 + normX * 1.0 + layerIdx * 1.4;
 
       if (part === "primary") {
+        // Vibrant Red/Terracotta (#d6321f) morphing to Muted Terracotta (#c86a51)
         const mix = (Math.sin(cycle) + 1) / 2;
-        const r = Math.round(172 + mix * 40);
-        const g = Math.round(182 - mix * 64);
-        const b = Math.round(255);
+        const r = Math.round(214 - mix * 14);
+        const g = Math.round(50 + mix * 56);
+        const b = Math.round(31 + mix * 50);
         return `${r}, ${g}, ${b}`;
       } else {
-        const mix = (Math.cos(cycle * 0.8) + 1) / 2;
-        const r = Math.round(99 + mix * 93);
-        const g = Math.round(102 + mix * 30);
-        const b = Math.round(241 + mix * 14);
+        // Sandy Beige (#e8ddcb) morphing to Pale Matcha (#c5d0b4)
+        const mix = (Math.cos(cycle * 0.82) + 1) / 2;
+        const r = Math.round(232 - mix * 35);
+        const g = Math.round(221 - mix * 13);
+        const b = Math.round(203 - mix * 23);
         return `${r}, ${g}, ${b}`;
       }
     }
