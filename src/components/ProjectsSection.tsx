@@ -32,7 +32,7 @@ export default function ProjectsSection() {
   const bgColor = useTransform(
     scrollYProgress,
     [0.38, 0.48],
-    ["#070707", "#ACB6FF"]
+    ["#070707", "#e8ddcb"]
   );
 
   // Project details card transition states
@@ -87,7 +87,7 @@ export default function ProjectsSection() {
             {/* J (Zoom Portal) */}
             <motion.span 
               style={{ scale: jScale, opacity: jOpacity, transformOrigin: "75% 30%" }} 
-              className="inline-block z-20 text-[#ACB6FF] font-bold"
+              className="inline-block z-20 text-[var(--color-neon-pink)] font-bold"
             >
               J
             </motion.span>
@@ -137,7 +137,7 @@ export default function ProjectsSection() {
                       onClick={() => setSelectedProjectId(proj.id)}
                       className={`group flex items-center justify-between p-3 rounded-sm border text-left transition-all duration-300 font-mono w-[220px] sm:w-[260px] md:w-full shrink-0 snap-start ${
                         selectedProjectId === proj.id
-                          ? "bg-black text-[#ACB6FF] border-black shadow-[3px_3px_0_#D476FF]"
+                          ? "bg-black text-[var(--color-neon-pink)] border-black shadow-[3px_3px_0_var(--color-theme)]"
                           : "bg-transparent text-black/65 border-black/10 hover:border-black hover:text-black hover:bg-black/5"
                       }`}
                     >
@@ -173,7 +173,7 @@ export default function ProjectsSection() {
               <div>
                 {/* Year Indicator & Links Header */}
                 <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-                  <span className="px-2.5 py-1 bg-black text-[#ACB6FF] font-mono text-[9px] tracking-widest uppercase rounded-sm">
+                  <span className="px-2.5 py-1 bg-black text-[var(--color-neon-pink)] font-mono text-[9px] tracking-widest uppercase rounded-sm">
                     RELEASE: {activeProject.year}
                   </span>
 
@@ -183,7 +183,7 @@ export default function ProjectsSection() {
                         href={activeProject.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-1.5 border border-black text-black hover:bg-black hover:text-[#ACB6FF] rounded transition-all shadow-sm"
+                        className="p-1.5 border border-black text-black hover:bg-black hover:text-[var(--color-neon-pink)] rounded transition-all shadow-sm"
                         title="Source Code"
                       >
                         <Github className="w-4 h-4" />

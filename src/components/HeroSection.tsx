@@ -59,25 +59,49 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       {/* --- BOTTOM CONTENT --- */}
       <div className="relative z-30 w-full flex flex-col mt-auto">
         
-        {/* Massive Name */}
-        <div className="w-full flex flex-wrap items-baseline tracking-tight leading-[0.8] mb-4">
-          <motion.span 
-            initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-            animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 40, filter: "blur(8px)" }}
+        {/* Massive Name — intentional stacked overlap */}
+        <div className="w-full flex flex-col leading-none mb-4 -space-y-[2vw] md:-space-y-[3rem] lg:-space-y-[4rem]">
+          {/* Bhavani — slightly receded, matcha tinted */}
+          <motion.div
+            initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
+            animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 50, filter: "blur(10px)" }}
             transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="font-anton text-[18vw] sm:text-[15vw] md:text-[14rem] lg:text-[18rem] text-[var(--color-theme)] m-0 p-0 pr-4 md:pr-8 lg:pr-12"
+            className="relative z-10"
           >
-            Bhavani
-          </motion.span>
-          
-          <motion.span 
-            initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-            animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 40, filter: "blur(8px)" }}
-            transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="font-anton text-[18vw] sm:text-[15vw] md:text-[14rem] lg:text-[18rem] text-[var(--color-neon-blue)] m-0 p-0"
+            <span
+              className="font-anton uppercase tracking-tight select-none block"
+              style={{
+                fontSize: "clamp(4rem, 18vw, 18rem)",
+                lineHeight: 1,
+                color: "var(--color-theme)",
+                opacity: 0.85,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              Bhavani
+            </span>
+          </motion.div>
+
+          {/* Shankar. — dominant, soft-white, premium shadow pulling it to the front */}
+          <motion.div
+            initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
+            animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 50, filter: "blur(10px)" }}
+            transition={{ duration: 1.2, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            className="relative z-20"
           >
-            Shankar.
-          </motion.span>
+            <span
+              className="font-anton uppercase tracking-tight select-none block"
+              style={{
+                fontSize: "clamp(4rem, 18vw, 18rem)",
+                lineHeight: 1,
+                color: "var(--color-neon-blue)",
+                letterSpacing: "-0.02em",
+                textShadow: "0 8px 40px rgba(0,0,0,0.9), 0 2px 0 rgba(0,0,0,0.6), 0 0 80px rgba(197,208,180,0.08)",
+              }}
+            >
+              Shankar.
+            </span>
+          </motion.div>
         </div>
 
         {/* Separator Line */}

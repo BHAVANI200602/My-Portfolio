@@ -67,7 +67,7 @@ export default function SkillsSection() {
           </div>
 
           <div className="max-w-md mt-4">
-            <p className="font-sans font-medium text-xl md:text-2xl text-theme/80 tracking-tight leading-[1.15] flex flex-wrap gap-x-[0.3em] gap-y-1">
+            <p className="font-sans font-medium text-xl md:text-2xl text-[var(--color-neon-blue)]/80 tracking-tight leading-[1.15] flex flex-wrap gap-x-[0.3em] gap-y-1">
               {["Core", "technologies", "and", "frameworks", "for", "modern", "development."].map((word, i) => (
                 <span key={i} className="inline-block overflow-hidden pb-0.5">
                   <span className="inline-block transition-all duration-700"
