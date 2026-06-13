@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ArrowUp, Mail, Github, Linkedin, Code2, Check, Copy } from "lucide-react";
 import { motion } from "motion/react";
+import FooterAurora from "./FooterAurora";
 
 
 interface FooterSectionProps {
@@ -19,9 +20,10 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
 
   return (
     <footer className="relative w-full bg-[#070707] border-t border-white/5 pt-28 pb-32 overflow-hidden z-20">
-      {/* Ambient Pulsing Corners */}
-      <div className="absolute bottom-[-10%] left-[-5%] w-[30vw] h-[30vw] bg-[var(--color-theme)]/20 rounded-full blur-[100px] animate-pulse pointer-events-none z-0" style={{ animationDuration: '4s' }} />
-      <div className="absolute bottom-[-10%] right-[-5%] w-[30vw] h-[30vw] bg-[var(--color-neon-pink)]/15 rounded-full blur-[100px] animate-pulse pointer-events-none z-0" style={{ animationDuration: '6s' }} />
+      {/* Aurora canvas — two blobs locked to left/right corners */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
+        <FooterAurora />
+      </div>
 
       <div className="absolute inset-0 bg-gradient-to-t from-transparent via-[#070707]/40 to-[#070707] pointer-events-none z-0" />
 
