@@ -65,7 +65,7 @@ export default function ProjectsSection() {
     <section
       ref={containerRef}
       id="section-4"
-      className="relative h-[250vh] md:h-[300vh] w-full bg-[#070707] scroll-mt-10"
+      className="relative h-[350vh] md:h-[450vh] w-full bg-[#070707] scroll-mt-10"
     >
       {/* Sticky Frame viewport wrapper handles scroll-bind offsets */}
       <motion.div
@@ -127,19 +127,19 @@ export default function ProjectsSection() {
             y: detailsY,
             pointerEvents: isInteractive ? "auto" : "none",
           }}
-          className="absolute inset-0 z-20 flex w-full h-full"
+          className="absolute inset-0 z-20 flex flex-col md:flex-row w-full h-full"
         >
           {/* ── LEFT: Vertical timeline + big scrolling project name ── */}
-          <div className="relative w-[44%] h-full flex flex-col justify-center border-r border-black/10 overflow-hidden">
-            <span className="absolute top-10 left-10 md:left-14 font-mono text-[9px] tracking-[0.35em] text-black/30 uppercase select-none">
+          <div className="relative w-full md:w-[44%] h-[40%] md:h-full flex flex-col justify-end md:justify-center border-b md:border-b-0 md:border-r border-black/10 overflow-hidden pb-6 md:pb-0">
+            <span className="hidden md:block absolute top-10 left-10 md:left-14 font-mono text-[9px] tracking-[0.35em] text-black/30 uppercase select-none">
               // Featured_Work
             </span>
 
-            {/* Vertical line */}
-            <div className="absolute left-[38px] md:left-[54px] top-20 bottom-20 w-px bg-black/12" />
+            {/* Vertical line (desktop only) */}
+            <div className="hidden md:block absolute left-[38px] md:left-[54px] top-20 bottom-20 w-px bg-black/12" />
 
-            {/* Dots */}
-            <div className="absolute left-[32px] md:left-[48px] top-20 bottom-20 flex flex-col justify-between pointer-events-none">
+            {/* Dots (desktop only) */}
+            <div className="hidden md:flex absolute left-[32px] md:left-[48px] top-20 bottom-20 flex-col justify-between pointer-events-none">
               {PROJECTS.map((_, i) => (
                 <div key={i} className="flex items-center justify-center w-[14px] h-[14px]">
                   <div
@@ -154,7 +154,7 @@ export default function ProjectsSection() {
             </div>
 
             {/* Name block */}
-            <div className="pl-16 md:pl-24 pr-6 flex flex-col select-none">
+            <div className="pl-6 md:pl-24 pr-6 flex flex-col select-none relative z-10">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={`n-${activeIndex}`}
@@ -162,7 +162,7 @@ export default function ProjectsSection() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: 0.28 }}
-                  className="font-mono text-[10px] tracking-[0.3em] text-[var(--color-neon-pink)] mb-5 block"
+                  className="font-mono text-[10px] tracking-[0.3em] text-[var(--color-neon-pink)] mb-2 md:mb-5 block"
                 >
                   {String(activeIndex + 1).padStart(2, "0")} — {String(PROJECTS.length).padStart(2, "0")}
                 </motion.span>
@@ -209,7 +209,7 @@ export default function ProjectsSection() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -6 }}
                   transition={{ duration: 0.38, delay: 0.14 }}
-                  className="inline-block mt-8 font-mono text-[9px] tracking-widest uppercase text-black/50 border border-black/18 px-2.5 py-1 rounded-sm w-fit"
+                  className="inline-block mt-4 md:mt-8 font-mono text-[9px] tracking-widest uppercase text-black/50 border border-black/18 px-2.5 py-1 rounded-sm w-fit"
                 >
                   {activeProject.year}
                 </motion.span>
@@ -218,11 +218,11 @@ export default function ProjectsSection() {
           </div>
 
           {/* ── RIGHT: Details with shadow-curtain wipe reveal ── */}
-          <div className="relative w-[56%] h-full overflow-hidden">
+          <div className="relative w-full md:w-[56%] h-[60%] md:h-full overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeProject.id}
-                className="absolute inset-0 flex items-center px-8 md:px-14"
+                className="absolute inset-0 flex items-start md:items-center px-6 md:px-14 pt-6 md:pt-0 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
               >
                 {/* Curtain */}
                 <motion.div
