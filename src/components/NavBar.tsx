@@ -101,7 +101,7 @@ export default function NavBar() {
             animate={{ y: "0%" }}
             exit={{ y: "-100%" }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 z-[100] bg-[#c5d0b4] flex flex-col justify-center px-8 md:px-24"
+            className="fixed inset-0 z-[100] bg-[#c5d0b4] flex flex-col justify-center pl-4 pr-8 md:pl-12 md:pr-24"
           >
             <div className="flex flex-col items-start gap-4 md:gap-8 max-w-4xl">
               {NAV_LINKS.map((link, i) => (
@@ -115,11 +115,9 @@ export default function NavBar() {
                 >
                   <button
                     onClick={() => handleNavClick(link.targetId)}
-                    className="group relative text-black font-anton uppercase text-5xl sm:text-7xl md:text-8xl tracking-wider text-left"
+                    className="group relative text-black font-anton uppercase text-5xl sm:text-7xl md:text-8xl tracking-wider text-left transition-colors hover:text-black/70"
                   >
                     {link.label}
-                    {/* Soft White Underline Effect */}
-                    <span className="absolute bottom-1 left-0 w-full h-[6px] md:h-[12px] bg-[#faf9f6] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-[0.76,0,0.24,1] z-[-1]" />
                   </button>
                 </motion.div>
               ))}
@@ -130,7 +128,7 @@ export default function NavBar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8, duration: 1 }}
-              className="absolute bottom-10 left-8 md:left-24 font-mono text-[10px] tracking-widest uppercase text-black/40"
+              className="absolute bottom-10 left-4 md:left-12 font-mono text-[10px] tracking-widest uppercase text-black/40"
             >
               // Navigation_Menu
             </motion.div>

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { PROJECTS } from "../data";
-import { Github, ExternalLink, FolderDot, Sparkles } from "lucide-react";
+import { Github } from "lucide-react";
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent } from "motion/react";
 
 export default function ProjectsSection() {
