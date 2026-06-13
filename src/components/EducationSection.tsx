@@ -29,9 +29,9 @@ export default function EducationSection() {
                   dominantBaseline="middle"
                   textAnchor="start"
                   style={{
-                    fontFamily: '"Anton", sans-serif',
+                    fontFamily: '"Bebas Neue", sans-serif',
                     fontSize: "90px",
-                    fontWeight: 900,
+                    fontWeight: 400,
                     letterSpacing: "0.04em"
                   }}
                 >
@@ -42,9 +42,9 @@ export default function EducationSection() {
                     className="svg-fill fill-theme"
                     style={{
                       transform: isInView ? "translateY(0)" : "translateY(100%)",
-                      fontFamily: '"Anton", sans-serif',
+                      fontFamily: '"Bebas Neue", sans-serif',
                       fontSize: "90px",
-                      fontWeight: 900,
+                      fontWeight: 400,
                       letterSpacing: "0.04em"
                     }}
                     x="0"

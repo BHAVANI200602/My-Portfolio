@@ -1,22 +1,31 @@
-import { useState } from "react";
 import { useInView } from "./useInView";
-import { SKILLS } from "../data";
-import { TechSkill } from "../types";
-import { motion, AnimatePresence } from "motion/react";
-import { Search, Filter, Layers } from "lucide-react";
+import { motion } from "motion/react";
 
 export default function SkillsSection() {
   const [sectionRef, isInView] = useInView();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
 
-  const categories = ["ALL", "Language", "Framework", "Database", "Cloud", "Data & AI", "CI/CD & Git", "Testing & Devops"];
-
-  const filteredSkills = SKILLS.filter((skill) => {
-    const matchesSearch = skill.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === "ALL" || skill.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const skillCategories = [
+    {
+      title: "Languages",
+      skills: ["C", "Java", "Python", "JavaScript", "HTML", "CSS"],
+    },
+    {
+      title: "Frameworks",
+      skills: ["React", "Node.js", "Express.js"],
+    },
+    {
+      title: "Database",
+      skills: ["Postgres", "MySQL", "MongoDB"],
+    },
+    {
+      title: "Cloud",
+      skills: ["Azure", "Google Cloud"],
+    },
+    {
+      title: "Hosting & Tools",
+      skills: ["Vercel", "Render", "Cron Jobs", "GitHub"],
+    },
+  ];
 
   return (
     <section
@@ -28,7 +37,6 @@ export default function SkillsSection() {
         
         {/* Left Column: Liquid Title & Description */}
         <div className="lg:col-span-5 flex flex-col justify-start text-left lg:sticky lg:top-24">
-
           <div className={`relative mb-8 sm:mb-12 w-full max-w-sm transition-all duration-700 ${isInView ? "is-revealed" : "opacity-0"}`}>
             <h2 className="w-full relative select-none leading-none">
               <svg
@@ -44,10 +52,10 @@ export default function SkillsSection() {
                   dominantBaseline="middle"
                   textAnchor="start"
                   style={{
-                    fontFamily: '"Anton", sans-serif',
-                    fontSize: "90px",
-                    fontWeight: 900,
-                    letterSpacing: "0.04em"
+                    fontFamily: '"Bebas Neue", sans-serif',
+                    fontSize: "110px",
+                    fontWeight: 400,
+                    letterSpacing: "0.02em"
                   }}
                 >
                   SKILLS
@@ -57,10 +65,10 @@ export default function SkillsSection() {
                     className="svg-fill fill-theme"
                     style={{
                       transform: isInView ? "translateY(0)" : "translateY(100%)",
-                      fontFamily: '"Anton", sans-serif',
-                      fontSize: "90px",
-                      fontWeight: 900,
-                      letterSpacing: "0.04em"
+                      fontFamily: '"Bebas Neue", sans-serif',
+                      fontSize: "110px",
+                      fontWeight: 400,
+                      letterSpacing: "0.02em"
                     }}
                     x="0"
                     y="85"
@@ -75,8 +83,8 @@ export default function SkillsSection() {
           </div>
 
           <div className="max-w-md mt-4">
-            <p className="font-sans font-bold text-xl md:text-2xl text-theme/80 tracking-tight leading-[1.15] flex flex-wrap gap-x-[0.3em] gap-y-1">
-              {["Core", "technologies,", "frameworks,", "and", "development", "tools."].map((word, i) => (
+            <p className="font-sans font-medium text-xl md:text-2xl text-theme/80 tracking-tight leading-[1.15] flex flex-wrap gap-x-[0.3em] gap-y-1">
+              {["Core", "technologies", "and", "frameworks", "for", "modern", "development."].map((word, i) => (
                 <span key={i} className="inline-block overflow-hidden pb-0.5">
                   <span
                     className="inline-block transition-all duration-700"
@@ -92,100 +100,39 @@ export default function SkillsSection() {
               ))}
             </p>
           </div>
-
-          {/* Search Input Box */}
-          <div 
-            className="mt-8 relative max-w-xs transition-all duration-1000 delay-500"
-            style={{
-              opacity: isInView ? 1 : 0,
-              transform: isInView ? "translateY(0)" : "translateY(15px)",
-            }}
-          >
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-theme/40" />
-            <input
-              type="text"
-              placeholder="Query tech index..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-zinc-950/80 border border-white/10 hover:border-white/20 focus:border-neon-pink focus:ring-1 focus:ring-neon-pink text-theme font-mono text-xs rounded pl-9 pr-4 py-2.5 outline-none transition-all duration-300"
-            />
-          </div>
         </div>
 
-        {/* Right Column: Interactive Tech Stack Grid */}
-        <div className="lg:col-span-7 flex flex-col space-y-6">
-          <div 
-            className="flex flex-row md:flex-wrap gap-1.5 pb-2 border-b border-white/5 transition-all duration-1000 delay-300 overflow-x-auto md:overflow-x-visible [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden w-full"
-            style={{
-              opacity: isInView ? 1 : 0,
-              transform: isInView ? "translateY(0)" : "translateY(10px)",
-            }}
-          >
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1 text-[10px] font-mono rounded-sm border transition-all duration-300 tracking-wider shrink-0 ${
-                  selectedCategory === cat
-                    ? "bg-neon-pink/15 text-neon-pink border-neon-pink"
-                    : "bg-transparent text-theme/60 border-white/10 hover:border-white/20 hover:text-theme"
-                }`}
-              >
-                {cat.toUpperCase()}
-              </button>
-            ))}
-          </div>
-
-          <div className="min-h-[280px]">
-            <motion.div 
-              layout 
-              className="flex flex-wrap gap-2.5 content-start"
+        {/* Right Column: Editorial Skills List */}
+        <div className="lg:col-span-7 flex flex-col space-y-12 lg:pl-10 mt-10 lg:mt-6">
+          {skillCategories.map((category, index) => (
+            <motion.div
+              key={category.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.8, delay: 0.3 + index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col md:flex-row gap-2 md:gap-8 items-start border-b border-white/5 pb-8"
             >
-              <AnimatePresence mode="popLayout">
-                {filteredSkills.map((skill) => {
-                  const tagTextColor = skill.textColor || "#FFFFFF";
-                  return (
-                    <motion.div
-                      key={skill.name}
-                      layout
-                      initial={{ scale: 0.9, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0.9, opacity: 0 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                      whileHover={{ scale: 1.05 }}
-                      className="px-3 md:px-4 py-1.5 md:py-2 flex items-center gap-2 border border-white/10 rounded-sm font-mono text-xs font-semibold hover:border-white/30 cursor-crosshair transition-colors duration-300"
-                      style={{
-                        backgroundColor: skill.color,
-                        color: tagTextColor,
-                        boxShadow: `0 4px 12px ${skill.color}15`,
-                      }}
-                    >
-                      {/* Decorative small visual node block to model the screenshot vibe */}
-                      <span 
-                        className="w-1.5 h-1.5 rounded-full inline-block"
-                        style={{
-                          backgroundColor: tagTextColor === "#000000" ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)"
-                        }}
-                      />
-                      <span>{skill.name}</span>
-                    </motion.div>
-                  );
-                })}
-              </AnimatePresence>
+              {/* Category Label (Muted Terracotta / Theme) */}
+              <div className="w-40 shrink-0">
+                <span className="font-mono text-sm tracking-[0.2em] text-[var(--color-neon-pink)] uppercase">
+                  {category.title}
+                </span>
+              </div>
+
+              {/* Skills List (Soft White / Sans Serif) */}
+              <div className="flex-1 flex flex-wrap gap-x-3 gap-y-1 mt-2 md:mt-0">
+                {category.skills.map((skill, sIdx) => (
+                  <span key={skill} className="flex items-center text-slate-200 font-sans text-lg md:text-xl font-light tracking-wide">
+                    {skill}
+                    {sIdx !== category.skills.length - 1 && (
+                      <span className="ml-3 opacity-30 text-[var(--color-theme)]">·</span>
+                    )}
+                  </span>
+                ))}
+              </div>
             </motion.div>
-
-            {filteredSkills.length === 0 && (
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="py-12 text-center text-theme/40 font-mono text-xs border border-dashed border-white/5 rounded"
-              >
-                No active records matching current queries
-              </motion.div>
-            )}
-          </div>
+          ))}
         </div>
-
       </div>
     </section>
   );

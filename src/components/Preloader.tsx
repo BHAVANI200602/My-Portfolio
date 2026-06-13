@@ -98,7 +98,7 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
               className="text-center px-4"
             >
               <h2
-                className="font-anton tracking-widest text-[5.5rem] md:text-[9rem] leading-none transition-all duration-100 uppercase"
+                className="font-bebas tracking-widest text-[5.5rem] md:text-[9rem] leading-none transition-all duration-100 uppercase"
                 style={{
                   color: "transparent",
                   WebkitTextFillColor: "transparent",

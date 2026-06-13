@@ -141,15 +141,16 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
       </div>
 
       {/* Massive display header: "BHAVANI SHANKAR" standing on the bottom border with responsive scaling and matching gradient theme */}
+      {/* Massive display header: "BHAVANI SHANKAR" standing on the bottom border with responsive scaling and matching gradient theme */}
       <div className="absolute bottom-0 left-0 w-full overflow-hidden select-none pointer-events-none leading-none z-0">
         <motion.div
           initial={{ opacity: 0, y: 80, filter: "blur(8px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, margin: "-20px" }}
+          viewport={{ once: true, margin: "100px" }}
           transition={{ duration: 2.0, ease: [0.16, 1, 0.3, 1] }}
           className="w-full flex justify-center"
         >
-          <h2 className="font-anton text-[19vw] md:text-[18.5vw] lg:text-[18vw] uppercase text-center text-transparent bg-clip-text bg-gradient-to-t from-white/35 via-[#ACB6FF]/20 to-[#D476FF]/5 font-black leading-none tracking-tighter translate-y-[15%] select-none drop-shadow-[0_0_25px_rgba(172,182,255,0.15)]">
+          <h2 className="font-bebas text-[19vw] md:text-[18.5vw] lg:text-[18vw] uppercase text-center text-transparent bg-clip-text bg-gradient-to-t from-white/35 via-[var(--color-theme)]/20 to-[var(--color-neon-pink)]/5 font-normal leading-none tracking-tighter translate-y-[15%] select-none drop-shadow-[0_0_25px_rgba(197,208,180,0.15)]">
             BHAVANI SHANKAR
           </h2>
         </motion.div>

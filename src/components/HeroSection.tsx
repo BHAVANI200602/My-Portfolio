@@ -101,19 +101,12 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
           </div>
 
           {/* Social Links */}
-          <div className="flex-1 flex justify-center gap-6">
-            <a href={PERSONAL_BIO.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LINKEDIN</a>
-            <span className="opacity-30">/</span>
-            <a href={PERSONAL_BIO.github} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GITHUB</a>
-            <span className="opacity-30">/</span>
-            <a href={PERSONAL_BIO.leetcode} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LEETCODE</a>
-          </div>
-
-          {/* Nav Links */}
           <div className="flex-1 flex justify-center md:justify-end gap-6">
-            <a href="#section-2" className="hover:text-white transition-colors">WORK</a>
-            <a href="#section-3" className="hover:text-white transition-colors">INFO</a>
-            <a href="#section-4" className="hover:text-white transition-colors">CONTACT</a>
+            <a href={PERSONAL_BIO.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LINKEDIN</a>
+            <span className="opacity-30">·</span>
+            <a href={PERSONAL_BIO.github} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GITHUB</a>
+            <span className="opacity-30">·</span>
+            <a href={PERSONAL_BIO.leetcode} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LEETCODE</a>
           </div>
         </motion.div>
         
