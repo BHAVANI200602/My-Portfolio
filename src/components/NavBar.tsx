@@ -44,7 +44,7 @@ export default function NavBar() {
             >
               <span className="relative z-10">{link.label}</span>
               {/* Soft glow on hover underneath the text */}
-              <div className="absolute inset-0 bg-[#ACB6FF]/0 group-hover:bg-[#ACB6FF]/60 blur-md rounded-full transition-all duration-300 pointer-events-none" />
+              <div className="absolute inset-0 bg-[var(--color-theme)]/0 group-hover:bg-[var(--color-theme)]/60 blur-md rounded-full transition-all duration-300 pointer-events-none" />
             </button>
           ))}
         </div>
@@ -61,7 +61,7 @@ export default function NavBar() {
               duration: 1.7,
               ease: [0.76, 0, 0.24, 1]
             }}
-            className="fixed inset-0 z-[100] bg-[#ACB6FF] pointer-events-none"
+            className="fixed inset-0 z-[100] bg-[var(--color-theme)] pointer-events-none"
           />
         )}
       </AnimatePresence>

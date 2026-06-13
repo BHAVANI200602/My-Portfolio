@@ -150,7 +150,7 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
           transition={{ duration: 2.0, ease: [0.16, 1, 0.3, 1] }}
           className="w-full flex justify-center"
         >
-          <h2 className="font-bebas text-[19vw] md:text-[18.5vw] lg:text-[18vw] uppercase text-center text-transparent bg-clip-text bg-gradient-to-t from-white/35 via-[var(--color-theme)]/20 to-[var(--color-neon-pink)]/5 font-normal leading-none tracking-tighter translate-y-[15%] select-none drop-shadow-[0_0_25px_rgba(197,208,180,0.15)]">
+          <h2 className="font-anton text-[19vw] md:text-[18.5vw] lg:text-[18vw] uppercase text-center text-transparent bg-clip-text bg-gradient-to-t from-white/35 via-[var(--color-theme)]/20 to-[var(--color-neon-pink)]/5 font-normal leading-none tracking-tighter translate-y-[15%] select-none drop-shadow-[0_0_25px_rgba(197,208,180,0.15)]">
             BHAVANI SHANKAR
           </h2>
         </motion.div>

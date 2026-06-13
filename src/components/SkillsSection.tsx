@@ -52,7 +52,7 @@ export default function SkillsSection() {
                   dominantBaseline="middle"
                   textAnchor="start"
                   style={{
-                    fontFamily: '"Bebas Neue", sans-serif',
+                    fontFamily: '"Anton", sans-serif',
                     fontSize: "110px",
                     fontWeight: 400,
                     letterSpacing: "0.02em"
@@ -65,7 +65,7 @@ export default function SkillsSection() {
                     className="svg-fill fill-theme"
                     style={{
                       transform: isInView ? "translateY(0)" : "translateY(100%)",
-                      fontFamily: '"Bebas Neue", sans-serif',
+                      fontFamily: '"Anton", sans-serif',
                       fontSize: "110px",
                       fontWeight: 400,
                       letterSpacing: "0.02em"

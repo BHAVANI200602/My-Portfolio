@@ -70,7 +70,7 @@ export default function ProjectsSection() {
           }}
           className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-10 px-4"
         >
-          <div className="font-bebas flex items-center justify-center uppercase leading-none text-[20vw] md:text-[16vw] gap-2 md:gap-4 tracking-normal text-[var(--color-theme)] select-none w-full max-w-7xl mx-auto">
+          <div className="font-anton flex items-center justify-center uppercase leading-none text-[20vw] md:text-[16vw] gap-2 md:gap-4 tracking-normal text-[var(--color-theme)] select-none w-full max-w-7xl mx-auto">
             {/* P */}
             <motion.span style={{ x: leftX, opacity: leftOpacity }} className="inline-block origin-center">
               P
@@ -194,7 +194,7 @@ export default function ProjectsSection() {
 
                 {/* Typography details */}
                 <div className="mb-4">
-                  <h3 className="font-bebas uppercase text-2xl md:text-3xl text-black tracking-wider leading-none">
+                  <h3 className="font-anton uppercase text-2xl md:text-3xl text-black tracking-wider leading-none">
                     {activeProject.title}
                   </h3>
                   <p className="font-mono text-[10px] text-neon-pink font-semibold uppercase tracking-wider mt-1">

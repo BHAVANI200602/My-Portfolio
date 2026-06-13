@@ -65,7 +65,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
             initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
             animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 40, filter: "blur(8px)" }}
             transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="font-bebas text-[18vw] sm:text-[15vw] md:text-[14rem] lg:text-[18rem] text-[var(--color-theme)] m-0 p-0 pr-4 md:pr-8 lg:pr-12"
+            className="font-anton text-[18vw] sm:text-[15vw] md:text-[14rem] lg:text-[18rem] text-[var(--color-theme)] m-0 p-0 pr-4 md:pr-8 lg:pr-12"
           >
             Bhavani
           </motion.span>
@@ -74,7 +74,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
             initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
             animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 40, filter: "blur(8px)" }}
             transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="font-bebas text-[18vw] sm:text-[15vw] md:text-[14rem] lg:text-[18rem] text-[var(--color-neon-blue)] m-0 p-0"
+            className="font-anton text-[18vw] sm:text-[15vw] md:text-[14rem] lg:text-[18rem] text-[var(--color-neon-blue)] m-0 p-0"
           >
             Shankar.
           </motion.span>
