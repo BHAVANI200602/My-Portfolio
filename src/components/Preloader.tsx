@@ -6,13 +6,15 @@ interface PreloaderProps {
   onDiveComplete: () => void;
 }
 
+// Two alternating ripple colors
+const RIPPLE_1 = "#0aada8"; // Aqua Teal
+const RIPPLE_2 = "#f0fafa"; // Ice White
+
 export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProps) {
   const [progress, setProgress] = useState(0);
-  const [isComplete, setIsComplete] = useState(false);
-  const [isDiving, setIsDiving] = useState(false);
+  const [phase, setPhase] = useState<"counting" | "ripple1" | "ripple2" | "curtain">("counting");
 
   useEffect(() => {
-    // Disable body overflow during preloading
     document.body.style.overflow = "hidden";
 
     const interval = setInterval(() => {
@@ -21,104 +23,136 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
         const next = prev + increment;
         if (next >= 100) {
           clearInterval(interval);
-          setIsComplete(true);
           return 100;
         }
         return next;
       });
     }, 28);
 
-    return () => {
-      clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   }, []);
 
+  // When progress hits 100, kick off the ripple sequence
   useEffect(() => {
-    if (isComplete) {
-      handleDive();
-    }
-  }, [isComplete]);
+    if (progress < 100) return;
 
-  const handleDive = () => {
-    setIsDiving(true);
-    
-    // Trigger onDiveStart when the screen is fully filled with beige (around 750ms into the transition)
-    setTimeout(() => {
-      if (onDiveStart) {
-        onDiveStart();
-      }
-    }, 750);
-
-    // Complete the entire sequence and unmount when the curtain lifts completely (1700ms)
-    setTimeout(() => {
+    // Small pause at 100%, then ripple 1
+    const t1 = setTimeout(() => setPhase("ripple1"), 200);
+    // Ripple 2 follows ripple 1
+    const t2 = setTimeout(() => setPhase("ripple2"), 900);
+    // Curtain lift
+    const t3 = setTimeout(() => {
+      setPhase("curtain");
+      if (onDiveStart) onDiveStart();
+    }, 1700);
+    // Unmount
+    const t4 = setTimeout(() => {
       document.body.style.overflow = "auto";
       onDiveComplete();
-    }, 1750);
-  };
+    }, 3200);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      clearTimeout(t4);
+    };
+  }, [progress]);
 
   return (
-    <div className="fixed inset-0 w-full h-full z-50 select-none overflow-hidden flex flex-col items-center justify-center bg-transparent">
-      
-      {/* 1. Underlying Solid Black Base Layer: fades out while covered by the curtain */}
-      <motion.div 
-        className="absolute inset-0 bg-[#000000] z-10"
-        animate={isDiving ? { opacity: 0 } : { opacity: 1 }}
-        transition={{ duration: 0.4, delay: 0.65, ease: "easeInOut" }}
-      />
+    <div className="fixed inset-0 w-full h-full z-50 select-none overflow-hidden bg-[#070707]">
 
-      {/* 2. Immersive Theme Curtain: sweeps from bottom -> fills screen -> lifts to top */}
-      <motion.div 
-        className="absolute inset-0 z-30"
-        style={{ backgroundColor: "var(--color-theme)" }}
-        initial={{ y: "100%" }}
-        animate={isDiving ? { y: ["100%", "0%", "0%", "-100%"] } : { y: "100%" }}
-        transition={
-          isDiving 
-            ? {
-                times: [0, 0.42, 0.52, 1],
-                duration: 1.7,
-                ease: [0.76, 0, 0.24, 1],
-              }
-            : { duration: 0 }
-        }
-      />
+      {/* ── RIPPLE CIRCLE 1 (Teal) ── */}
+      <AnimatePresence>
+        {(phase === "ripple1" || phase === "ripple2" || phase === "curtain") && (
+          <motion.div
+            key="ripple1"
+            className="absolute rounded-full"
+            style={{
+              background: RIPPLE_1,
+              left: "50%",
+              top: "50%",
+              translateX: "-50%",
+              translateY: "-50%",
+              width: "10vw",
+              height: "10vw",
+            }}
+            initial={{ scale: 0, opacity: 1 }}
+            animate={{ scale: 30, opacity: 1 }}
+            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+          />
+        )}
+      </AnimatePresence>
 
-      {/* 3. Preloader UI & Clickable Triggers Container */}
-      <motion.div 
-        className="relative z-20 flex flex-col items-center justify-center w-full max-w-xl"
-        animate={isDiving ? { opacity: 0, scale: 0.96 } : { opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-      >
-        <AnimatePresence mode="wait">
-          {!isComplete ? (
-            <motion.div
-              key="loader"
-              initial={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 0.3 } }}
-              className="text-center px-4"
+      {/* ── RIPPLE CIRCLE 2 (Ice White) — follows teal ── */}
+      <AnimatePresence>
+        {(phase === "ripple2" || phase === "curtain") && (
+          <motion.div
+            key="ripple2"
+            className="absolute rounded-full"
+            style={{
+              background: RIPPLE_2,
+              left: "50%",
+              top: "50%",
+              translateX: "-50%",
+              translateY: "-50%",
+              width: "10vw",
+              height: "10vw",
+            }}
+            initial={{ scale: 0, opacity: 1 }}
+            animate={{ scale: 30, opacity: 1 }}
+            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* ── CURTAIN LIFT (teal panel sweeps up to reveal site) ── */}
+      <AnimatePresence>
+        {phase === "curtain" && (
+          <motion.div
+            key="curtain"
+            className="absolute inset-0 z-30"
+            style={{ backgroundColor: RIPPLE_1 }}
+            initial={{ y: "0%" }}
+            animate={{ y: "-100%" }}
+            transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1], delay: 0.15 }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* ── PROGRESS COUNTER — bottom right corner ── */}
+      <AnimatePresence>
+        {phase === "counting" && (
+          <motion.div
+            key="counter"
+            className="absolute bottom-8 right-8 md:bottom-12 md:right-12 z-40"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.25 } }}
+          >
+            <span
+              className="font-anton tabular-nums leading-none"
+              style={{
+                fontSize: "clamp(3.5rem, 10vw, 7rem)",
+                color: "transparent",
+                WebkitTextFillColor: "transparent",
+                WebkitTextStroke: "1.5px #0aada8",
+                backgroundImage: "linear-gradient(to top, #0aada8 50%, transparent 50%)",
+                backgroundSize: "100% 200%",
+                backgroundPosition: `0% ${progress}%`,
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+              }}
             >
-              <h2
-                className="font-anton tracking-widest text-[5.5rem] md:text-[9rem] leading-none transition-all duration-100 uppercase"
-                style={{
-                  color: "transparent",
-                  WebkitTextFillColor: "transparent",
-                  WebkitTextStroke: "2px var(--color-theme)",
-                  backgroundImage: "linear-gradient(to top, var(--color-theme) 50%, transparent 50%)",
-                  backgroundSize: "100% 200%",
-                  backgroundPosition: `0% ${progress}%`,
-                  WebkitBackgroundClip: "text",
-                  backgroundClip: "text",
-                }}
-              >
-                {progress}%
-              </h2>
-              <div className="mt-4 font-mono text-xs uppercase tracking-[0.2em] text-[var(--color-theme)]/40">
-                Calibrating Systems Architect Portfolio
-              </div>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
-      </motion.div>
+              {String(progress).padStart(3, "0")}%
+            </span>
+            <div className="mt-1 font-mono text-[9px] uppercase tracking-[0.3em] text-[#0aada8]/40 text-right">
+              Loading
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 }

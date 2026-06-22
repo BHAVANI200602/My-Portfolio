@@ -96,7 +96,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
                 lineHeight: 1,
                 color: "var(--color-neon-blue)",
                 letterSpacing: "-0.02em",
-                textShadow: "0 8px 40px rgba(0,0,0,0.9), 0 2px 0 rgba(0,0,0,0.6), 0 0 80px rgba(197,208,180,0.08)",
+                textShadow: "0 8px 40px rgba(0,0,0,0.9), 0 2px 0 rgba(0,0,0,0.6), 0 0 80px rgba(10,173,168,0.12)",
               }}
             >
               Shankar.

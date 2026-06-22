@@ -55,18 +55,18 @@ export default function BackgroundShader() {
       const cycle = time * 0.18 + normX * 1.0 + layerIdx * 1.4;
 
       if (part === "primary") {
-        // Vibrant Red/Terracotta (#d6321f) morphing to Muted Terracotta (#c86a51)
+        // Aqua Teal (#0aada8) morphing to Bright Turquoise (#00d4cc)
         const mix = (Math.sin(cycle) + 1) / 2;
-        const r = Math.round(214 - mix * 14);
-        const g = Math.round(50 + mix * 56);
-        const b = Math.round(31 + mix * 50);
+        const r = Math.round(10 - mix * 10);
+        const g = Math.round(173 + mix * 39);
+        const b = Math.round(168 + mix * 36);
         return `${r}, ${g}, ${b}`;
       } else {
-        // Sandy Beige (#e8ddcb) morphing to Pale Matcha (#c5d0b4)
+        // Deep Teal (#007a7a) morphing to Cyan (#00bcd4)
         const mix = (Math.cos(cycle * 0.82) + 1) / 2;
-        const r = Math.round(232 - mix * 35);
-        const g = Math.round(221 - mix * 13);
-        const b = Math.round(203 - mix * 23);
+        const r = Math.round(0 + mix * 0);
+        const g = Math.round(122 + mix * 66);
+        const b = Math.round(122 + mix * 90);
         return `${r}, ${g}, ${b}`;
       }
     }
@@ -125,8 +125,8 @@ export default function BackgroundShader() {
 
       // Subtle ambient backlight from top right
       const baseGrad = ctx.createRadialGradient(width, 0, 0, width, 0, width * 0.8);
-      baseGrad.addColorStop(0, "rgba(214, 50, 31, 0.15)");
-      baseGrad.addColorStop(0.5, "rgba(200, 106, 81, 0.05)");
+      baseGrad.addColorStop(0, "rgba(10, 173, 168, 0.18)");
+      baseGrad.addColorStop(0.5, "rgba(0, 212, 204, 0.07)");
       baseGrad.addColorStop(1, "rgba(7, 7, 7, 0)");
       ctx.fillStyle = baseGrad;
       ctx.fillRect(0, 0, width, height);

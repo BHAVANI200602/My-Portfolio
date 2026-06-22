@@ -45,7 +45,7 @@ export default function App() {
 
       {/* Main Portfolio Framework always exists but hidden until dived */}
       <div 
-        className="w-full relative min-h-screen flex flex-col justify-between bg-[#070707] text-[#ACB6FF] transition-opacity duration-1000 ease-in-out select-none"
+        className="w-full relative min-h-screen flex flex-col justify-between bg-[#070707] text-[var(--color-theme)] transition-opacity duration-1000 ease-in-out select-none"
         style={{
           opacity: isDived ? 1 : 0,
           visibility: isDived ? "visible" : "hidden",
