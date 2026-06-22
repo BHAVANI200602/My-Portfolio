@@ -59,47 +59,25 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       {/* --- BOTTOM CONTENT --- */}
       <div className="relative z-30 w-full flex flex-col mt-auto">
         
-        {/* Massive Name — intentional stacked overlap */}
-        <div className="w-full flex flex-col leading-none mb-4 -space-y-[2vw] md:-space-y-[3rem] lg:-space-y-[4rem]">
-          {/* Bhavani — slightly receded, matcha tinted */}
+        {/* Massive Name — linear layout bleeding out, sitting on the line */}
+        <div className="w-full flex justify-center items-end leading-none overflow-visible relative z-20" style={{ marginBottom: "-0.04em" }}>
           <motion.div
             initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
             animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 50, filter: "blur(10px)" }}
             transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="relative z-10"
+            className="flex justify-center"
           >
             <span
-              className="font-anton uppercase tracking-tight select-none block"
+              className="font-anton uppercase tracking-tight select-none whitespace-nowrap flex-shrink-0"
               style={{
-                fontSize: "clamp(4rem, 18vw, 18rem)",
-                lineHeight: 1,
-                color: "var(--color-theme)",
-                opacity: 0.85,
-                letterSpacing: "-0.02em",
-              }}
-            >
-              Bhavani
-            </span>
-          </motion.div>
-
-          {/* Shankar. — dominant, soft-white, premium shadow pulling it to the front */}
-          <motion.div
-            initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
-            animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 50, filter: "blur(10px)" }}
-            transition={{ duration: 1.2, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            className="relative z-20"
-          >
-            <span
-              className="font-anton uppercase tracking-tight select-none block"
-              style={{
-                fontSize: "clamp(4rem, 18vw, 18rem)",
-                lineHeight: 1,
+                fontSize: "clamp(6rem, 24vw, 25rem)",
+                lineHeight: 0.8,
                 color: "var(--color-neon-blue)",
                 letterSpacing: "-0.02em",
                 textShadow: "0 8px 40px rgba(0,0,0,0.9), 0 2px 0 rgba(0,0,0,0.6), 0 0 80px rgba(74, 123, 181, 0.15)",
               }}
             >
-              Shankar.
+              BHAVANI SHANKAR.
             </span>
           </motion.div>
         </div>
