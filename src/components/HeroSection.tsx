@@ -70,9 +70,9 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
             <span
               className="font-anton uppercase tracking-tight select-none whitespace-nowrap flex-shrink-0"
               style={{
-                fontSize: "clamp(6rem, 24vw, 25rem)",
+                fontSize: "clamp(4rem, 8.5vw, 12rem)",
                 lineHeight: 0.8,
-                color: "var(--color-neon-blue)",
+                color: "#faf9f6",
                 letterSpacing: "-0.02em",
                 textShadow: "0 8px 40px rgba(0,0,0,0.9), 0 2px 0 rgba(0,0,0,0.6), 0 0 80px rgba(74, 123, 181, 0.15)",
               }}

@@ -7,8 +7,9 @@ interface PreloaderProps {
 }
 
 // Two alternating ripple colors
-const RIPPLE_1 = "#1e3a8a"; // Navy Blue
-const RIPPLE_2 = "#dfd5c6"; // Sand Dollar
+const RIPPLE_1 = "#dfd5c6"; // Sand Dollar (Beige)
+const RIPPLE_2 = "#1e3a8a"; // Navy Blue
+const TEXT_COLOR = "#faf9f6"; // Soft White
 
 export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProps) {
   const [progress, setProgress] = useState(0);
@@ -19,7 +20,7 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
 
     const interval = setInterval(() => {
       setProgress((prev) => {
-        const increment = Math.floor(Math.random() * 4) + 2;
+        const increment = Math.floor(Math.random() * 3) + 1;
         const next = prev + increment;
         if (next >= 100) {
           clearInterval(interval);
@@ -27,7 +28,7 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
         }
         return next;
       });
-    }, 28);
+    }, 45);
 
     return () => clearInterval(interval);
   }, []);
@@ -136,8 +137,8 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
                 fontSize: "clamp(3.5rem, 10vw, 7rem)",
                 color: "transparent",
                 WebkitTextFillColor: "transparent",
-                WebkitTextStroke: `1.5px ${RIPPLE_1}`,
-                backgroundImage: `linear-gradient(to top, ${RIPPLE_1} 50%, transparent 50%)`,
+                WebkitTextStroke: `1.5px ${TEXT_COLOR}`,
+                backgroundImage: `linear-gradient(to top, ${TEXT_COLOR} 50%, transparent 50%)`,
                 backgroundSize: "100% 200%",
                 backgroundPosition: `0% ${progress}%`,
                 WebkitBackgroundClip: "text",
@@ -148,7 +149,7 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
             </span>
             <div 
               className="mt-1 font-mono text-[9px] uppercase tracking-[0.3em] text-right"
-              style={{ color: `${RIPPLE_1}66` }}
+              style={{ color: `${TEXT_COLOR}99` }}
             >
               Loading
             </div>
