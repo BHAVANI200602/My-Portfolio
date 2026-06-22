@@ -55,18 +55,18 @@ export default function BackgroundShader() {
       const cycle = time * 0.18 + normX * 1.0 + layerIdx * 1.4;
 
       if (part === "primary") {
-        // Aqua Teal (#0aada8) morphing to Bright Turquoise (#00d4cc)
+        // Navy Blue (#1e3a8a) morphing to Steel Navy (#4a7bb5)
         const mix = (Math.sin(cycle) + 1) / 2;
-        const r = Math.round(10 - mix * 10);
-        const g = Math.round(173 + mix * 39);
-        const b = Math.round(168 + mix * 36);
+        const r = Math.round(30 + mix * 44);
+        const g = Math.round(58 + mix * 65);
+        const b = Math.round(138 + mix * 43);
         return `${r}, ${g}, ${b}`;
       } else {
-        // Deep Teal (#007a7a) morphing to Cyan (#00bcd4)
+        // Deep Navy (#050c1a) morphing to Sand Dollar (#dfd5c6)
         const mix = (Math.cos(cycle * 0.82) + 1) / 2;
-        const r = Math.round(0 + mix * 0);
-        const g = Math.round(122 + mix * 66);
-        const b = Math.round(122 + mix * 90);
+        const r = Math.round(5 + mix * 218);
+        const g = Math.round(12 + mix * 201);
+        const b = Math.round(26 + mix * 172);
         return `${r}, ${g}, ${b}`;
       }
     }
@@ -120,14 +120,14 @@ export default function BackgroundShader() {
       const elapsed = now - startTime;
       const seconds = elapsed * 0.001;
 
-      ctx.fillStyle = "#070707";
+      ctx.fillStyle = "#050c1a";
       ctx.fillRect(0, 0, width, height);
 
       // Subtle ambient backlight from top right
       const baseGrad = ctx.createRadialGradient(width, 0, 0, width, 0, width * 0.8);
-      baseGrad.addColorStop(0, "rgba(10, 173, 168, 0.18)");
-      baseGrad.addColorStop(0.5, "rgba(0, 212, 204, 0.07)");
-      baseGrad.addColorStop(1, "rgba(7, 7, 7, 0)");
+      baseGrad.addColorStop(0, "rgba(30, 58, 138, 0.18)");
+      baseGrad.addColorStop(0.5, "rgba(223, 213, 198, 0.05)");
+      baseGrad.addColorStop(1, "rgba(5, 12, 26, 0)");
       ctx.fillStyle = baseGrad;
       ctx.fillRect(0, 0, width, height);
 

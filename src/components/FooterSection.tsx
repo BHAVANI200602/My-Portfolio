@@ -19,13 +19,13 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
   };
 
   return (
-    <footer className="relative w-full bg-[#070707] border-t border-white/5 pt-28 pb-32 overflow-hidden z-20">
+    <footer className="relative w-full bg-[#050c1a] border-t border-white/5 pt-28 pb-32 overflow-hidden z-20">
       {/* Aurora canvas — two blobs locked to left/right corners */}
       <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
         <FooterAurora />
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-transparent via-[#070707]/40 to-[#070707] pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-gradient-to-t from-transparent via-[#050c1a]/40 to-[#050c1a] pointer-events-none z-0" />
 
       <div className="relative w-full max-w-6xl mx-auto px-6 md:px-12 flex flex-col items-center justify-center text-center z-10">
         
@@ -37,9 +37,6 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
           transition={{ duration: 1.0, ease: "easeOut" }}
           className="mb-14 flex flex-col items-center"
         >
-          <span className="font-mono text-[10px] tracking-[0.4em] text-[var(--color-neon-pink)] uppercase mb-4 block select-none">
-            // JOIN_THE_NETWORK
-          </span>
           <h3 className="font-sans font-bold text-2xl md:text-3xl text-[var(--color-theme)] tracking-tight leading-[1.15] max-w-xl">
             Let's build systems that lower the barrier to complex operations.
           </h3>

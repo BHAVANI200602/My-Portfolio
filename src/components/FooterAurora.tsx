@@ -45,7 +45,7 @@ export default function FooterAurora() {
       // Clear with transparent so only blobs show
       ctx.clearRect(0, 0, W, H);
 
-      // ── LEFT corner blob (Aqua Teal / Turquoise)
+      // ── LEFT corner blob (Navy Blue / Sand Dollar)
       // Slow pulse: radius breathes in and out, locked to bottom-left
       const leftPulse = 1.0 + Math.sin(elapsed * 0.5) * 0.18;
       const leftAlpha = 0.22 + Math.sin(elapsed * 0.4) * 0.07;
@@ -55,10 +55,10 @@ export default function FooterAurora() {
         W * 0.0, H * 0.95,  0,            // inner point: bottom-left corner
         W * 0.0, H * 0.95,  leftRadius    // outer edge
       );
-      leftGrad.addColorStop(0,    `rgba(10, 173, 168, ${leftAlpha})`);       // Aqua Teal
-      leftGrad.addColorStop(0.45, `rgba(0, 212, 204, ${leftAlpha * 0.5})`);  // Bright Turquoise
-      leftGrad.addColorStop(0.8,  `rgba(0, 188, 180, 0.04)`);
-      leftGrad.addColorStop(1,    `rgba(7, 7, 7, 0)`);
+      leftGrad.addColorStop(0,    `rgba(30, 58, 138, ${leftAlpha})`);       // Navy Blue
+      leftGrad.addColorStop(0.45, `rgba(223, 213, 198, ${leftAlpha * 0.5})`); // Sand Dollar
+      leftGrad.addColorStop(0.8,  `rgba(74, 123, 181, 0.04)`);              // Steel Navy
+      leftGrad.addColorStop(1,    `rgba(5, 12, 26, 0)`);
 
       ctx.save();
       // Clip to the left third only — never lets color bleed past ~40% of width
@@ -70,7 +70,7 @@ export default function FooterAurora() {
       ctx.fillRect(0, 0, W, H);
       ctx.restore();
 
-      // ── RIGHT corner blob (Deep Cyan / Ice White)
+      // ── RIGHT corner blob (Steel Navy / Sand Dollar)
       const rightPulse  = 1.0 + Math.sin(elapsed * 0.37 + 1.3) * 0.2;
       const rightAlpha  = 0.20 + Math.sin(elapsed * 0.5 + 2.1) * 0.07;
       const rightRadius = W * 0.30 * rightPulse;
@@ -79,10 +79,10 @@ export default function FooterAurora() {
         W * 1.0, H * 0.92, 0,
         W * 1.0, H * 0.92, rightRadius
       );
-      rightGrad.addColorStop(0,    `rgba(0, 188, 212, ${rightAlpha})`);        // Deep Cyan
-      rightGrad.addColorStop(0.4,  `rgba(0, 212, 204, ${rightAlpha * 0.5})`);  // Turquoise
-      rightGrad.addColorStop(0.8,  `rgba(10, 173, 168, 0.04)`);
-      rightGrad.addColorStop(1,    `rgba(7, 7, 7, 0)`);
+      rightGrad.addColorStop(0,    `rgba(74, 123, 181, ${rightAlpha})`);       // Steel Navy
+      rightGrad.addColorStop(0.4,  `rgba(223, 213, 198, ${rightAlpha * 0.5})`); // Sand Dollar
+      rightGrad.addColorStop(0.8,  `rgba(30, 58, 138, 0.04)`);
+      rightGrad.addColorStop(1,    `rgba(5, 12, 26, 0)`);
 
       ctx.save();
       // Clip to the right third only

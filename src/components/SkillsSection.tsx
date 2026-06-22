@@ -105,7 +105,7 @@ export default function SkillsSection() {
                 transition={{ duration: 0.35, delay: 0.55 + i * 0.1 }}
               >
                 {/* Outer ring */}
-                <div className="w-3.5 h-3.5 rounded-full border border-[var(--color-neon-pink)] bg-[#070707] flex items-center justify-center">
+                <div className="w-3.5 h-3.5 rounded-full border border-[var(--color-neon-pink)] bg-[#050c1a] flex items-center justify-center">
                   {/* Inner filled dot */}
                   <div className="w-1.5 h-1.5 rounded-full bg-[var(--color-neon-pink)] opacity-80" />
                 </div>

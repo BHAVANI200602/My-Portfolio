@@ -7,8 +7,8 @@ interface PreloaderProps {
 }
 
 // Two alternating ripple colors
-const RIPPLE_1 = "#0aada8"; // Aqua Teal
-const RIPPLE_2 = "#f0fafa"; // Ice White
+const RIPPLE_1 = "#1e3a8a"; // Navy Blue
+const RIPPLE_2 = "#dfd5c6"; // Sand Dollar
 
 export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProps) {
   const [progress, setProgress] = useState(0);
@@ -60,9 +60,9 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
   }, [progress]);
 
   return (
-    <div className="fixed inset-0 w-full h-full z-50 select-none overflow-hidden bg-[#070707]">
+    <div className="fixed inset-0 w-full h-full z-50 select-none overflow-hidden bg-[#050c1a]">
 
-      {/* ── RIPPLE CIRCLE 1 (Teal) ── */}
+      {/* ── RIPPLE CIRCLE 1 (Navy Blue) ── */}
       <AnimatePresence>
         {(phase === "ripple1" || phase === "ripple2" || phase === "curtain") && (
           <motion.div
@@ -84,7 +84,7 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
         )}
       </AnimatePresence>
 
-      {/* ── RIPPLE CIRCLE 2 (Ice White) — follows teal ── */}
+      {/* ── RIPPLE CIRCLE 2 (Sand Dollar) — follows Navy Blue ── */}
       <AnimatePresence>
         {(phase === "ripple2" || phase === "curtain") && (
           <motion.div
@@ -106,13 +106,13 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
         )}
       </AnimatePresence>
 
-      {/* ── CURTAIN LIFT (teal panel sweeps up to reveal site) ── */}
+      {/* ── CURTAIN LIFT (lifts off with the same color that filled screen: Sand Dollar) ── */}
       <AnimatePresence>
         {phase === "curtain" && (
           <motion.div
             key="curtain"
             className="absolute inset-0 z-30"
-            style={{ backgroundColor: RIPPLE_1 }}
+            style={{ backgroundColor: RIPPLE_2 }}
             initial={{ y: "0%" }}
             animate={{ y: "-100%" }}
             transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1], delay: 0.15 }}
@@ -136,8 +136,8 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
                 fontSize: "clamp(3.5rem, 10vw, 7rem)",
                 color: "transparent",
                 WebkitTextFillColor: "transparent",
-                WebkitTextStroke: "1.5px #0aada8",
-                backgroundImage: "linear-gradient(to top, #0aada8 50%, transparent 50%)",
+                WebkitTextStroke: `1.5px ${RIPPLE_1}`,
+                backgroundImage: `linear-gradient(to top, ${RIPPLE_1} 50%, transparent 50%)`,
                 backgroundSize: "100% 200%",
                 backgroundPosition: `0% ${progress}%`,
                 WebkitBackgroundClip: "text",
@@ -146,7 +146,10 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
             >
               {String(progress).padStart(3, "0")}%
             </span>
-            <div className="mt-1 font-mono text-[9px] uppercase tracking-[0.3em] text-[#0aada8]/40 text-right">
+            <div 
+              className="mt-1 font-mono text-[9px] uppercase tracking-[0.3em] text-right"
+              style={{ color: `${RIPPLE_1}66` }}
+            >
               Loading
             </div>
           </motion.div>

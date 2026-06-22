@@ -27,7 +27,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
     >
       {/* Background elements */}
       <div 
-        className="absolute inset-0 bg-gradient-to-b from-[#070707] via-[#0B0F19] to-black z-0 pointer-events-none transition-opacity duration-1000"
+        className="absolute inset-0 bg-gradient-to-b from-[#050c1a] via-[#09152b] to-[#01040a] z-0 pointer-events-none transition-opacity duration-1000"
         style={{ opacity: isRevealed ? 1 : 0 }}
       />
       
@@ -40,7 +40,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       </div>
 
       <div 
-        className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#070707] pointer-events-none z-20 transition-opacity duration-1000" 
+        className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#050c1a] pointer-events-none z-20 transition-opacity duration-1000" 
         style={{ opacity: isRevealed ? 1 : 0 }}
       />
 
@@ -96,7 +96,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
                 lineHeight: 1,
                 color: "var(--color-neon-blue)",
                 letterSpacing: "-0.02em",
-                textShadow: "0 8px 40px rgba(0,0,0,0.9), 0 2px 0 rgba(0,0,0,0.6), 0 0 80px rgba(10,173,168,0.12)",
+                textShadow: "0 8px 40px rgba(0,0,0,0.9), 0 2px 0 rgba(0,0,0,0.6), 0 0 80px rgba(74, 123, 181, 0.15)",
               }}
             >
               Shankar.

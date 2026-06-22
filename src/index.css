@@ -12,18 +12,18 @@
   --font-sans: "Hanken Grotesk", sans-serif;
   --font-mono: "JetBrains Mono", sans-serif;
   
-  --color-theme: #0aada8;       /* Aqua Teal */
-  --color-accent: #f5f8f7;      /* Milk White */
-  --color-neon-pink: #00d4cc;   /* Bright Turquoise */
-  --color-neon-blue: #f0fafa;   /* Ice White */
-  --color-background-deep: #070707;
-  --color-surface-card: #0d1a1a;
-  --color-surface-card-hover: #0f2424;
+  --color-theme: #f4f6f8;         /* Soft White */
+  --color-accent: #1e3a8a;        /* Navy Blue */
+  --color-neon-pink: #dfd5c6;     /* Sand Dollar */
+  --color-neon-blue: #4a7bb5;     /* Steel Navy Blue */
+  --color-background-deep: #050c1a;
+  --color-surface-card: #0c182d;
+  --color-surface-card-hover: #122443;
 }
 
 @layer base {
   body {
-    background-color: #070707;
+    background-color: #050c1a;
     color: var(--color-theme);
     font-family: var(--font-sans);
     overflow-x: hidden;
@@ -63,6 +63,6 @@
 /* Custom selection */
 ::selection {
   background-color: var(--color-neon-pink);
-  color: #070707;
+  color: #050c1a;
 }
 
