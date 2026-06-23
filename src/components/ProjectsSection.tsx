@@ -75,7 +75,7 @@ export default function ProjectsSection() {
 
                 {/* Right Side: Info */}
                 <div className="w-full md:w-[55%] flex flex-col mt-4 md:mt-12">
-                  <p className="font-sans text-base md:text-lg text-[#010101]/70 leading-relaxed mb-8">
+                  <p className="font-sans text-base md:text-[17px] font-medium text-[#010101] leading-relaxed mb-8">
                     {project.description}
                   </p>
 
@@ -86,8 +86,8 @@ export default function ProjectsSection() {
                       </span>
                       <ul className="space-y-3">
                         {project.bulletPoints.map((pt, i) => (
-                          <li key={i} className="flex items-start gap-3 text-[15px] text-[#010101]/60 font-sans leading-snug">
-                            <span className="text-[#e70f0e] mt-0.5 shrink-0 leading-none">›</span>
+                          <li key={i} className="flex items-start gap-3 text-[15px] text-[#010101] font-sans font-medium leading-snug">
+                            <span className="text-[#e70f0e] mt-0.5 shrink-0 leading-none font-bold">›</span>
                             {pt}
                           </li>
                         ))}
@@ -97,7 +97,7 @@ export default function ProjectsSection() {
 
                   <div className="flex flex-wrap gap-2 mb-10">
                     {project.tags.map((tag) => (
-                      <span key={tag} className="font-mono text-[9px] tracking-widest uppercase px-3 py-1.5 border border-[#010101]/15 text-[#010101]/50 rounded-sm">
+                      <span key={tag} className="font-mono text-[10px] tracking-widest uppercase px-3 py-1.5 border border-[#010101]/40 text-[#010101] font-semibold rounded-sm">
                         {tag}
                       </span>
                     ))}
@@ -105,12 +105,12 @@ export default function ProjectsSection() {
 
                   <div className="flex items-center gap-4">
                     {project.githubUrl && (
-                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 font-mono text-[10px] tracking-widest uppercase text-[#010101]/70 border border-[#010101]/20 hover:border-[#010101] hover:bg-[#010101] hover:text-[#e1decc] px-5 py-3 rounded-sm transition-all duration-300">
+                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 font-mono text-[11px] tracking-widest uppercase font-semibold text-[#010101] border-2 border-[#010101]/40 hover:border-[#010101] hover:bg-[#010101] hover:text-[#e1decc] px-5 py-3 rounded-sm transition-all duration-300">
                         <Github className="w-4 h-4" /> Source
                       </a>
                     )}
                     {project.liveUrl && (
-                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 font-mono text-[10px] tracking-widest uppercase text-[#e70f0e] border border-[#e70f0e]/30 hover:border-[#e70f0e] hover:bg-[#e70f0e] hover:text-[#e1decc] px-5 py-3 rounded-sm transition-all duration-300">
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 font-mono text-[11px] tracking-widest uppercase font-semibold text-[#e70f0e] border-2 border-[#e70f0e]/50 hover:border-[#e70f0e] hover:bg-[#e70f0e] hover:text-[#e1decc] px-5 py-3 rounded-sm transition-all duration-300">
                         Live &rarr;
                       </a>
                     )}

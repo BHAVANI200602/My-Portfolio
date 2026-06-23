@@ -6,10 +6,11 @@ interface PreloaderProps {
   onDiveComplete: () => void;
 }
 
-// Two alternating ripple colors
-const RIPPLE_1 = "#474145"; // Purple Taupe
-const RIPPLE_2 = "#e70f0e"; // Ku Crimson
-const TEXT_COLOR = "#e1decc"; // Bone
+// Sequence: Ku Crimson floods the screen, then black wipes over it.
+// The curtain that lifts away is black — matching the actual page behind it.
+const RIPPLE_CRIMSON = "#e70f0e"; // Ku Crimson
+const RIPPLE_BLACK   = "#010101"; // Ink Black — same as the page bg
+const TEXT_COLOR     = "#e1decc"; // Bone
 
 export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProps) {
   const [progress, setProgress] = useState(0);
@@ -37,16 +38,16 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
   useEffect(() => {
     if (progress < 100) return;
 
-    // Small pause at 100%, then ripple 1
+    // Small pause at 100%, then crimson floods in
     const t1 = setTimeout(() => setPhase("ripple1"), 200);
-    // Ripple 2 follows ripple 1
+    // Black ripple follows — covers the crimson
     const t2 = setTimeout(() => setPhase("ripple2"), 900);
-    // Curtain lift
+    // Black curtain lifts to reveal the page
     const t3 = setTimeout(() => {
       setPhase("curtain");
       if (onDiveStart) onDiveStart();
     }, 1700);
-    // Unmount
+    // Unmount preloader
     const t4 = setTimeout(() => {
       document.body.style.overflow = "auto";
       onDiveComplete();
@@ -63,14 +64,14 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
   return (
     <div className="fixed inset-0 w-full h-full z-50 select-none overflow-hidden bg-[#010101]">
 
-      {/* ── RIPPLE CIRCLE 1 (Purple Taupe) ── */}
+      {/* ── RIPPLE 1: Ku Crimson floods in from center ── */}
       <AnimatePresence>
         {(phase === "ripple1" || phase === "ripple2" || phase === "curtain") && (
           <motion.div
             key="ripple1"
             className="absolute rounded-full"
             style={{
-              background: RIPPLE_1,
+              background: RIPPLE_CRIMSON,
               left: "50%",
               top: "50%",
               translateX: "-50%",
@@ -79,20 +80,20 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
               height: "10vw",
             }}
             initial={{ scale: 0, opacity: 1 }}
-            animate={{ scale: 30, opacity: 1 }}
-            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+            animate={{ scale: 32, opacity: 1 }}
+            transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
           />
         )}
       </AnimatePresence>
 
-      {/* ── RIPPLE CIRCLE 2 (Ku Crimson) — follows Purple Taupe ── */}
+      {/* ── RIPPLE 2: Black wipes over the crimson ── */}
       <AnimatePresence>
         {(phase === "ripple2" || phase === "curtain") && (
           <motion.div
             key="ripple2"
             className="absolute rounded-full"
             style={{
-              background: RIPPLE_2,
+              background: RIPPLE_BLACK,
               left: "50%",
               top: "50%",
               translateX: "-50%",
@@ -101,27 +102,27 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
               height: "10vw",
             }}
             initial={{ scale: 0, opacity: 1 }}
-            animate={{ scale: 30, opacity: 1 }}
-            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+            animate={{ scale: 32, opacity: 1 }}
+            transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
           />
         )}
       </AnimatePresence>
 
-      {/* ── CURTAIN LIFT (lifts off with the same color that filled screen: Ku Crimson) ── */}
+      {/* ── CURTAIN: Black slides UP — reveals the page beneath ── */}
       <AnimatePresence>
         {phase === "curtain" && (
           <motion.div
             key="curtain"
             className="absolute inset-0 z-30"
-            style={{ backgroundColor: RIPPLE_2 }}
+            style={{ backgroundColor: RIPPLE_BLACK }}
             initial={{ y: "0%" }}
             animate={{ y: "-100%" }}
-            transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1], delay: 0.15 }}
+            transition={{ duration: 1.35, ease: [0.76, 0, 0.24, 1], delay: 0.1 }}
           />
         )}
       </AnimatePresence>
 
-      {/* ── PROGRESS COUNTER — bottom right corner ── */}
+      {/* ── PROGRESS COUNTER — bottom right ── */}
       <AnimatePresence>
         {phase === "counting" && (
           <motion.div
@@ -138,7 +139,7 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
                 color: "transparent",
                 WebkitTextFillColor: "transparent",
                 WebkitTextStroke: `1.5px ${TEXT_COLOR}`,
-                backgroundImage: `linear-gradient(to top, ${TEXT_COLOR} 50%, transparent 50%)`,
+                backgroundImage: `linear-gradient(to top, ${RIPPLE_CRIMSON} 50%, ${TEXT_COLOR} 50%)`,
                 backgroundSize: "100% 200%",
                 backgroundPosition: `0% ${progress}%`,
                 WebkitBackgroundClip: "text",
@@ -147,7 +148,7 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
             >
               {String(progress).padStart(3, "0")}%
             </span>
-            <div 
+            <div
               className="mt-1 font-mono text-[9px] uppercase tracking-[0.3em] text-right"
               style={{ color: `${TEXT_COLOR}99` }}
             >
