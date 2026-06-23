@@ -60,23 +60,25 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       {/* --- BOTTOM CONTENT --- */}
       <div className="relative z-30 w-full flex flex-col mt-auto">
         
-        {/* Massive Name — linear layout bleeding out, sitting on the line */}
-        <div className="w-full flex justify-center items-end leading-none overflow-visible relative z-20" style={{ marginBottom: "-0.04em" }}>
+        {/* Massive Name */}
+        <div className="w-full flex justify-center items-end leading-none overflow-hidden relative z-20 mb-3">
           <motion.div
             initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
             animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 50, filter: "blur(10px)" }}
             transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="flex justify-center relative w-full"
           >
-            <div className="relative flex justify-center w-full">
+            <div className="relative flex justify-center w-full overflow-hidden">
               <span
-                className="font-anton uppercase tracking-tight select-none whitespace-nowrap relative z-10"
+                className="font-anton uppercase tracking-tight select-none relative z-10 text-center"
                 style={{
-                  fontSize: "clamp(6rem, 13vw, 18rem)",
-                  lineHeight: 0.8,
-                  color: "#e1decc", // Bone
+                  fontSize: "clamp(3.5rem, 12.5vw, 18rem)",
+                  lineHeight: 0.85,
+                  color: "#e1decc",
                   letterSpacing: "-0.02em",
                   textShadow: "0 8px 40px rgba(0,0,0,0.9), 0 2px 0 rgba(0,0,0,0.6)",
+                  wordBreak: "break-all",
+                  whiteSpace: "nowrap",
                 }}
               >
                 BHAVANI SHANKAR.
