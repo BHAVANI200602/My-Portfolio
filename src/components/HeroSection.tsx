@@ -142,7 +142,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         /* sits just above the footer bar — footer ~48px tall */
         style={{ bottom: "52px" }}
       >
-        <FitText text="BHAVANI SHANKAR." />
+        <FitText text="BHAVANI SHANKAR" />
       </motion.div>
 
       {/* ── FOOTER BAR — absolute bottom ── */}
@@ -150,7 +150,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         initial={{ opacity: 0 }}
         animate={isRevealed ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 1.2, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute inset-x-0 bottom-0 z-30 flex justify-between items-center px-6 md:px-12 lg:px-16 h-12 border-t border-[#e1decc]/10 text-xs font-sans font-medium tracking-widest uppercase"
+        className="absolute inset-x-0 bottom-0 z-30 flex justify-center md:justify-between items-center px-6 md:px-12 lg:px-16 h-12 border-t border-[#e1decc]/10 text-xs font-sans font-medium tracking-widest uppercase"
       >
         <span className="text-[#474145] hidden md:block">&rarr; V3.0</span>
         <div className="flex gap-6 text-[#e1decc]/70">

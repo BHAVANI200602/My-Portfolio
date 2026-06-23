@@ -78,15 +78,17 @@ const fsSource = `
     float sway = sin(warpedUV.y * 3.14 * 1.3 + t * 0.18) * 0.052
                + cos(warpedUV.y * 3.14 * 2.9 - t * 0.11) * 0.029;
 
-    // PASS 3 — DIAGONAL COLOR DRIVER
+    // PASS 3 — CONTINUOUS ROLLING COLOR DRIVER
     float mousePush = (u_mouse.x / u_res.x - 0.5) * 0.28;
-    float breathe = sin(t * 0.31) * 0.055
-                  + sin(t * 0.19) * 0.035
-                  + sin(t * 0.11) * 0.022
-                  + cos(t * 0.07) * 0.014;
+    
+    // Add a continuous time drift to make the colors roll
+    float drift = t * 0.18;
 
-    float xDriver = diagUV + w + sway + mousePush + breathe;
-    xDriver = clamp(xDriver, 0.0, 1.0);
+    float xDriver = diagUV * 1.5 + w + sway + mousePush - drift;
+    
+    // Use a mirrored wrap (triangle wave) to loop the gradient seamlessly:
+    // 0.0 -> 1.0 -> 0.0 -> 1.0 (Void -> Crimson -> Ember -> Silk -> Ember -> Crimson -> Void)
+    xDriver = abs(fract(xDriver * 0.45) * 2.0 - 1.0);
 
     // PASS 4 — 4-COLOR SMOOTH BAND REMAP
     float t0 = smoothstep(0.0,  0.4,  xDriver);
