@@ -19,13 +19,13 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
   };
 
   return (
-    <footer className="relative w-full bg-[#050c1a] border-t border-white/5 pt-28 pb-32 overflow-hidden z-20">
+    <footer className="relative w-full bg-[#010101] border-t border-white/5 pt-28 pb-32 overflow-hidden z-20">
       {/* Aurora canvas — two blobs locked to left/right corners */}
       <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
         <FooterAurora />
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-transparent via-[#050c1a]/40 to-[#050c1a] pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-gradient-to-t from-transparent via-[#010101]/40 to-[#010101] pointer-events-none z-0" />
 
       <div className="relative w-full max-w-6xl mx-auto px-6 md:px-12 flex flex-col items-center justify-center text-center z-10">
         

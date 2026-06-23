@@ -12,18 +12,18 @@
   --font-sans: "Hanken Grotesk", sans-serif;
   --font-mono: "JetBrains Mono", sans-serif;
   
-  --color-theme: #f4f6f8;         /* Soft White */
-  --color-accent: #1e3a8a;        /* Navy Blue */
-  --color-neon-pink: #dfd5c6;     /* Sand Dollar */
-  --color-neon-blue: #4a7bb5;     /* Steel Navy Blue */
-  --color-background-deep: #050c1a;
-  --color-surface-card: #0c182d;
-  --color-surface-card-hover: #122443;
+  --color-theme: #e1decc;         /* Bone */
+  --color-accent: #e70f0e;        /* Ku Crimson */
+  --color-neon-pink: #474145;     /* Purple Taupe */
+  --color-neon-blue: #010101;     /* Black */
+  --color-background-deep: #010101;
+  --color-surface-card: #0a0a0a;
+  --color-surface-card-hover: #141414;
 }
 
 @layer base {
   body {
-    background-color: #050c1a;
+    background-color: #010101;
     color: var(--color-theme);
     font-family: var(--font-sans);
     overflow-x: hidden;
@@ -48,11 +48,11 @@
 
 /* Smooth custom cursor or neon glows */
 .neon-glow-pink {
-  box-shadow: 0 0 20px rgba(241, 95, 143, 0.35);
+  box-shadow: 0 0 20px rgba(71, 65, 69, 0.35);
 }
 
 .neon-glow-blue {
-  box-shadow: 0 0 20px rgba(0, 229, 255, 0.35);
+  box-shadow: 0 0 20px rgba(231, 15, 14, 0.35);
 }
 
 #dashed-line-anim {
@@ -62,7 +62,7 @@
 
 /* Custom selection */
 ::selection {
-  background-color: var(--color-neon-pink);
-  color: #050c1a;
+  background-color: var(--color-accent);
+  color: #010101;
 }
 

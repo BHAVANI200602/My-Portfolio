@@ -58,7 +58,7 @@ export default function NavBar() {
           href="https://github.com/BHAVANI200602/My-Portfolio"
           target="_blank"
           rel="noopener noreferrer"
-          className="w-12 h-12 md:w-14 md:h-14 bg-black rounded-full flex items-center justify-center text-[#faf9f6] shadow-lg hover:scale-105 hover:bg-zinc-900 transition-all duration-300"
+          className="w-12 h-12 md:w-14 md:h-14 bg-[#474145] rounded-full flex items-center justify-center text-[#e1decc] shadow-lg hover:scale-105 hover:bg-[#e70f0e] transition-all duration-300"
           aria-label="GitHub Repository"
         >
           <Github className="w-5 h-5 md:w-6 md:h-6" />
@@ -67,7 +67,7 @@ export default function NavBar() {
         {/* Menu Toggle Button with morphing Hamburger / X */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="relative w-12 h-12 md:w-14 md:h-14 bg-black rounded-full flex items-center justify-center text-[#faf9f6] shadow-lg hover:scale-105 hover:bg-zinc-900 transition-all duration-300 outline-none"
+          className="relative w-12 h-12 md:w-14 md:h-14 bg-[#474145] rounded-full flex items-center justify-center text-[#e1decc] shadow-lg hover:scale-105 hover:bg-[#e70f0e] transition-all duration-300 outline-none"
           aria-label="Toggle Menu"
         >
           <div className="relative w-5 h-4 flex flex-col justify-between items-center">
@@ -75,19 +75,19 @@ export default function NavBar() {
             <motion.span
               animate={isOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="w-full h-0.5 bg-[#faf9f6] rounded-full origin-center"
+              className="w-full h-0.5 bg-[#e1decc] rounded-full origin-center"
             />
             {/* Middle Line */}
             <motion.span
               animate={isOpen ? { opacity: 0, x: 10 } : { opacity: 1, x: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="w-full h-0.5 bg-[#faf9f6] rounded-full"
+              className="w-full h-0.5 bg-[#e1decc] rounded-full"
             />
             {/* Bottom Line */}
             <motion.span
               animate={isOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="w-full h-0.5 bg-[#faf9f6] rounded-full origin-center"
+              className="w-full h-0.5 bg-[#e1decc] rounded-full origin-center"
             />
           </div>
         </button>
@@ -101,7 +101,7 @@ export default function NavBar() {
             animate={{ y: "0%" }}
             exit={{ y: "-100%" }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 z-[100] bg-[#050c1a] flex flex-col justify-center pl-4 pr-8 md:pl-12 md:pr-24"
+            className="fixed inset-0 z-[100] bg-[#010101] flex flex-col justify-center pl-4 pr-8 md:pl-12 md:pr-24"
           >
             <div className="flex flex-col items-start gap-4 md:gap-8 max-w-4xl">
               {NAV_LINKS.map((link, i) => (
@@ -115,7 +115,7 @@ export default function NavBar() {
                 >
                   <button
                     onClick={() => handleNavClick(link.targetId)}
-                    className="group relative text-[#f0fafa] font-anton uppercase text-5xl sm:text-7xl md:text-8xl tracking-wider text-left transition-colors hover:text-[var(--color-neon-pink)]"
+                    className="group relative text-[#e1decc] font-anton uppercase text-5xl sm:text-7xl md:text-8xl tracking-wider text-left transition-colors hover:text-[#e70f0e]"
                   >
                     {link.label}
                   </button>

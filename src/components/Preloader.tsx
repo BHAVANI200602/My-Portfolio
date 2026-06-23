@@ -7,9 +7,9 @@ interface PreloaderProps {
 }
 
 // Two alternating ripple colors
-const RIPPLE_1 = "#dfd5c6"; // Sand Dollar (Beige)
-const RIPPLE_2 = "#1e3a8a"; // Navy Blue
-const TEXT_COLOR = "#faf9f6"; // Soft White
+const RIPPLE_1 = "#474145"; // Purple Taupe
+const RIPPLE_2 = "#e70f0e"; // Ku Crimson
+const TEXT_COLOR = "#e1decc"; // Bone
 
 export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProps) {
   const [progress, setProgress] = useState(0);
@@ -61,9 +61,9 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
   }, [progress]);
 
   return (
-    <div className="fixed inset-0 w-full h-full z-50 select-none overflow-hidden bg-[#050c1a]">
+    <div className="fixed inset-0 w-full h-full z-50 select-none overflow-hidden bg-[#010101]">
 
-      {/* ── RIPPLE CIRCLE 1 (Navy Blue) ── */}
+      {/* ── RIPPLE CIRCLE 1 (Purple Taupe) ── */}
       <AnimatePresence>
         {(phase === "ripple1" || phase === "ripple2" || phase === "curtain") && (
           <motion.div
@@ -85,7 +85,7 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
         )}
       </AnimatePresence>
 
-      {/* ── RIPPLE CIRCLE 2 (Sand Dollar) — follows Navy Blue ── */}
+      {/* ── RIPPLE CIRCLE 2 (Ku Crimson) — follows Purple Taupe ── */}
       <AnimatePresence>
         {(phase === "ripple2" || phase === "curtain") && (
           <motion.div
@@ -107,7 +107,7 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
         )}
       </AnimatePresence>
 
-      {/* ── CURTAIN LIFT (lifts off with the same color that filled screen: Sand Dollar) ── */}
+      {/* ── CURTAIN LIFT (lifts off with the same color that filled screen: Ku Crimson) ── */}
       <AnimatePresence>
         {phase === "curtain" && (
           <motion.div

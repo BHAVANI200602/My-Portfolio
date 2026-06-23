@@ -55,18 +55,18 @@ export default function BackgroundShader() {
       const cycle = time * 0.18 + normX * 1.0 + layerIdx * 1.4;
 
       if (part === "primary") {
-        // Navy Blue (#1e3a8a) morphing to Steel Navy (#4a7bb5)
+        // Ku Crimson (#e70f0e) morphing to Purple Taupe (#474145)
         const mix = (Math.sin(cycle) + 1) / 2;
-        const r = Math.round(30 + mix * 44);
-        const g = Math.round(58 + mix * 65);
-        const b = Math.round(138 + mix * 43);
+        const r = Math.round(231 + mix * (71 - 231));
+        const g = Math.round(15 + mix * (65 - 15));
+        const b = Math.round(14 + mix * (69 - 14));
         return `${r}, ${g}, ${b}`;
       } else {
-        // Deep Navy (#050c1a) morphing to Sand Dollar (#dfd5c6)
+        // Black (#010101) morphing to Purple Taupe (#474145)
         const mix = (Math.cos(cycle * 0.82) + 1) / 2;
-        const r = Math.round(5 + mix * 218);
-        const g = Math.round(12 + mix * 201);
-        const b = Math.round(26 + mix * 172);
+        const r = Math.round(1 + mix * (71 - 1));
+        const g = Math.round(1 + mix * (65 - 1));
+        const b = Math.round(1 + mix * (69 - 1));
         return `${r}, ${g}, ${b}`;
       }
     }
@@ -120,14 +120,14 @@ export default function BackgroundShader() {
       const elapsed = now - startTime;
       const seconds = elapsed * 0.001;
 
-      ctx.fillStyle = "#050c1a";
+      ctx.fillStyle = "#010101";
       ctx.fillRect(0, 0, width, height);
 
       // Subtle ambient backlight from top right
       const baseGrad = ctx.createRadialGradient(width, 0, 0, width, 0, width * 0.8);
-      baseGrad.addColorStop(0, "rgba(30, 58, 138, 0.18)");
-      baseGrad.addColorStop(0.5, "rgba(223, 213, 198, 0.05)");
-      baseGrad.addColorStop(1, "rgba(5, 12, 26, 0)");
+      baseGrad.addColorStop(0, "rgba(231, 15, 14, 0.18)"); // Ku Crimson
+      baseGrad.addColorStop(0.5, "rgba(71, 65, 69, 0.05)"); // Purple Taupe
+      baseGrad.addColorStop(1, "rgba(1, 1, 1, 0)"); // Black
       ctx.fillStyle = baseGrad;
       ctx.fillRect(0, 0, width, height);
 

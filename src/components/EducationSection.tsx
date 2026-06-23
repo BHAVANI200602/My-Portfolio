@@ -8,7 +8,7 @@ export default function EducationSection() {
     <section
       id="section-2"
       ref={sectionRef}
-      className="relative min-h-screen w-full flex flex-col py-24 sm:py-32 bg-[#050c1a] border-t border-white/5 scroll-mt-10 overflow-hidden"
+      className="relative min-h-screen w-full flex flex-col py-24 sm:py-32 bg-[#010101] border-t border-[#474145]/40 scroll-mt-10 overflow-hidden"
     >
       {/* Massive Bleeding Header */}
       <div className="w-full relative mb-16 sm:mb-24 flex justify-center h-[12vw] sm:h-[15vw] items-center">
@@ -19,8 +19,8 @@ export default function EducationSection() {
             fontSize: "clamp(6rem, 18vw, 22rem)",
             lineHeight: 0.8,
             color: "transparent",
-            WebkitTextStroke: "1px #dfd5c6",
-            opacity: 0.15,
+            WebkitTextStroke: "1px #474145",
+            opacity: 0.3,
             transform: isInView ? "translateY(0)" : "translateY(50px)",
             transition: "transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.2s",
           }}
@@ -34,7 +34,7 @@ export default function EducationSection() {
           style={{
             fontSize: "clamp(6rem, 18vw, 22rem)",
             lineHeight: 0.8,
-            color: "#faf9f6",
+            color: "#e1decc",
             transform: isInView ? "translateY(0)" : "translateY(50px)",
             transition: "transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.1s, opacity 1.2s",
             opacity: isInView ? 1 : 0
@@ -48,7 +48,7 @@ export default function EducationSection() {
         {/* Editorial Sub-header */}
         <div className="flex justify-end w-full mb-16 md:mb-24">
           <p 
-            className="font-sans text-sm md:text-base text-[#dfd5c6]/80 max-w-[280px] tracking-widest leading-relaxed uppercase text-right"
+            className="font-sans text-sm md:text-base text-[#e1decc]/80 max-w-[280px] tracking-widest leading-relaxed uppercase text-right"
             style={{
               transform: isInView ? "translateY(0)" : "translateY(20px)",
               opacity: isInView ? 1 : 0,
@@ -60,13 +60,19 @@ export default function EducationSection() {
         </div>
 
         {/* Horizontal Rows */}
-        <div className="flex flex-col w-full border-t border-[#faf9f6]/20">
+        <div className="flex flex-col w-full border-t border-[#474145]">
           {EDUCATION.map((edu, idx) => {
             const delay = 0.3 + idx * 0.15;
+            
+            // Format dates (e.g., "2023 - Present" -> "2023", "Present")
+            const dates = edu.period.split(" - ");
+            const startDate = dates[0];
+            const endDate = dates.length > 1 ? dates[1] : "";
+
             return (
               <div
                 key={idx}
-                className="group relative flex flex-col md:flex-row w-full py-10 md:py-16 border-b border-[#faf9f6]/20 transition-all duration-700 hover:bg-[#1e3a8a]/10"
+                className="group relative flex flex-col md:flex-row w-full pt-6 pb-12 md:pt-8 md:pb-16 border-b border-[#474145] transition-all duration-700 hover:bg-[#e70f0e]/5"
                 style={{
                   opacity: isInView ? 1 : 0,
                   transform: isInView ? "translateY(0)" : "translateY(30px)",
@@ -74,29 +80,34 @@ export default function EducationSection() {
                 }}
               >
                 {/* 1. Year */}
-                <div className="w-full md:w-[25%] mb-6 md:mb-0 md:pr-8 flex items-start">
-                  <span className="font-sans font-light text-4xl md:text-5xl lg:text-6xl tracking-tighter text-[#dfd5c6]">
-                    {edu.period.replace(" - ", "—")}
+                <div className="w-full md:w-[25%] mb-6 md:mb-0 md:pr-8 flex flex-col items-start justify-start pt-1">
+                  <span className="font-sans font-bold text-4xl md:text-5xl lg:text-6xl tracking-tighter text-[#e1decc] leading-[0.85]">
+                    {startDate}
                   </span>
+                  {endDate && (
+                    <span className="font-sans font-bold text-4xl md:text-5xl lg:text-6xl tracking-tighter text-[#e1decc] leading-[0.85]">
+                      {endDate}
+                    </span>
+                  )}
                 </div>
 
                 {/* 2. Degree & Institution */}
-                <div className="w-full md:w-[45%] flex flex-col pr-8 mb-6 md:mb-0 justify-start">
-                  <h3 className="font-sans font-bold text-2xl md:text-3xl lg:text-4xl text-[#faf9f6] tracking-tight leading-none mb-4 group-hover:text-[#dfd5c6] transition-colors duration-500">
+                <div className="w-full md:w-[45%] flex flex-col pr-8 mb-6 md:mb-0 justify-start pt-2">
+                  <h3 className="font-sans font-bold text-2xl md:text-3xl lg:text-4xl text-[#e1decc] tracking-tight leading-none mb-4 group-hover:text-[#e70f0e] transition-colors duration-500">
                     {edu.degree}
                   </h3>
-                  <div className="font-mono text-[10px] md:text-xs text-[#050c1a] bg-[#dfd5c6] self-start px-3 py-1.5 tracking-[0.2em] uppercase font-bold">
+                  <div className="font-mono text-[10px] md:text-xs text-[#010101] bg-[#e1decc] self-start px-3 py-1.5 tracking-[0.2em] uppercase font-bold">
                     {edu.institution}
                   </div>
                 </div>
 
                 {/* 3. Location & Description */}
-                <div className="w-full md:w-[30%] flex flex-col justify-start">
-                  <div className="font-sans text-[10px] md:text-xs text-[#faf9f6]/40 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
-                    <span className="w-4 h-[1px] bg-[#faf9f6]/40 inline-block"></span>
+                <div className="w-full md:w-[30%] flex flex-col justify-start pt-2">
+                  <div className="font-sans text-[10px] md:text-xs text-[#e1decc]/40 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+                    <span className="w-4 h-[1px] bg-[#e1decc]/40 inline-block"></span>
                     {edu.location}
                   </div>
-                  <p className="font-sans font-light text-sm md:text-base text-[#faf9f6]/70 leading-relaxed max-w-sm">
+                  <p className="font-sans font-light text-sm md:text-base text-[#e1decc]/70 leading-relaxed max-w-sm">
                     {edu.description}
                   </p>
                 </div>

@@ -32,7 +32,7 @@ export default function ProjectsSection() {
   const bgColor = useTransform(
     scrollYProgress,
     [0.38, 0.48],
-    ["#050c1a", "#f4f6f8"]
+    ["#010101", "#e1decc"]
   );
 
   // Project details card transition states
@@ -65,7 +65,7 @@ export default function ProjectsSection() {
     <section
       ref={containerRef}
       id="section-4"
-      className="relative h-[350vh] md:h-[450vh] w-full bg-[#050c1a] scroll-mt-10"
+      className="relative h-[350vh] md:h-[450vh] w-full bg-[#010101] scroll-mt-10"
     >
       {/* Sticky Frame viewport wrapper handles scroll-bind offsets */}
       <motion.div
@@ -146,7 +146,7 @@ export default function ProjectsSection() {
                     className={`rounded-full border transition-all duration-500 ${
                       i === activeIndex
                         ? "w-3 h-3 border-[var(--color-neon-pink)] bg-[var(--color-neon-pink)]/30 shadow-[0_0_8px_var(--color-neon-pink)]"
-                        : "w-2 h-2 border-[#050c1a]/25 bg-transparent"
+                        : "w-2 h-2 border-[#010101]/25 bg-transparent"
                     }`}
                   />
                 </div>
@@ -177,7 +177,7 @@ export default function ProjectsSection() {
                     animate={{ y: "0%",  opacity: 1, filter: "blur(0px)" }}
                     exit={{   y: "-65%", opacity: 0, filter: "blur(6px)" }}
                     transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
-                    className="font-anton uppercase leading-[0.88] tracking-tight text-[#050c1a]"
+                    className="font-anton uppercase leading-[0.88] tracking-tight text-[#010101]"
                     style={{ fontSize: "clamp(2.2rem, 4.6vw, 5.2rem)" }}
                   >
                     {activeProject.title}
@@ -194,7 +194,7 @@ export default function ProjectsSection() {
                     animate={{ y: "0%",  opacity: 0.5  }}
                     exit={{   y: "-80%", opacity: 0    }}
                     transition={{ duration: 0.5, delay: 0.07, ease: [0.22, 1, 0.36, 1] }}
-                    className="font-mono text-[9px] tracking-[0.22em] text-[#050c1a] uppercase"
+                    className="font-mono text-[9px] tracking-[0.22em] text-[#010101] uppercase"
                   >
                     {activeProject.subtitle}
                   </motion.p>
@@ -209,7 +209,7 @@ export default function ProjectsSection() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -6 }}
                   transition={{ duration: 0.38, delay: 0.14 }}
-                  className="inline-block mt-4 md:mt-8 font-mono text-[9px] tracking-widest uppercase text-[#050c1a]/50 border border-[#050c1a]/18 px-2.5 py-1 rounded-sm w-fit"
+                  className="inline-block mt-4 md:mt-8 font-mono text-[9px] tracking-widest uppercase text-[#010101]/50 border border-[#010101]/18 px-2.5 py-1 rounded-sm w-fit"
                 >
                   {activeProject.year}
                 </motion.span>
@@ -226,7 +226,7 @@ export default function ProjectsSection() {
               >
                 {/* Curtain */}
                 <motion.div
-                  className="absolute inset-0 bg-[#f4f6f8] z-20 origin-left"
+                  className="absolute inset-0 bg-[#e1decc] z-20 origin-left"
                   initial={{ scaleX: 1 }}
                   animate={{
                     scaleX: 0,
@@ -239,7 +239,7 @@ export default function ProjectsSection() {
                 />
 
                 <div className="relative z-10 w-full max-w-lg">
-                  <p className="font-sans text-sm md:text-[15px] text-[#050c1a]/60 leading-relaxed mb-6">
+                  <p className="font-sans text-sm md:text-[15px] text-[#010101]/60 leading-relaxed mb-6">
                     {activeProject.description}
                   </p>
 
@@ -250,7 +250,7 @@ export default function ProjectsSection() {
                       </span>
                       <ul className="space-y-2">
                         {activeProject.bulletPoints.slice(0, 3).map((pt, i) => (
-                          <li key={i} className="flex items-start gap-2.5 text-sm text-[#050c1a]/55 font-sans leading-snug">
+                          <li key={i} className="flex items-start gap-2.5 text-sm text-[#010101]/55 font-sans leading-snug">
                             <span className="text-[var(--color-neon-pink)] mt-0.5 shrink-0 leading-none">›</span>
                             {pt}
                           </li>
@@ -263,7 +263,7 @@ export default function ProjectsSection() {
                     {activeProject.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="font-mono text-[8px] tracking-wider uppercase px-2.5 py-1 border border-[#050c1a]/15 text-[#050c1a]/40 rounded-sm"
+                        className="font-mono text-[8px] tracking-wider uppercase px-2.5 py-1 border border-[#010101]/15 text-[#010101]/40 rounded-sm"
                       >
                         {tag}
                       </span>
@@ -276,7 +276,7 @@ export default function ProjectsSection() {
                         href={activeProject.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 font-mono text-[9px] tracking-widest uppercase text-[#050c1a]/65 border border-[#050c1a]/22 hover:border-[#050c1a] px-4 py-2.5 rounded-sm transition-all duration-300 hover:bg-[#050c1a]/5"
+                        className="inline-flex items-center gap-2 font-mono text-[9px] tracking-widest uppercase text-[#010101]/65 border border-[#010101]/22 hover:border-[#010101] px-4 py-2.5 rounded-sm transition-all duration-300 hover:bg-[#010101]/5"
                       >
                         <Github className="w-3.5 h-3.5" />
                         Source
