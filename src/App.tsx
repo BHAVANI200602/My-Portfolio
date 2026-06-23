@@ -5,7 +5,6 @@
 
 import { useState } from "react";
 import Preloader from "./components/Preloader";
-import DashedScrollLine from "./components/DashedScrollLine";
 import HeroSection from "./components/HeroSection";
 import EducationSection from "./components/EducationSection";
 import SkillsSection from "./components/SkillsSection";
@@ -56,8 +55,6 @@ export default function App() {
           pointerEvents: isDived ? "auto" : "none",
         }}
       >
-        <DashedScrollLine />
-
         <main className="w-full flex-grow flex flex-col items-center">
           <HeroSection isDived={isDived} />
           <EducationSection />

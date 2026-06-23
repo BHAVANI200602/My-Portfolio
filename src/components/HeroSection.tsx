@@ -24,7 +24,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
   return (
     <section
       id="section-1"
-      className="relative min-h-screen w-full flex flex-col justify-between overflow-hidden px-6 md:px-12 lg:px-16 pt-32 pb-8 z-10 bg-[#010101]"
+      className="relative min-h-screen w-full flex flex-col justify-between overflow-hidden pt-32 pb-8 z-10 bg-[#010101]"
     >
       {/* Background elements */}
       <div 
@@ -46,7 +46,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       />
 
       {/* --- TOP CONTENT --- */}
-      <div className="relative z-30 w-full max-w-sm">
+      <div className="relative z-30 w-full max-w-sm px-6 md:px-12 lg:px-16">
         <motion.p 
           initial={{ opacity: 0, y: 15, filter: "blur(4px)" }}
           animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 15, filter: "blur(4px)" }}
@@ -58,47 +58,40 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       </div>
 
       {/* --- BOTTOM CONTENT --- */}
-      <div className="relative z-30 w-full flex flex-col mt-auto">
-        
-        {/* Massive Name */}
-        <div className="w-full flex justify-center items-end leading-none overflow-hidden relative z-20 mb-3">
-          <motion.div
-            initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
-            animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 50, filter: "blur(10px)" }}
-            transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="flex justify-center relative w-full"
-          >
-            <div className="relative flex justify-center w-full overflow-hidden">
-              <span
-                className="font-anton uppercase tracking-tight select-none relative z-10 text-center whitespace-nowrap"
-                style={{
-                  fontSize: "clamp(2rem, 9.5vw, 16rem)",
-                  lineHeight: 0.85,
-                  color: "#e1decc",
-                  letterSpacing: "-0.02em",
-                  textShadow: "0 8px 40px rgba(0,0,0,0.9), 0 2px 0 rgba(0,0,0,0.6)",
-                }}
-              >
-                BHAVANI SHANKAR.
-              </span>
-            </div>
-          </motion.div>
-        </div>
+      <div className="relative z-30 w-full flex flex-col mt-auto px-6 md:px-8 lg:px-10">
 
-        {/* Separator Line */}
-        <motion.div 
-          initial={{ scaleX: 0, opacity: 0 }}
-          animate={isRevealed ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }}
-          transition={{ duration: 1.5, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full h-[1px] bg-[#e1decc]/20 mb-6 origin-left"
-        />
+        {/* Massive Edge-to-Edge Name */}
+        <motion.div
+          initial={{ opacity: 0, y: 60, filter: "blur(12px)" }}
+          animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 60, filter: "blur(12px)" }}
+          transition={{ duration: 1.4, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="w-full overflow-hidden leading-none mb-2"
+        >
+          <span
+            className="font-anton uppercase block w-full whitespace-nowrap select-none"
+            style={{
+              fontSize: "clamp(3.2rem, 11.8vw, 16rem)",
+              lineHeight: 0.82,
+              color: "#e1decc",
+              letterSpacing: "-0.03em",
+              textShadow: "0 4px 32px rgba(0,0,0,0.85), 0 1px 0 rgba(0,0,0,0.5)",
+              paddingLeft: "0",
+              paddingRight: "0",
+              /* Scale to exactly fill the viewport */
+              display: "block",
+              textAlign: "left",
+            }}
+          >
+            BHAVANI SHANKAR.
+          </span>
+        </motion.div>
 
         {/* Sub-footer Layout */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
           transition={{ duration: 1.2, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-sans font-medium tracking-widest text-[#474145] uppercase"
+          className="w-full flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-sans font-medium tracking-widest text-[#474145] uppercase pt-3 border-t border-[#e1decc]/10"
         >
           {/* Version / Tag */}
           <div className="flex-1 text-left hidden md:block">
@@ -114,7 +107,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
             <a href={PERSONAL_BIO.leetcode} target="_blank" rel="noopener noreferrer" className="hover:text-[#e70f0e] transition-colors">LEETCODE</a>
           </div>
         </motion.div>
-        
+
       </div>
     </section>
   );

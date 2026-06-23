@@ -60,27 +60,32 @@ const fsSource = `
     vec2 warpedUV = uv + warpVec;
 
     // PASS 2 — PRIMARY WAVE STACK
+    // Diagonal driver: top-left corner = 0 (void/crimson), bottom-right = 1 (silk)
+    // Mix x and y such that top-left is dark and bottom-right is warm
+    float diagUV = (warpedUV.x * 0.6 + (1.0 - warpedUV.y) * 0.4);
+
     float yInfluence = clamp(u_mouse.y / u_res.y, 0.0, 1.0);
-    float waveScale = mix(0.65, 1.35, yInfluence);
+    float waveScale = mix(0.8, 1.6, yInfluence);
 
     float w = 0.0;
-    w += sin(warpedUV.x * 6.283 * 1.0  - t * 0.44) * 0.072;
-    w += sin(warpedUV.x * 6.283 * 2.3  + t * 0.31) * 0.051;
-    w += cos(warpedUV.x * 6.283 * 3.7  - t * 0.23) * 0.038;
-    w += sin(warpedUV.x * 6.283 * 5.1  + t * 0.17) * 0.026;
-    w += cos(warpedUV.x * 6.283 * 7.9  - t * 0.12) * 0.018;
+    w += sin(diagUV * 6.283 * 1.0  - t * 0.55) * 0.095;
+    w += sin(diagUV * 6.283 * 2.3  + t * 0.38) * 0.068;
+    w += cos(diagUV * 6.283 * 3.7  - t * 0.28) * 0.051;
+    w += sin(diagUV * 6.283 * 5.1  + t * 0.21) * 0.034;
+    w += cos(diagUV * 6.283 * 7.9  - t * 0.15) * 0.022;
     w *= waveScale;
 
-    float sway = sin(warpedUV.y * 3.14 * 1.3 + t * 0.14) * 0.038
-               + cos(warpedUV.y * 3.14 * 2.9 - t * 0.09) * 0.021;
+    float sway = sin(warpedUV.y * 3.14 * 1.3 + t * 0.18) * 0.052
+               + cos(warpedUV.y * 3.14 * 2.9 - t * 0.11) * 0.029;
 
-    // PASS 3 — HORIZONTAL COLOR DRIVER
-    float mousePush = (u_mouse.x / u_res.x - 0.5) * 0.22;
-    float breathe = sin(t * 0.21) * 0.038
-                  + sin(t * 0.13) * 0.022
-                  + sin(t * 0.07) * 0.014;
+    // PASS 3 — DIAGONAL COLOR DRIVER
+    float mousePush = (u_mouse.x / u_res.x - 0.5) * 0.28;
+    float breathe = sin(t * 0.31) * 0.055
+                  + sin(t * 0.19) * 0.035
+                  + sin(t * 0.11) * 0.022
+                  + cos(t * 0.07) * 0.014;
 
-    float xDriver = warpedUV.x + w + sway + mousePush + breathe;
+    float xDriver = diagUV + w + sway + mousePush + breathe;
     xDriver = clamp(xDriver, 0.0, 1.0);
 
     // PASS 4 — 4-COLOR SMOOTH BAND REMAP
@@ -109,11 +114,12 @@ const fsSource = `
     float causMask = smoothstep(0.2, 0.5, xDriver) * smoothstep(0.9, 0.5, xDriver);
     col += vec3(caustic * 0.9, caustic * 0.3, 0.0) * causMask;
 
-    // PASS 7 — DEPTH PULSE
+    // PASS 7 — DEPTH PULSE (more alive)
     float pulse = 1.0
-      + sin(t * 0.28) * 0.018
-      + sin(t * 0.17) * 0.011
-      + sin(t * 0.09) * 0.007;
+      + sin(t * 0.41) * 0.032
+      + sin(t * 0.27) * 0.021
+      + sin(t * 0.13) * 0.013
+      + cos(t * 0.08) * 0.009;
 
     col *= pulse;
 

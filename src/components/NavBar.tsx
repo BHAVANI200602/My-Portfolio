@@ -58,7 +58,7 @@ export default function NavBar() {
           href="https://github.com/BHAVANI200602/My-Portfolio"
           target="_blank"
           rel="noopener noreferrer"
-          className="w-12 h-12 md:w-14 md:h-14 bg-[#474145] rounded-full flex items-center justify-center text-[#e1decc] shadow-lg hover:scale-105 hover:bg-[#e70f0e] transition-all duration-300"
+          className="w-12 h-12 md:w-14 md:h-14 bg-[#000000] rounded-full flex items-center justify-center text-[#e1decc] shadow-lg hover:scale-105 hover:bg-[#e70f0e] transition-all duration-300"
           aria-label="GitHub Repository"
         >
           <Github className="w-5 h-5 md:w-6 md:h-6" />
@@ -67,7 +67,7 @@ export default function NavBar() {
         {/* Menu Toggle Button with morphing Hamburger / X */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="relative w-12 h-12 md:w-14 md:h-14 bg-[#474145] rounded-full flex items-center justify-center text-[#e1decc] shadow-lg hover:scale-105 hover:bg-[#e70f0e] transition-all duration-300 outline-none"
+          className="relative w-12 h-12 md:w-14 md:h-14 bg-[#000000] rounded-full flex items-center justify-center text-[#e1decc] shadow-lg hover:scale-105 hover:bg-[#e70f0e] transition-all duration-300 outline-none"
           aria-label="Toggle Menu"
         >
           <div className="relative w-5 h-4 flex flex-col justify-between items-center">
