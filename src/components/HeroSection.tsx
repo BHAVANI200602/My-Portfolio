@@ -58,7 +58,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       </div>
 
       {/* --- BOTTOM CONTENT --- */}
-      <div className="relative z-30 w-full flex flex-col mt-auto px-6 md:px-8 lg:px-10">
+      <div className="relative z-30 w-full flex flex-col mt-auto">
 
         {/* Massive Edge-to-Edge Name */}
         <motion.div
@@ -70,16 +70,13 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
           <span
             className="font-anton uppercase block w-full whitespace-nowrap select-none"
             style={{
-              fontSize: "clamp(3.2rem, 11.8vw, 16rem)",
+              fontSize: "clamp(2.5rem, 9.2vw, 16rem)",
               lineHeight: 0.82,
               color: "#e1decc",
               letterSpacing: "-0.03em",
               textShadow: "0 4px 32px rgba(0,0,0,0.85), 0 1px 0 rgba(0,0,0,0.5)",
-              paddingLeft: "0",
-              paddingRight: "0",
-              /* Scale to exactly fill the viewport */
+              textAlign: "center",
               display: "block",
-              textAlign: "left",
             }}
           >
             BHAVANI SHANKAR.
@@ -87,6 +84,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         </motion.div>
 
         {/* Sub-footer Layout */}
+        <div className="px-6 md:px-10 lg:px-14">
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
@@ -107,6 +105,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
             <a href={PERSONAL_BIO.leetcode} target="_blank" rel="noopener noreferrer" className="hover:text-[#e70f0e] transition-colors">LEETCODE</a>
           </div>
         </motion.div>
+        </div>
 
       </div>
     </section>
