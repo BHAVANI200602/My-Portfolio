@@ -50,7 +50,7 @@ const fsSource = `
 
   void main() {
     vec2 uv = v_uv;
-    float t = u_time * mix(1.0, u_speed, 0.35);
+    float t = u_time;
 
     // PASS 1 — FBM DOMAIN WARP
     vec2 warpVec = vec2(
@@ -211,9 +211,13 @@ export default function WebGLHeroShader() {
     window.addEventListener("mousemove", handleMouseMove);
 
     let rafId: number;
-    let startTime = performance.now();
+    let lastTime = performance.now();
+    let currentT = 0;
 
     const render = (now: number) => {
+      let dt = (now - lastTime) * 0.001;
+      lastTime = now;
+
       if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -237,11 +241,16 @@ export default function WebGLHeroShader() {
       posX += velX;
       posY += velY;
 
+      // Dramatically lower the multiplier so it doesn't cause manic speed
       const rawSpeed = Math.hypot(velX, velY);
-      targetSpeed += (rawSpeed * 12.0 - targetSpeed) * 0.08;
+      targetSpeed += (rawSpeed * 0.1 - targetSpeed) * 0.08;
       targetSpeed *= 0.94;
 
-      gl.uniform1f(uTimeLoc, (now - startTime) * 0.001);
+      // Integrate time smoothly to prevent time-jumping
+      let speedMultiplier = 1.0 + targetSpeed;
+      currentT += dt * speedMultiplier;
+
+      gl.uniform1f(uTimeLoc, currentT);
       gl.uniform2f(uResLoc, canvas.width, canvas.height);
       gl.uniform2f(uMouseLoc, posX, posY);
       gl.uniform1f(uSpeedLoc, targetSpeed);
