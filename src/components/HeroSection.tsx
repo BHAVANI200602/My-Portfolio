@@ -7,37 +7,84 @@ interface HeroSectionProps {
   isDived?: boolean;
 }
 
-/** Scales its children to exactly fill the parent width */
-function FitText({ children, className }: { children: string; className?: string }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLSpanElement>(null);
+/**
+ * Scales text to exactly fill its parent width.
+ * Uses a hidden fixed-position span for measurement so
+ * overflow:hidden on any ancestor never interferes.
+ */
+function FitText({ text }: { text: string }) {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const visibleRef = useRef<HTMLSpanElement>(null);
+  const measureRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const fit = () => {
-      const container = containerRef.current;
-      const text = textRef.current;
-      if (!container || !text) return;
-      // Reset to a known size, measure, then scale
-      text.style.fontSize = "100px";
-      const naturalWidth = text.scrollWidth;
-      const containerWidth = container.offsetWidth;
-      const newSize = (containerWidth / naturalWidth) * 100;
-      text.style.fontSize = `${newSize}px`;
+      const wrapper = wrapperRef.current;
+      const visible = visibleRef.current;
+      const measure = measureRef.current;
+      if (!wrapper || !visible || !measure) return;
+
+      const wrapperWidth = wrapper.offsetWidth;
+      if (wrapperWidth === 0) return;
+
+      // Measure natural width at 100px in a fixed (unclipped) span
+      measure.style.fontSize = "100px";
+      const naturalWidth = measure.offsetWidth;
+      if (naturalWidth === 0) return;
+
+      const scale = wrapperWidth / naturalWidth;
+      visible.style.fontSize = `${scale * 100}px`;
     };
 
-    fit();
+    // Fire after fonts are guaranteed loaded
+    document.fonts.ready.then(fit);
+
     const ro = new ResizeObserver(fit);
-    if (containerRef.current) ro.observe(containerRef.current);
+    if (wrapperRef.current) ro.observe(wrapperRef.current);
     return () => ro.disconnect();
-  }, []);
+  }, [text]);
+
+  const sharedStyle: React.CSSProperties = {
+    fontFamily: "'Anton', sans-serif",
+    textTransform: "uppercase",
+    letterSpacing: "-0.03em",
+    whiteSpace: "nowrap",
+    lineHeight: 0.85,
+    fontWeight: 400,
+  };
 
   return (
-    <div ref={containerRef} className="w-full overflow-hidden">
+    <div ref={wrapperRef} className="w-full overflow-hidden">
+      {/* Off-screen measurement clone — never visible, never clipped */}
       <span
-        ref={textRef}
-        className={`font-anton uppercase whitespace-nowrap select-none leading-none block ${className ?? ""}`}
+        ref={measureRef}
+        aria-hidden
+        style={{
+          ...sharedStyle,
+          position: "fixed",
+          top: "-9999px",
+          left: "-9999px",
+          visibility: "hidden",
+          fontSize: "100px",
+          display: "block",
+        }}
       >
-        {children}
+        {text}
+      </span>
+
+      {/* The actual rendered text */}
+      <span
+        ref={visibleRef}
+        style={{
+          ...sharedStyle,
+          display: "block",
+          textAlign: "center",
+          color: "#e1decc",
+          userSelect: "none",
+          fontSize: "10px", // tiny default until fit() runs
+        }}
+      >
+        {text}
       </span>
     </div>
   );
@@ -58,7 +105,8 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
   return (
     <section
       id="section-1"
-      className="relative h-screen w-full overflow-hidden bg-[#000000] flex flex-col"
+      className="relative w-full overflow-hidden bg-[#000000]"
+      style={{ height: "100svh" }}
     >
       {/* ── SHADER BACKGROUND ── */}
       <div
@@ -68,41 +116,41 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         <WebGLHeroShader />
       </div>
 
-      {/* Bottom fade */}
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#010101] to-transparent pointer-events-none z-10" />
+      {/* Bottom vignette */}
+      <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#010101] to-transparent pointer-events-none z-10" />
 
       {/* ── BIO — top-left ── */}
       <motion.p
         initial={{ opacity: 0, y: 15, filter: "blur(4px)" }}
-        animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 15, filter: "blur(4px)" }}
+        animate={isRevealed
+          ? { opacity: 1, y: 0, filter: "blur(0px)" }
+          : { opacity: 0, y: 15, filter: "blur(4px)" }}
         transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-20 mt-32 ml-6 md:ml-12 lg:ml-16 max-w-[240px] text-[#e1decc]/80 font-sans text-sm leading-relaxed tracking-wide font-light flex-shrink-0"
+        className="absolute top-28 left-6 md:left-12 lg:left-16 z-20 max-w-[240px] text-[#e1decc]/80 font-sans text-sm leading-relaxed tracking-wide font-light"
       >
         {PERSONAL_BIO.aboutMe}
       </motion.p>
 
-      {/* ── SPACER pushes name to bottom ── */}
-      <div className="flex-1" />
-
-      {/* ── MASSIVE NAME — fills full width, sits above footer ── */}
+      {/* ── MASSIVE NAME — centered, just above footer ── */}
       <motion.div
         initial={{ opacity: 0, y: 40, filter: "blur(12px)" }}
-        animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 40, filter: "blur(12px)" }}
+        animate={isRevealed
+          ? { opacity: 1, y: 0, filter: "blur(0px)" }
+          : { opacity: 0, y: 40, filter: "blur(12px)" }}
         transition={{ duration: 1.4, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-20 w-full px-2"
-        style={{ marginBottom: "0.25rem" }}
+        className="absolute inset-x-0 z-20"
+        /* sits just above the footer bar — footer ~48px tall */
+        style={{ bottom: "52px" }}
       >
-        <FitText className="text-[#e1decc]">
-          BHAVANI SHANKAR.
-        </FitText>
+        <FitText text="BHAVANI SHANKAR." />
       </motion.div>
 
-      {/* ── FOOTER BAR — pinned below name ── */}
+      {/* ── FOOTER BAR — absolute bottom ── */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={isRevealed ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 1.2, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-30 flex justify-between items-center px-6 md:px-12 lg:px-16 py-4 border-t border-[#e1decc]/10 text-xs font-sans font-medium tracking-widest uppercase flex-shrink-0"
+        className="absolute inset-x-0 bottom-0 z-30 flex justify-between items-center px-6 md:px-12 lg:px-16 h-12 border-t border-[#e1decc]/10 text-xs font-sans font-medium tracking-widest uppercase"
       >
         <span className="text-[#474145] hidden md:block">&rarr; V3.0</span>
         <div className="flex gap-6 text-[#e1decc]/70">
