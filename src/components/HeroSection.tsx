@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, useScroll, useVelocity, useSpring, useTransform } from "motion/react";
+import { motion } from "motion/react";
 import { PERSONAL_BIO } from "../data";
 import WebGLHeroShader from "./WebGLHeroShader";
 
@@ -9,8 +9,6 @@ interface HeroSectionProps {
 
 export default function HeroSection({ isDived = false }: HeroSectionProps) {
   const [isRevealed, setIsRevealed] = useState(false);
-
-  // We removed the Chromatic Aberration & Lens Distortion hooks per user request
 
   useEffect(() => {
     if (isDived) {
@@ -24,90 +22,75 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
   return (
     <section
       id="section-1"
-      className="relative min-h-screen w-full flex flex-col justify-between overflow-hidden pt-32 pb-8 z-10 bg-[#010101]"
+      className="relative h-screen w-full overflow-hidden bg-[#000000]"
     >
-      {/* Background elements */}
-      <div 
-        className="absolute inset-0 bg-gradient-to-b from-[#010101] via-[#050505] to-[#010101] z-0 pointer-events-none transition-opacity duration-1000"
-        style={{ opacity: isRevealed ? 1 : 0 }}
-      />
-      
-      {/* Interactive WebGL Shader Background */}
-      <div 
-        className="absolute inset-0 z-10 pointer-events-none transition-opacity duration-1000"
+      {/* ── SHADER BACKGROUND (full bleed, z-0) ── */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none transition-opacity duration-1000"
         style={{ opacity: isRevealed ? 1 : 0 }}
       >
         <WebGLHeroShader />
       </div>
 
-      <div 
-        className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#010101] pointer-events-none z-20 transition-opacity duration-1000" 
+      {/* Bottom fade so the page transition is smooth */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#010101] to-transparent pointer-events-none z-10"
         style={{ opacity: isRevealed ? 1 : 0 }}
       />
 
-      {/* --- TOP CONTENT --- */}
-      <div className="relative z-30 w-full max-w-sm px-6 md:px-12 lg:px-16">
-        <motion.p 
-          initial={{ opacity: 0, y: 15, filter: "blur(4px)" }}
-          animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 15, filter: "blur(4px)" }}
-          transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="text-[#e1decc] opacity-80 font-sans text-sm leading-relaxed tracking-wide font-light"
+      {/* ── BIO — top-left corner ── */}
+      <motion.p
+        initial={{ opacity: 0, y: 15, filter: "blur(4px)" }}
+        animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 15, filter: "blur(4px)" }}
+        transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute top-32 left-6 md:left-12 lg:left-16 z-20 max-w-[260px] text-[#e1decc]/80 font-sans text-sm leading-relaxed tracking-wide font-light"
+      >
+        {PERSONAL_BIO.aboutMe}
+      </motion.p>
+
+      {/* ── MASSIVE NAME — absolutely centered over the shader ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 50, filter: "blur(16px)" }}
+        animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 50, filter: "blur(16px)" }}
+        transition={{ duration: 1.4, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute inset-x-0 bottom-16 z-20 flex items-end justify-center px-2"
+      >
+        <span
+          className="font-anton uppercase select-none text-center whitespace-nowrap"
+          style={{
+            /* Scale from 3rem (very small screen) up to fill 100vw */
+            fontSize: "clamp(3rem, 16vw, 22rem)",
+            lineHeight: 0.85,
+            color: "#e1decc",
+            letterSpacing: "-0.03em",
+            textShadow:
+              "0 0 80px rgba(0,0,0,0.9), 0 8px 40px rgba(0,0,0,0.8), 0 2px 0 rgba(0,0,0,0.6)",
+            display: "block",
+          }}
         >
-          {PERSONAL_BIO.aboutMe}
-        </motion.p>
-      </div>
+          BHAVANI SHANKAR.
+        </span>
+      </motion.div>
 
-      {/* --- BOTTOM CONTENT --- */}
-      <div className="relative z-30 w-full flex flex-col mt-auto">
+      {/* ── FOOTER BAR — pinned to very bottom ── */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={isRevealed ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 1.2, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute inset-x-0 bottom-0 z-30 flex justify-between items-center px-6 md:px-12 lg:px-16 pb-6 text-xs font-sans font-medium tracking-widest uppercase"
+      >
+        {/* Version */}
+        <span className="text-[#474145] hidden md:block">&rarr; V3.0</span>
 
-        {/* Massive Edge-to-Edge Name */}
-        <motion.div
-          initial={{ opacity: 0, y: 60, filter: "blur(12px)" }}
-          animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 60, filter: "blur(12px)" }}
-          transition={{ duration: 1.4, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full overflow-hidden leading-none mb-2"
-        >
-          <span
-            className="font-anton uppercase block w-full whitespace-nowrap select-none"
-            style={{
-              fontSize: "clamp(2.5rem, 9.2vw, 16rem)",
-              lineHeight: 0.82,
-              color: "#e1decc",
-              letterSpacing: "-0.03em",
-              textShadow: "0 4px 32px rgba(0,0,0,0.85), 0 1px 0 rgba(0,0,0,0.5)",
-              textAlign: "center",
-              display: "block",
-            }}
-          >
-            BHAVANI SHANKAR.
-          </span>
-        </motion.div>
-
-        {/* Sub-footer Layout */}
-        <div className="px-6 md:px-10 lg:px-14">
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
-          transition={{ duration: 1.2, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-sans font-medium tracking-widest text-[#474145] uppercase pt-3 border-t border-[#e1decc]/10"
-        >
-          {/* Version / Tag */}
-          <div className="flex-1 text-left hidden md:block">
-            &rarr; V3.0
-          </div>
-
-          {/* Social Links */}
-          <div className="flex-1 flex justify-center md:justify-end gap-6 text-[#e1decc] opacity-70">
-            <a href={PERSONAL_BIO.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#e70f0e] transition-colors">LINKEDIN</a>
-            <span className="opacity-30 text-[#474145]">·</span>
-            <a href={PERSONAL_BIO.github} target="_blank" rel="noopener noreferrer" className="hover:text-[#e70f0e] transition-colors">GITHUB</a>
-            <span className="opacity-30 text-[#474145]">·</span>
-            <a href={PERSONAL_BIO.leetcode} target="_blank" rel="noopener noreferrer" className="hover:text-[#e70f0e] transition-colors">LEETCODE</a>
-          </div>
-        </motion.div>
+        {/* Social Links */}
+        <div className="flex gap-6 text-[#e1decc]/70">
+          <a href={PERSONAL_BIO.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#e70f0e] transition-colors">LINKEDIN</a>
+          <span className="text-[#474145]/40">·</span>
+          <a href={PERSONAL_BIO.github} target="_blank" rel="noopener noreferrer" className="hover:text-[#e70f0e] transition-colors">GITHUB</a>
+          <span className="text-[#474145]/40">·</span>
+          <a href={PERSONAL_BIO.leetcode} target="_blank" rel="noopener noreferrer" className="hover:text-[#e70f0e] transition-colors">LEETCODE</a>
         </div>
-
-      </div>
+      </motion.div>
     </section>
   );
 }
