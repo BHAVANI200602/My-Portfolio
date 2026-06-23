@@ -12,7 +12,7 @@ import SkillsSection from "./components/SkillsSection";
 import ProjectsSection from "./components/ProjectsSection";
 import FooterSection from "./components/FooterSection";
 import NavBar from "./components/NavBar";
-import BarrelLens from "./components/LensDistortion";
+import ScrollBlur from "./components/LensDistortion";
 
 export default function App() {
   const [isDived, setIsDived] = useState(false);
@@ -32,23 +32,23 @@ export default function App() {
         />
       )}
 
-      {/* Global barrel lens overlay — position:fixed canvas, paints curved edges on scroll */}
-      {isDived && <BarrelLens />}
+      {/* Bottom blur overlay — blurs incoming content, clears as it scrolls up */}
+      {isDived && <ScrollBlur />}
 
       {/* Navigation Bar */}
-      <div 
+      <div
         style={{
           opacity: isDived ? 1 : 0,
           visibility: isDived ? "visible" : "hidden",
           pointerEvents: isDived ? "auto" : "none",
-          transition: "opacity 1s ease-in-out"
+          transition: "opacity 1s ease-in-out",
         }}
       >
         <NavBar />
       </div>
 
       {/* Main Portfolio Framework */}
-      <div 
+      <div
         className="w-full relative min-h-screen flex flex-col justify-between bg-[#010101] text-[var(--color-theme)] transition-opacity duration-1000 ease-in-out select-none"
         style={{
           opacity: isDived ? 1 : 0,
@@ -56,10 +56,8 @@ export default function App() {
           pointerEvents: isDived ? "auto" : "none",
         }}
       >
-        {/* Tracking dash indicator vector */}
         <DashedScrollLine />
 
-        {/* Section index layouts — no filter wrappers, barrel lens is a global overlay */}
         <main className="w-full flex-grow flex flex-col items-center">
           <HeroSection isDived={isDived} />
           <EducationSection />

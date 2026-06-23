@@ -34,7 +34,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       
       {/* Interactive WebGL Shader Background */}
       <div 
-        className="absolute inset-0 z-10 opacity-70 pointer-events-none transition-opacity duration-1000 mix-blend-screen"
+        className="absolute inset-0 z-10 pointer-events-none transition-opacity duration-1000"
         style={{ opacity: isRevealed ? 1 : 0 }}
       >
         <BackgroundShader />

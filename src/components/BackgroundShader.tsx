@@ -55,18 +55,18 @@ export default function BackgroundShader() {
       const cycle = time * 0.18 + normX * 1.0 + layerIdx * 1.4;
 
       if (part === "primary") {
-        // Ku Crimson (#e70f0e) morphing to Purple Taupe (#474145)
+        // Top section: Bone (#e1decc) — bright warm off-white, very visible on screen blend
         const mix = (Math.sin(cycle) + 1) / 2;
-        const r = Math.round(231 + mix * (71 - 231));
-        const g = Math.round(15 + mix * (65 - 15));
-        const b = Math.round(14 + mix * (69 - 14));
+        const r = Math.round(225 + mix * (231 - 225)); // stays warm
+        const g = Math.round(222 + mix * (15 - 222));  // Bone green → Crimson green
+        const b = Math.round(204 + mix * (14 - 204));  // Bone blue → Crimson blue
         return `${r}, ${g}, ${b}`;
       } else {
-        // Black (#010101) morphing to Purple Taupe (#474145)
+        // Bottom section: Ku Crimson (#e70f0e) deep red glow
         const mix = (Math.cos(cycle * 0.82) + 1) / 2;
-        const r = Math.round(1 + mix * (71 - 1));
-        const g = Math.round(1 + mix * (65 - 1));
-        const b = Math.round(1 + mix * (69 - 1));
+        const r = Math.round(231 + mix * (180 - 231)); // stays red
+        const g = Math.round(15 + mix * (8 - 15));
+        const b = Math.round(14 + mix * (8 - 14));
         return `${r}, ${g}, ${b}`;
       }
     }
@@ -123,12 +123,28 @@ export default function BackgroundShader() {
       ctx.fillStyle = "#010101";
       ctx.fillRect(0, 0, width, height);
 
-      // Subtle ambient backlight from top right
-      const baseGrad = ctx.createRadialGradient(width, 0, 0, width, 0, width * 0.8);
-      baseGrad.addColorStop(0, "rgba(231, 15, 14, 0.18)"); // Ku Crimson
-      baseGrad.addColorStop(0.5, "rgba(71, 65, 69, 0.05)"); // Purple Taupe
-      baseGrad.addColorStop(1, "rgba(1, 1, 1, 0)"); // Black
+      // Strong ambient backlight: Bone glow top-left, Crimson heat top-right, deep base
+      const baseGrad = ctx.createLinearGradient(0, 0, width, height * 0.7);
+      baseGrad.addColorStop(0,   "rgba(225, 222, 204, 0.08)"); // Bone top-left
+      baseGrad.addColorStop(0.4, "rgba(231, 15, 14, 0.12)");   // Ku Crimson center
+      baseGrad.addColorStop(1,   "rgba(1, 1, 1, 0)");           // fade to black
       ctx.fillStyle = baseGrad;
+      ctx.fillRect(0, 0, width, height);
+
+      // Secondary hot-spot: bright Bone bloom at top center
+      const topBloom = ctx.createRadialGradient(width * 0.5, 0, 0, width * 0.5, 0, height * 0.55);
+      topBloom.addColorStop(0,   "rgba(225, 222, 204, 0.22)"); // Bone
+      topBloom.addColorStop(0.5, "rgba(225, 222, 204, 0.06)");
+      topBloom.addColorStop(1,   "rgba(225, 222, 204, 0)");
+      ctx.fillStyle = topBloom;
+      ctx.fillRect(0, 0, width, height);
+
+      // Crimson heat glow at bottom-right
+      const bottomGlow = ctx.createRadialGradient(width * 0.85, height, 0, width * 0.85, height, width * 0.7);
+      bottomGlow.addColorStop(0,   "rgba(231, 15, 14, 0.28)"); // Ku Crimson
+      bottomGlow.addColorStop(0.5, "rgba(231, 15, 14, 0.08)");
+      bottomGlow.addColorStop(1,   "rgba(231, 15, 14, 0)");
+      ctx.fillStyle = bottomGlow;
       ctx.fillRect(0, 0, width, height);
 
       ctx.globalCompositeOperation = "screen";
@@ -190,12 +206,14 @@ export default function BackgroundShader() {
           const colorPrimary = getDynamicColor(seconds, clampedNormX, layerIdx, "primary");
           const colorSecondary = getDynamicColor(seconds, clampedNormX, layerIdx, "secondary");
 
-          grad.addColorStop(0, "rgba(7, 7, 7, 0)"); 
-          grad.addColorStop(0.18, `rgba(${colorSecondary}, ${targetAlpha * 0.22})`);
-          grad.addColorStop(0.48, `rgba(${colorSecondary}, ${targetAlpha * 0.88})`);
-          grad.addColorStop(0.72, `rgba(${colorPrimary}, ${targetAlpha * 1.2})`);
-          grad.addColorStop(0.92, `rgba(${colorPrimary}, ${targetAlpha * 0.4})`);
-          grad.addColorStop(1, "rgba(7, 7, 7, 0)"); 
+          // Top: Bone (#e1decc) — primary color which is warm & bright
+          // Bottom: Ku Crimson (#e70f0e) — secondary deep red heat
+          grad.addColorStop(0,    "rgba(225, 222, 204, 0)");                              // transparent top
+          grad.addColorStop(0.08, `rgba(${colorPrimary}, ${targetAlpha * 0.55})`);       // Bone enter
+          grad.addColorStop(0.35, `rgba(${colorPrimary}, ${targetAlpha * 1.3})`);        // Bone peak
+          grad.addColorStop(0.62, `rgba(${colorSecondary}, ${targetAlpha * 1.5})`);      // Crimson peak
+          grad.addColorStop(0.85, `rgba(${colorSecondary}, ${targetAlpha * 0.55})`);     // Crimson fade
+          grad.addColorStop(1,    "rgba(7, 7, 7, 0)");                                   // transparent bottom 
 
           ctx.beginPath();
           ctx.strokeStyle = grad;
