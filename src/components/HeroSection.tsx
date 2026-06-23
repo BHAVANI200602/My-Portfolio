@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, useScroll, useVelocity, useSpring, useTransform } from "motion/react";
 import { PERSONAL_BIO } from "../data";
-import ReactiveGradient from "./ReactiveGradient";
+import WebGLHeroShader from "./WebGLHeroShader";
 
 interface HeroSectionProps {
   isDived?: boolean;
@@ -37,7 +37,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         className="absolute inset-0 z-10 pointer-events-none transition-opacity duration-1000"
         style={{ opacity: isRevealed ? 1 : 0 }}
       >
-        <ReactiveGradient />
+        <WebGLHeroShader />
       </div>
 
       <div 
