@@ -123,35 +123,20 @@ export default function BackgroundShader() {
       ctx.fillStyle = "#010101";
       ctx.fillRect(0, 0, width, height);
 
-      // Strong Bone bloom covering the whole center — this is the dominant color
-      const baseGrad = ctx.createRadialGradient(width * 0.5, height * 0.4, 0, width * 0.5, height * 0.4, width * 0.85);
-      baseGrad.addColorStop(0,   "rgba(225, 222, 204, 0.14)"); // Bone center
-      baseGrad.addColorStop(0.5, "rgba(225, 222, 204, 0.06)");
+      // Very subtle Bone warmth in the center — should barely be noticeable on its own
+      const baseGrad = ctx.createRadialGradient(width * 0.62, height * 0.35, 0, width * 0.62, height * 0.35, width * 0.7);
+      baseGrad.addColorStop(0,   "rgba(225, 222, 204, 0.06)"); // dim Bone warmth
+      baseGrad.addColorStop(0.5, "rgba(225, 222, 204, 0.02)");
       baseGrad.addColorStop(1,   "rgba(1, 1, 1, 0)");
       ctx.fillStyle = baseGrad;
       ctx.fillRect(0, 0, width, height);
 
-      // Bone top bloom — soft warm glow at top
-      const topBloom = ctx.createRadialGradient(width * 0.5, 0, 0, width * 0.5, 0, height * 0.6);
-      topBloom.addColorStop(0,   "rgba(225, 222, 204, 0.18)");
-      topBloom.addColorStop(0.4, "rgba(225, 222, 204, 0.08)");
-      topBloom.addColorStop(1,   "rgba(225, 222, 204, 0)");
-      ctx.fillStyle = topBloom;
-      ctx.fillRect(0, 0, width, height);
-
-      // Crimson edge — only at far right corner, subtle
-      const rightEdge = ctx.createRadialGradient(width, height * 0.5, 0, width, height * 0.5, width * 0.45);
-      rightEdge.addColorStop(0,   "rgba(231, 15, 14, 0.18)");
-      rightEdge.addColorStop(0.5, "rgba(231, 15, 14, 0.06)");
+      // Very subtle Crimson heat — bottom right corner only
+      const rightEdge = ctx.createRadialGradient(width * 0.9, height * 0.75, 0, width * 0.9, height * 0.75, width * 0.5);
+      rightEdge.addColorStop(0,   "rgba(231, 15, 14, 0.1)");
+      rightEdge.addColorStop(0.5, "rgba(231, 15, 14, 0.03)");
       rightEdge.addColorStop(1,   "rgba(231, 15, 14, 0)");
       ctx.fillStyle = rightEdge;
-      ctx.fillRect(0, 0, width, height);
-
-      // Crimson bottom edge — bleeds along the very bottom
-      const bottomEdge = ctx.createLinearGradient(0, height * 0.75, 0, height);
-      bottomEdge.addColorStop(0, "rgba(231, 15, 14, 0)");
-      bottomEdge.addColorStop(1, "rgba(231, 15, 14, 0.15)");
-      ctx.fillStyle = bottomEdge;
       ctx.fillRect(0, 0, width, height);
 
       ctx.globalCompositeOperation = "screen";
@@ -191,12 +176,15 @@ export default function BackgroundShader() {
           
           const dynamicTopY = targetY + pleatOsc * 40 * (0.45 * waveActivity);
 
-          // Bias the aurora heavily towards the top right. Fade out on the left side.
-          const rightBias = Math.pow(clampedNormX, 0.8); // 0 on left edge, 1 on right edge
+          // Smooth bell-curve bias: aurora peaks around 60-70% from left, fades both edges
+          // This avoids the harsh "all light on right" look
+          const peakX = 0.65;
+          const rightBias = Math.exp(-Math.pow((clampedNormX - peakX) / 0.45, 2)); // gaussian bell
           
           const edgeFade = 0.72 + 0.28 * sideFactor; 
           const segmentSwell = (0.62 + Math.cos(clampedNormX * 1.4 + seconds * 0.16 + layerIdx) * 0.28) * waveActivity + 0.95 * (1.0 - waveActivity);
-          const baseAlpha = edgeFade * segmentSwell * (0.35 + Math.abs(pleatOsc) * 0.45 * waveActivity + 0.2 * (1.0 - waveActivity)) * (1.15 - layerIdx * 0.22);
+          // Reduced base alpha — strands are translucent wisps, not solid bands
+          const baseAlpha = edgeFade * segmentSwell * (0.22 + Math.abs(pleatOsc) * 0.32 * waveActivity + 0.12 * (1.0 - waveActivity)) * (1.0 - layerIdx * 0.18);
           
           const targetAlpha = baseAlpha * rightBias;
 
@@ -232,6 +220,30 @@ export default function BackgroundShader() {
       });
 
       ctx.globalCompositeOperation = "source-over";
+
+      // ── DARK VIGNETTE ─────────────────────────────────────────────────────────
+      // Drawn AFTER aurora strands in normal blend mode so it crushes the edges
+      // back to deep black and prevents any flat, overexposed look.
+
+      // Radial: corners get fully black, center stays clear
+      const vignette = ctx.createRadialGradient(
+        width * 0.5, height * 0.45, Math.min(width, height) * 0.12,
+        width * 0.5, height * 0.45, Math.max(width, height) * 0.9
+      );
+      vignette.addColorStop(0,    "rgba(0,0,0,0)");
+      vignette.addColorStop(0.45, "rgba(0,0,0,0)");
+      vignette.addColorStop(0.75, "rgba(0,0,0,0.35)");
+      vignette.addColorStop(1,    "rgba(0,0,0,0.82)");
+      ctx.fillStyle = vignette;
+      ctx.fillRect(0, 0, width, height);
+
+      // Extra crush along the very bottom — aurora should never reach the footer
+      const bottomCrush = ctx.createLinearGradient(0, height * 0.6, 0, height);
+      bottomCrush.addColorStop(0, "rgba(0,0,0,0)");
+      bottomCrush.addColorStop(1, "rgba(0,0,0,0.92)");
+      ctx.fillStyle = bottomCrush;
+      ctx.fillRect(0, 0, width, height);
+
       animationId = requestAnimationFrame(render);
     }
 
