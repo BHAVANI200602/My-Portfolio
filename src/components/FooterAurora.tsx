@@ -55,10 +55,10 @@ export default function FooterAurora() {
         W * 0.0, H * 0.95,  0,            // inner point: bottom-left corner
         W * 0.0, H * 0.95,  leftRadius    // outer edge
       );
-      leftGrad.addColorStop(0,    `rgba(30, 58, 138, ${leftAlpha})`);       // Navy Blue
-      leftGrad.addColorStop(0.45, `rgba(223, 213, 198, ${leftAlpha * 0.5})`); // Sand Dollar
-      leftGrad.addColorStop(0.8,  `rgba(74, 123, 181, 0.04)`);              // Steel Navy
-      leftGrad.addColorStop(1,    `rgba(5, 12, 26, 0)`);
+      leftGrad.addColorStop(0,    `rgba(193, 8, 1, ${leftAlpha})`);       // Crimson
+      leftGrad.addColorStop(0.45, `rgba(241, 96, 1, ${leftAlpha * 0.5})`); // Ember
+      leftGrad.addColorStop(0.8,  `rgba(193, 8, 1, 0.04)`);               // Faded Crimson
+      leftGrad.addColorStop(1,    `rgba(0, 0, 0, 0)`);
 
       ctx.save();
       // Clip to the left third only — never lets color bleed past ~40% of width
@@ -79,10 +79,10 @@ export default function FooterAurora() {
         W * 1.0, H * 0.92, 0,
         W * 1.0, H * 0.92, rightRadius
       );
-      rightGrad.addColorStop(0,    `rgba(74, 123, 181, ${rightAlpha})`);       // Steel Navy
-      rightGrad.addColorStop(0.4,  `rgba(223, 213, 198, ${rightAlpha * 0.5})`); // Sand Dollar
-      rightGrad.addColorStop(0.8,  `rgba(30, 58, 138, 0.04)`);
-      rightGrad.addColorStop(1,    `rgba(5, 12, 26, 0)`);
+      rightGrad.addColorStop(0,    `rgba(241, 96, 1, ${rightAlpha})`);       // Ember
+      rightGrad.addColorStop(0.4,  `rgba(217, 195, 171, ${rightAlpha * 0.5})`); // Silk
+      rightGrad.addColorStop(0.8,  `rgba(193, 8, 1, 0.04)`);                 // Faded Crimson
+      rightGrad.addColorStop(1,    `rgba(0, 0, 0, 0)`);
 
       ctx.save();
       // Clip to the right third only
