@@ -55,18 +55,18 @@ export default function BackgroundShader() {
       const cycle = time * 0.18 + normX * 1.0 + layerIdx * 1.4;
 
       if (part === "primary") {
-        // Top section: Bone (#e1decc) — bright warm off-white, very visible on screen blend
-        const mix = (Math.sin(cycle) + 1) / 2;
-        const r = Math.round(225 + mix * (231 - 225)); // stays warm
-        const g = Math.round(222 + mix * (15 - 222));  // Bone green → Crimson green
-        const b = Math.round(204 + mix * (14 - 204));  // Bone blue → Crimson blue
+        // Main body: Bone (#e1decc) — warm off-white, dominant aurora color
+        const mix = (Math.sin(cycle * 0.6) + 1) / 2;
+        const r = Math.round(225 + mix * (235 - 225));
+        const g = Math.round(222 + mix * (230 - 222));
+        const b = Math.round(204 + mix * (215 - 204));
         return `${r}, ${g}, ${b}`;
       } else {
-        // Bottom section: Ku Crimson (#e70f0e) deep red glow
+        // Edge accent: Ku Crimson (#e70f0e) — only bleeds at outer edges
         const mix = (Math.cos(cycle * 0.82) + 1) / 2;
-        const r = Math.round(231 + mix * (180 - 231)); // stays red
-        const g = Math.round(15 + mix * (8 - 15));
-        const b = Math.round(14 + mix * (8 - 14));
+        const r = Math.round(231 + mix * (200 - 231));
+        const g = Math.round(15 + mix * (10 - 15));
+        const b = Math.round(14 + mix * (10 - 14));
         return `${r}, ${g}, ${b}`;
       }
     }
@@ -123,28 +123,35 @@ export default function BackgroundShader() {
       ctx.fillStyle = "#010101";
       ctx.fillRect(0, 0, width, height);
 
-      // Strong ambient backlight: Bone glow top-left, Crimson heat top-right, deep base
-      const baseGrad = ctx.createLinearGradient(0, 0, width, height * 0.7);
-      baseGrad.addColorStop(0,   "rgba(225, 222, 204, 0.08)"); // Bone top-left
-      baseGrad.addColorStop(0.4, "rgba(231, 15, 14, 0.12)");   // Ku Crimson center
-      baseGrad.addColorStop(1,   "rgba(1, 1, 1, 0)");           // fade to black
+      // Strong Bone bloom covering the whole center — this is the dominant color
+      const baseGrad = ctx.createRadialGradient(width * 0.5, height * 0.4, 0, width * 0.5, height * 0.4, width * 0.85);
+      baseGrad.addColorStop(0,   "rgba(225, 222, 204, 0.14)"); // Bone center
+      baseGrad.addColorStop(0.5, "rgba(225, 222, 204, 0.06)");
+      baseGrad.addColorStop(1,   "rgba(1, 1, 1, 0)");
       ctx.fillStyle = baseGrad;
       ctx.fillRect(0, 0, width, height);
 
-      // Secondary hot-spot: bright Bone bloom at top center
-      const topBloom = ctx.createRadialGradient(width * 0.5, 0, 0, width * 0.5, 0, height * 0.55);
-      topBloom.addColorStop(0,   "rgba(225, 222, 204, 0.22)"); // Bone
-      topBloom.addColorStop(0.5, "rgba(225, 222, 204, 0.06)");
+      // Bone top bloom — soft warm glow at top
+      const topBloom = ctx.createRadialGradient(width * 0.5, 0, 0, width * 0.5, 0, height * 0.6);
+      topBloom.addColorStop(0,   "rgba(225, 222, 204, 0.18)");
+      topBloom.addColorStop(0.4, "rgba(225, 222, 204, 0.08)");
       topBloom.addColorStop(1,   "rgba(225, 222, 204, 0)");
       ctx.fillStyle = topBloom;
       ctx.fillRect(0, 0, width, height);
 
-      // Crimson heat glow at bottom-right
-      const bottomGlow = ctx.createRadialGradient(width * 0.85, height, 0, width * 0.85, height, width * 0.7);
-      bottomGlow.addColorStop(0,   "rgba(231, 15, 14, 0.28)"); // Ku Crimson
-      bottomGlow.addColorStop(0.5, "rgba(231, 15, 14, 0.08)");
-      bottomGlow.addColorStop(1,   "rgba(231, 15, 14, 0)");
-      ctx.fillStyle = bottomGlow;
+      // Crimson edge — only at far right corner, subtle
+      const rightEdge = ctx.createRadialGradient(width, height * 0.5, 0, width, height * 0.5, width * 0.45);
+      rightEdge.addColorStop(0,   "rgba(231, 15, 14, 0.18)");
+      rightEdge.addColorStop(0.5, "rgba(231, 15, 14, 0.06)");
+      rightEdge.addColorStop(1,   "rgba(231, 15, 14, 0)");
+      ctx.fillStyle = rightEdge;
+      ctx.fillRect(0, 0, width, height);
+
+      // Crimson bottom edge — bleeds along the very bottom
+      const bottomEdge = ctx.createLinearGradient(0, height * 0.75, 0, height);
+      bottomEdge.addColorStop(0, "rgba(231, 15, 14, 0)");
+      bottomEdge.addColorStop(1, "rgba(231, 15, 14, 0.15)");
+      ctx.fillStyle = bottomEdge;
       ctx.fillRect(0, 0, width, height);
 
       ctx.globalCompositeOperation = "screen";
@@ -206,14 +213,14 @@ export default function BackgroundShader() {
           const colorPrimary = getDynamicColor(seconds, clampedNormX, layerIdx, "primary");
           const colorSecondary = getDynamicColor(seconds, clampedNormX, layerIdx, "secondary");
 
-          // Top: Bone (#e1decc) — primary color which is warm & bright
-          // Bottom: Ku Crimson (#e70f0e) — secondary deep red heat
+          // Bone is the dominant body color — fills center of each strand
+          // Crimson bleeds only at the very outer tips of each strand
           grad.addColorStop(0,    "rgba(225, 222, 204, 0)");                              // transparent top
-          grad.addColorStop(0.08, `rgba(${colorPrimary}, ${targetAlpha * 0.55})`);       // Bone enter
-          grad.addColorStop(0.35, `rgba(${colorPrimary}, ${targetAlpha * 1.3})`);        // Bone peak
-          grad.addColorStop(0.62, `rgba(${colorSecondary}, ${targetAlpha * 1.5})`);      // Crimson peak
-          grad.addColorStop(0.85, `rgba(${colorSecondary}, ${targetAlpha * 0.55})`);     // Crimson fade
-          grad.addColorStop(1,    "rgba(7, 7, 7, 0)");                                   // transparent bottom 
+          grad.addColorStop(0.06, `rgba(${colorPrimary}, ${targetAlpha * 0.4})`);        // Bone ramp in
+          grad.addColorStop(0.3,  `rgba(${colorPrimary}, ${targetAlpha * 1.4})`);        // Bone peak — bright
+          grad.addColorStop(0.6,  `rgba(${colorPrimary}, ${targetAlpha * 1.2})`);        // Bone sustain
+          grad.addColorStop(0.82, `rgba(${colorSecondary}, ${targetAlpha * 0.6})`);      // Crimson creeps in at edge
+          grad.addColorStop(1,    `rgba(${colorSecondary}, 0)`);                         // Crimson fades out
 
           ctx.beginPath();
           ctx.strokeStyle = grad;
