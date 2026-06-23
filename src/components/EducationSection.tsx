@@ -19,8 +19,8 @@ export default function EducationSection() {
             fontSize: "clamp(6rem, 18vw, 22rem)",
             lineHeight: 0.8,
             color: "transparent",
-            WebkitTextStroke: "1px #474145",
-            opacity: 0.3,
+            WebkitTextStroke: "2px #474145",
+            opacity: 0.5,
             transform: isInView ? "translateY(0)" : "translateY(50px)",
             transition: "transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.2s",
           }}

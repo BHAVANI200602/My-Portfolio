@@ -131,14 +131,6 @@ export default function BackgroundShader() {
       ctx.fillStyle = baseGrad;
       ctx.fillRect(0, 0, width, height);
 
-      // Terracotta Horizon — subtle earthy glow along the bottom
-      const horizon = ctx.createLinearGradient(0, height * 0.55, 0, height);
-      horizon.addColorStop(0, "rgba(210, 100, 80, 0)");
-      horizon.addColorStop(0.6, "rgba(210, 100, 80, 0.1)");
-      horizon.addColorStop(1, "rgba(210, 100, 80, 0.25)");
-      ctx.fillStyle = horizon;
-      ctx.fillRect(0, 0, width, height);
-
       // Terracotta right edge warmth
       const rightEdge = ctx.createRadialGradient(width * 0.9, height * 0.75, 0, width * 0.9, height * 0.75, width * 0.5);
       rightEdge.addColorStop(0,   "rgba(210, 100, 80, 0.12)");
@@ -245,11 +237,20 @@ export default function BackgroundShader() {
       ctx.fillStyle = vignette;
       ctx.fillRect(0, 0, width, height);
 
-      // Extra crush along the very bottom — pushed down slightly to let the horizon glow breathe
-      const bottomCrush = ctx.createLinearGradient(0, height * 0.8, 0, height);
+      // Extra crush along the very bottom
+      const bottomCrush = ctx.createLinearGradient(0, height * 0.85, 0, height);
       bottomCrush.addColorStop(0, "rgba(0,0,0,0)");
       bottomCrush.addColorStop(1, "rgba(0,0,0,0.85)");
       ctx.fillStyle = bottomCrush;
+      ctx.fillRect(0, 0, width, height);
+
+      // ── HORIZON GLOW (Drawn last in screen mode to punch through the dark vignette) ──
+      ctx.globalCompositeOperation = "screen";
+      const horizon = ctx.createLinearGradient(0, height * 0.6, 0, height);
+      horizon.addColorStop(0, "rgba(210, 100, 80, 0)");
+      horizon.addColorStop(0.5, "rgba(210, 100, 80, 0.15)");
+      horizon.addColorStop(1, "rgba(210, 100, 80, 0.45)");
+      ctx.fillStyle = horizon;
       ctx.fillRect(0, 0, width, height);
 
       animationId = requestAnimationFrame(render);

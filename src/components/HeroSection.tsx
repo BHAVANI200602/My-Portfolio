@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, useScroll, useVelocity, useSpring, useTransform } from "motion/react";
 import { PERSONAL_BIO } from "../data";
-import BackgroundShader from "./BackgroundShader";
+import ReactiveGradient from "./ReactiveGradient";
 
 interface HeroSectionProps {
   isDived?: boolean;
@@ -37,7 +37,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         className="absolute inset-0 z-10 pointer-events-none transition-opacity duration-1000"
         style={{ opacity: isRevealed ? 1 : 0 }}
       >
-        <BackgroundShader />
+        <ReactiveGradient />
       </div>
 
       <div 
@@ -70,17 +70,16 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
           >
             <div className="relative flex justify-center w-full overflow-hidden">
               <span
-                className="font-anton uppercase tracking-tight select-none relative z-10 text-center flex flex-col md:flex-row md:gap-6 items-center justify-center"
+                className="font-anton uppercase tracking-tight select-none relative z-10 text-center whitespace-nowrap"
                 style={{
-                  fontSize: "clamp(4.5rem, 11vw, 15rem)",
+                  fontSize: "clamp(2rem, 9.5vw, 16rem)",
                   lineHeight: 0.85,
                   color: "#e1decc",
                   letterSpacing: "-0.02em",
                   textShadow: "0 8px 40px rgba(0,0,0,0.9), 0 2px 0 rgba(0,0,0,0.6)",
                 }}
               >
-                <span>BHAVANI</span>
-                <span>SHANKAR.</span>
+                BHAVANI SHANKAR.
               </span>
             </div>
           </motion.div>
