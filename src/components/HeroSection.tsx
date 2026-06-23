@@ -10,22 +10,7 @@ interface HeroSectionProps {
 export default function HeroSection({ isDived = false }: HeroSectionProps) {
   const [isRevealed, setIsRevealed] = useState(false);
 
-  // Scroll velocity hooks for Chromatic Aberration & Lens Distortion
-  const { scrollY } = useScroll();
-  const scrollVelocity = useVelocity(scrollY);
-  const smoothVelocity = useSpring(scrollVelocity, {
-    damping: 50,
-    stiffness: 400
-  });
-
-  // Map velocity to X offsets for the aberration layers
-  // When scrolling fast down, positive velocity -> Crimson shifts left, Taupe shifts right
-  const crimsonX = useTransform(smoothVelocity, [-1000, 0, 1000], [40, 0, -40]);
-  const taupeX = useTransform(smoothVelocity, [-1000, 0, 1000], [-40, 0, 40]);
-  
-  // Lens distortion scale (stretches slightly on fast scroll)
-  const lensScale = useTransform(smoothVelocity, [-1000, 0, 1000], [1.05, 1, 1.05]);
-  const lensSkew = useTransform(smoothVelocity, [-1000, 0, 1000], [2, 0, -2]);
+  // We removed the Chromatic Aberration & Lens Distortion hooks per user request
 
   useEffect(() => {
     if (isDived) {
@@ -82,39 +67,8 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
             animate={isRevealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 50, filter: "blur(10px)" }}
             transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="flex justify-center relative w-full"
-            style={{ scale: lensScale, skewY: lensSkew }}
           >
-            {/* Base styles for the massive text */}
             <div className="relative flex justify-center w-full">
-              {/* Aberration Layer 1: Purple Taupe */}
-              <motion.span
-                className="font-anton uppercase tracking-tight select-none whitespace-nowrap absolute mix-blend-screen opacity-80"
-                style={{
-                  fontSize: "clamp(6rem, 13vw, 18rem)",
-                  lineHeight: 0.8,
-                  color: "#474145", // Purple Taupe
-                  letterSpacing: "-0.02em",
-                  x: taupeX,
-                }}
-              >
-                BHAVANI SHANKAR.
-              </motion.span>
-
-              {/* Aberration Layer 2: Ku Crimson */}
-              <motion.span
-                className="font-anton uppercase tracking-tight select-none whitespace-nowrap absolute mix-blend-screen opacity-80"
-                style={{
-                  fontSize: "clamp(6rem, 13vw, 18rem)",
-                  lineHeight: 0.8,
-                  color: "#e70f0e", // Ku Crimson
-                  letterSpacing: "-0.02em",
-                  x: crimsonX,
-                }}
-              >
-                BHAVANI SHANKAR.
-              </motion.span>
-
-              {/* Main Solid Text Layer: Bone */}
               <span
                 className="font-anton uppercase tracking-tight select-none whitespace-nowrap relative z-10"
                 style={{

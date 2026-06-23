@@ -12,6 +12,7 @@ import SkillsSection from "./components/SkillsSection";
 import ProjectsSection from "./components/ProjectsSection";
 import FooterSection from "./components/FooterSection";
 import NavBar from "./components/NavBar";
+import LensDistortion from "./components/LensDistortion";
 
 export default function App() {
   const [isDived, setIsDived] = useState(false);
@@ -57,9 +58,13 @@ export default function App() {
 
         {/* Section index layouts */}
         <main className="w-full flex-grow flex flex-col items-center">
-          <HeroSection isDived={isDived} />
-          <EducationSection />
-          <SkillsSection />
+          <LensDistortion>
+            <div className="w-full flex flex-col">
+              <HeroSection isDived={isDived} />
+              <EducationSection />
+              <SkillsSection />
+            </div>
+          </LensDistortion>
           <ProjectsSection />
         </main>
 
