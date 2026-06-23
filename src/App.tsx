@@ -12,7 +12,7 @@ import SkillsSection from "./components/SkillsSection";
 import ProjectsSection from "./components/ProjectsSection";
 import FooterSection from "./components/FooterSection";
 import NavBar from "./components/NavBar";
-import LensDistortion from "./components/LensDistortion";
+import BarrelLens from "./components/LensDistortion";
 
 export default function App() {
   const [isDived, setIsDived] = useState(false);
@@ -32,7 +32,10 @@ export default function App() {
         />
       )}
 
-      {/* Navigation Bar: rendered outside the transition wrapper to guarantee fixed viewport positioning */}
+      {/* Global barrel lens overlay — position:fixed canvas, paints curved edges on scroll */}
+      {isDived && <BarrelLens />}
+
+      {/* Navigation Bar */}
       <div 
         style={{
           opacity: isDived ? 1 : 0,
@@ -44,9 +47,9 @@ export default function App() {
         <NavBar />
       </div>
 
-      {/* Main Portfolio Framework always exists but hidden until dived */}
+      {/* Main Portfolio Framework */}
       <div 
-        className="w-full relative min-h-screen flex flex-col justify-between bg-[#050c1a] text-[var(--color-theme)] transition-opacity duration-1000 ease-in-out select-none"
+        className="w-full relative min-h-screen flex flex-col justify-between bg-[#010101] text-[var(--color-theme)] transition-opacity duration-1000 ease-in-out select-none"
         style={{
           opacity: isDived ? 1 : 0,
           visibility: isDived ? "visible" : "hidden",
@@ -56,15 +59,11 @@ export default function App() {
         {/* Tracking dash indicator vector */}
         <DashedScrollLine />
 
-        {/* Section index layouts */}
+        {/* Section index layouts — no filter wrappers, barrel lens is a global overlay */}
         <main className="w-full flex-grow flex flex-col items-center">
-          <LensDistortion>
-            <div className="w-full flex flex-col">
-              <HeroSection isDived={isDived} />
-              <EducationSection />
-              <SkillsSection />
-            </div>
-          </LensDistortion>
+          <HeroSection isDived={isDived} />
+          <EducationSection />
+          <SkillsSection />
           <ProjectsSection />
         </main>
 
@@ -73,4 +72,3 @@ export default function App() {
     </>
   );
 }
-

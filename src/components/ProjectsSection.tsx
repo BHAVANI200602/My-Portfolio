@@ -2,7 +2,6 @@ import { useRef } from "react";
 import { PROJECTS } from "../data";
 import { Github } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
-import LensDistortion from "./LensDistortion";
 
 export default function ProjectsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -53,9 +52,8 @@ export default function ProjectsSection() {
         </motion.div>
       </div>
 
-      {/* Stacked Projects List (Normal Scrolling) */}
+      {/* Stacked Projects List (Normal Scrolling after J-zoom) */}
       <div className="relative z-20 w-full bg-[#e1decc]">
-        <LensDistortion id="lens-distortion-projects">
           <div className="w-full max-w-7xl mx-auto px-6 md:px-12 py-32 flex flex-col gap-32">
             {PROJECTS.map((project, idx) => (
               <div key={project.id} className="flex flex-col md:flex-row w-full gap-8 md:gap-16 items-start border-t border-[#010101]/10 pt-12">
@@ -121,7 +119,6 @@ export default function ProjectsSection() {
               </div>
             ))}
           </div>
-        </LensDistortion>
       </div>
     </section>
   );

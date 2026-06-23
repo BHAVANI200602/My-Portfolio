@@ -1,146 +1,188 @@
 import { useEffect, useRef } from "react";
-import { useScroll, useVelocity, useSpring, useTransform, useMotionValueEvent } from "motion/react";
-
-interface LensDistortionProps {
-  children: React.ReactNode;
-  id?: string;
-}
+import { useScroll, useVelocity, useSpring } from "motion/react";
 
 /**
- * Global Scroll-Driven Fisheye / Lens Distortion
+ * BarrelLens — Scroll-driven fisheye overlay
  *
- * How it works:
- * - A hidden <canvas> re-renders the viewport content every frame using WebGL.
- * - On fast scroll, a barrel/fisheye vertex displacement is applied via
- *   a fragment shader that pushes edge pixels outward (barrel distortion).
+ * A position:fixed canvas that paints curved dark edges OVER the page content.
+ * Zero impact on DOM layout or scrolling performance.
  *
- * Since true WebGL DOM capture isn't possible without html2canvas overhead,
- * we instead apply the distortion directly to the wrapper div using
- * an SVG feTurbulence + feDisplacementMap properly anchored to the viewport
- * using CSS `position: fixed` reference frame tricks.
- *
- * Key fixes vs previous version:
- * 1. Gradient goes gray→WHITE at edges (barrel / fisheye push-out, not pinhole)
- * 2. Filter is applied per-viewport-snapshot via a fixed-size filter region
- * 3. No height="100000px" - filter region is always exactly one viewport
- * 4. The displacement map is regenerated as a CSS data-URI and referenced
- *    as a CSS custom property so the browser paints it in viewport space.
+ * Effect: as scroll velocity increases, each of the 4 viewport edges develops
+ * an inward quadratic bezier curve, exactly mimicking CRT barrel distortion.
+ * Theme color (Ku Crimson) is used for subtle edge chromatic fringing.
  */
-export default function LensDistortion({ children, id = "ld" }: LensDistortionProps) {
+export default function BarrelLens() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const { scrollY } = useScroll();
   const scrollVelocity = useVelocity(scrollY);
-  // Heavily damped spring so distortion ramps up/down smoothly
-  const smoothVelocity = useSpring(scrollVelocity, { damping: 80, stiffness: 200, mass: 1 });
-  // Map absolute velocity to a distortion scale (0 = still, 30 = very fast scroll)
-  const distortionScale = useTransform(smoothVelocity, (v) => {
-    const abs = Math.abs(v);
-    return Math.min(abs / 80, 30); // cap at 30, generous ramp
-  });
-
-  const filterEl = useRef<SVGFEDisplacementMapElement>(null);
-
-  useMotionValueEvent(distortionScale, "change", (val) => {
-    if (filterEl.current) {
-      filterEl.current.setAttribute("scale", val.toFixed(2));
-    }
-  });
-
-  // Build the displacement map once per mount (viewport-sized radial gradient)
-  // gray(128) center = zero displacement
-  // white(255) at edges = push pixels outward (fisheye barrel)
-  const mapId = id + "-map";
-  const filterId = id + "-filter";
+  // Heavy damping = slow ramp up/down = feels physical
+  const smoothVel = useSpring(scrollVelocity, { damping: 55, stiffness: 140, mass: 2 });
 
   useEffect(() => {
-    // Nothing to do dynamically – the SVG gradient handles everything.
-    // We just ensure the filter scale starts at 0.
-    if (filterEl.current) filterEl.current.setAttribute("scale", "0");
-  }, []);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let raf = 0;
+    let intensity = 0; // 0..1
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    const draw = () => {
+      const vel = Math.abs(smoothVel.get());
+      // Map velocity to 0..1 intensity. Ramps up quickly, capped at 1.
+      const target = Math.min(vel / 1200, 1);
+      // Manual lerp for an extra buttery feel
+      intensity += (target - intensity) * 0.1;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (intensity > 0.004) {
+        const w = canvas.width;
+        const h = canvas.height;
+        // Max bend in pixels at full intensity
+        const bend = intensity * 70;
+        const a = intensity; // alpha shorthand
+
+        // ── TOP EDGE ──────────────────────────────────────────────────
+        // The center of the top edge bows downward; corners stay anchored.
+        {
+          const grad = ctx.createLinearGradient(0, 0, 0, bend * 3);
+          grad.addColorStop(0, `rgba(0,0,0,${a * 0.9})`);
+          grad.addColorStop(0.6, `rgba(0,0,0,${a * 0.3})`);
+          grad.addColorStop(1, `rgba(0,0,0,0)`);
+
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          // Outer curve: center bows down
+          ctx.quadraticCurveTo(w / 2, bend, w, 0);
+          // Inner curve: slightly less pronounced
+          ctx.lineTo(w, bend * 2);
+          ctx.quadraticCurveTo(w / 2, bend * 2.6, 0, bend * 2);
+          ctx.closePath();
+          ctx.fillStyle = grad;
+          ctx.fill();
+
+          // Ku Crimson color fringe at the very edge for theme tie-in
+          const fringe = ctx.createLinearGradient(0, 0, 0, bend * 0.8);
+          fringe.addColorStop(0, `rgba(231,15,14,${a * 0.35})`);
+          fringe.addColorStop(1, `rgba(231,15,14,0)`);
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.quadraticCurveTo(w / 2, bend * 0.6, w, 0);
+          ctx.lineTo(w, bend * 0.4);
+          ctx.quadraticCurveTo(w / 2, bend * 0.9, 0, bend * 0.4);
+          ctx.closePath();
+          ctx.fillStyle = fringe;
+          ctx.fill();
+        }
+
+        // ── BOTTOM EDGE ───────────────────────────────────────────────
+        {
+          const grad = ctx.createLinearGradient(0, h, 0, h - bend * 3);
+          grad.addColorStop(0, `rgba(0,0,0,${a * 0.9})`);
+          grad.addColorStop(0.6, `rgba(0,0,0,${a * 0.3})`);
+          grad.addColorStop(1, `rgba(0,0,0,0)`);
+
+          ctx.beginPath();
+          ctx.moveTo(0, h);
+          ctx.quadraticCurveTo(w / 2, h - bend, w, h);
+          ctx.lineTo(w, h - bend * 2);
+          ctx.quadraticCurveTo(w / 2, h - bend * 2.6, 0, h - bend * 2);
+          ctx.closePath();
+          ctx.fillStyle = grad;
+          ctx.fill();
+
+          const fringe = ctx.createLinearGradient(0, h, 0, h - bend * 0.8);
+          fringe.addColorStop(0, `rgba(231,15,14,${a * 0.35})`);
+          fringe.addColorStop(1, `rgba(231,15,14,0)`);
+          ctx.beginPath();
+          ctx.moveTo(0, h);
+          ctx.quadraticCurveTo(w / 2, h - bend * 0.6, w, h);
+          ctx.lineTo(w, h - bend * 0.4);
+          ctx.quadraticCurveTo(w / 2, h - bend * 0.9, 0, h - bend * 0.4);
+          ctx.closePath();
+          ctx.fillStyle = fringe;
+          ctx.fill();
+        }
+
+        // ── LEFT EDGE ─────────────────────────────────────────────────
+        {
+          const grad = ctx.createLinearGradient(0, 0, bend * 3, 0);
+          grad.addColorStop(0, `rgba(0,0,0,${a * 0.75})`);
+          grad.addColorStop(0.6, `rgba(0,0,0,${a * 0.2})`);
+          grad.addColorStop(1, `rgba(0,0,0,0)`);
+
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.quadraticCurveTo(bend, h / 2, 0, h);
+          ctx.lineTo(bend * 2, h);
+          ctx.quadraticCurveTo(bend * 2.6, h / 2, bend * 2, 0);
+          ctx.closePath();
+          ctx.fillStyle = grad;
+          ctx.fill();
+        }
+
+        // ── RIGHT EDGE ────────────────────────────────────────────────
+        {
+          const grad = ctx.createLinearGradient(w, 0, w - bend * 3, 0);
+          grad.addColorStop(0, `rgba(0,0,0,${a * 0.75})`);
+          grad.addColorStop(0.6, `rgba(0,0,0,${a * 0.2})`);
+          grad.addColorStop(1, `rgba(0,0,0,0)`);
+
+          ctx.beginPath();
+          ctx.moveTo(w, 0);
+          ctx.quadraticCurveTo(w - bend, h / 2, w, h);
+          ctx.lineTo(w - bend * 2, h);
+          ctx.quadraticCurveTo(w - bend * 2.6, h / 2, w - bend * 2, 0);
+          ctx.closePath();
+          ctx.fillStyle = grad;
+          ctx.fill();
+        }
+
+        // ── CORNER VIGNETTE ───────────────────────────────────────────
+        // Radial gradient to smoothly darken corners and blend the 4 edge strips
+        const cg = ctx.createRadialGradient(
+          w / 2, h / 2, Math.min(w, h) * 0.28,
+          w / 2, h / 2, Math.max(w, h) * 0.78
+        );
+        cg.addColorStop(0, `rgba(0,0,0,0)`);
+        cg.addColorStop(0.65, `rgba(0,0,0,0)`);
+        cg.addColorStop(1, `rgba(0,0,0,${a * 0.55})`);
+        ctx.fillStyle = cg;
+        ctx.fillRect(0, 0, w, h);
+      }
+
+      raf = requestAnimationFrame(draw);
+    };
+
+    raf = requestAnimationFrame(draw);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", resize);
+    };
+  }, [smoothVel]);
 
   return (
-    <>
-      {/*
-        SVG filter definition:
-        - filterUnits="objectBoundingBox": the filter region is always exactly the
-          bounding box of the element it's applied to (one viewport-height chunk at a time).
-        - primitiveUnits="objectBoundingBox": feImage coords are 0..1 relative to the element.
-        - The radial gradient goes from gray(128) at center → white(255) at edges.
-          This means: center pixels are undisplaced, edge pixels are pushed outward → fisheye.
-      */}
-      <svg
-        aria-hidden="true"
-        style={{ position: "absolute", width: 0, height: 0, overflow: "hidden", pointerEvents: "none" }}
-      >
-        <defs>
-          {/* The displacement map: a viewport-relative radial gradient */}
-          <radialGradient id={mapId} cx="50%" cy="50%" r="70%" fx="50%" fy="50%">
-            {/* Center: pure gray = zero displacement (128,128,128) */}
-            <stop offset="0%"   stopColor="rgb(128,128,128)" />
-            {/* Mid: slightly lighter → subtle push */}
-            <stop offset="55%"  stopColor="rgb(168,168,168)" />
-            {/* Edges: white → strong outward push (barrel / fisheye) */}
-            <stop offset="100%" stopColor="rgb(255,255,255)" />
-          </radialGradient>
-
-          {/*
-            The filter:
-            - objectBoundingBox means it maps perfectly to each wrapped element's own box.
-            - We extend by 10% on each side (x/y = -0.1, width/height = 1.2) so displaced
-              edge pixels have source content to sample from instead of being clipped.
-          */}
-          <filter
-            id={filterId}
-            filterUnits="objectBoundingBox"
-            primitiveUnits="objectBoundingBox"
-            x="-0.1" y="-0.1" width="1.2" height="1.2"
-            colorInterpolationFilters="linearRGB"
-          >
-            {/* Paint the radial gradient as the displacement map */}
-            <feFlood x="0" y="0" width="1" height="1" result="transparent" floodOpacity="0" />
-            <feComposite operator="over" in2="transparent" />
-            <feImage
-              href={"data:image/svg+xml," + encodeURIComponent(
-                '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">' +
-                  '<defs>' +
-                    '<radialGradient id="rg" cx="50%" cy="50%" r="70%">' +
-                      '<stop offset="0%" stop-color="rgb(128,128,128)"/>' +
-                      '<stop offset="55%" stop-color="rgb(168,168,168)"/>' +
-                      '<stop offset="100%" stop-color="rgb(255,255,255)"/>' +
-                    '</radialGradient>' +
-                  '</defs>' +
-                  '<rect width="100" height="100" fill="url(#rg)"/>' +
-                '</svg>'
-              )}
-              x="0" y="0" width="1" height="1"
-              preserveAspectRatio="none"
-              result="displacementMap"
-            />
-            <feDisplacementMap
-              ref={filterEl}
-              in="SourceGraphic"
-              in2="displacementMap"
-              scale="0"
-              xChannelSelector="R"
-              yChannelSelector="G"
-            />
-          </filter>
-        </defs>
-      </svg>
-
-      {/*
-        Apply the filter to each child element's own bounding box.
-        will-change: filter tells the GPU to keep this layer composited separately
-        for smooth, jank-free distortion. transform: translateZ(0) forces GPU layer.
-      */}
-      <div
-        style={{
-          filter: "url(#" + filterId + ")",
-          willChange: "filter",
-          transform: "translateZ(0)",
-        }}
-      >
-        {children}
-      </div>
-    </>
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        pointerEvents: "none",
+        zIndex: 9998,
+      }}
+    />
   );
 }
