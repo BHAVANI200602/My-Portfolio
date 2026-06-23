@@ -94,7 +94,7 @@ export default function LensDistortion({ children, disabled = false, id = "lens-
         </defs>
       </svg>
       
-      <div style={{ filter: disabled ? "none" : \`url(#\${id})\`, transform: "translateZ(0)" }}>
+      <div style={{ filter: disabled ? "none" : ("url(#" + id + ")"), transform: "translateZ(0)" }}>
         {children}
       </div>
     </>
