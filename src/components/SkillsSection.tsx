@@ -1,60 +1,104 @@
 import { useEffect, useRef } from "react";
 import { useInView } from "./useInView";
 
+// Clean, unduplicated skill lists — duplication handled dynamically in the ticker
 const skillCategories = [
-  { title: "Languages",       skills: ["C", "Java", "Python", "JavaScript", "TypeScript", "HTML", "CSS", "C", "Java", "Python", "JavaScript", "TypeScript", "HTML", "CSS"] },
-  { title: "Frameworks",      skills: ["React", "Node.js", "Express.js", "Next.js", "Vite", "React", "Node.js", "Express.js", "Next.js", "Vite"] },
-  { title: "Database",        skills: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "PostgreSQL", "MySQL", "MongoDB", "Redis"] },
-  { title: "Cloud",           skills: ["Azure", "Google Cloud", "Firebase", "Vercel", "Azure", "Google Cloud", "Firebase", "Vercel"] },
-  { title: "Tools",           skills: ["GitHub", "Render", "Cron Jobs", "Docker", "Postman", "GitHub", "Render", "Cron Jobs", "Docker", "Postman"] },
+  { title: "Languages",  skills: ["C", "Java", "Python", "JavaScript", "TypeScript", "HTML", "CSS"] },
+  { title: "Frameworks", skills: ["React", "Node.js", "Express.js", "Next.js", "Vite"] },
+  { title: "Database",   skills: ["PostgreSQL", "MySQL", "MongoDB", "Redis"] },
+  { title: "Cloud",      skills: ["Azure", "Google Cloud", "Firebase", "Vercel"] },
+  { title: "Tools",      skills: ["GitHub", "Render", "Cron Jobs", "Docker", "Postman"] },
 ];
 
-/** A single row ticker — auto-scrolls left at a constant speed */
-function SkillTicker({ skills, speed = 30 }: { skills: string[]; speed?: number }) {
+/**
+ * SkillTicker
+ *
+ * Seamless marquee where the same skill is NEVER visible twice at once.
+ * It works by:
+ * 1. Rendering one copy of the skill list to measure its natural pixel width.
+ * 2. Sizing the overflow container to exactly that natural width.
+ *    → More skills = wider container. Fewer skills = narrower container.
+ * 3. Looping with a second copy (off-screen to the right) for seamless reset.
+ */
+function SkillTicker({ skills, speed = 28 }: { skills: string[]; speed?: number }) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  // Duplicate the array so we can loop seamlessly
-  const doubled = [...skills, ...skills];
+  // Measure ref: only one copy, used to know how wide the content really is
+  const measureRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const container = containerRef.current;
     const track = trackRef.current;
-    if (!track) return;
-    let pos = 0;
-    let raf: number;
-    // How wide is one copy of the skill list?
-    const halfWidth = track.scrollWidth / 2;
+    const measure = measureRef.current;
+    if (!container || !track || !measure) return;
 
-    const tick = () => {
-      pos += speed / 60; // pixels per frame at 60fps
-      if (pos >= halfWidth) pos -= halfWidth;
-      track.style.transform = `translateX(-${pos}px)`;
+    // Wait one frame so layout is fully calculated
+    let raf: number;
+    let pos = 0;
+
+    const init = () => {
+      // The width of exactly one set of skills
+      const oneWidth = measure.scrollWidth;
+
+      // Size the container to match — so only one copy is ever in the visible area
+      container.style.width = `${oneWidth}px`;
+      container.style.maxWidth = "100%";
+
+      const tick = () => {
+        pos += speed / 60;
+        if (pos >= oneWidth) pos -= oneWidth;
+        track.style.transform = `translateX(-${pos}px)`;
+        raf = requestAnimationFrame(tick);
+      };
+
       raf = requestAnimationFrame(tick);
     };
 
-    raf = requestAnimationFrame(tick);
+    // One extra frame delay to ensure fonts are laid out
+    raf = requestAnimationFrame(() => requestAnimationFrame(init));
+
     return () => cancelAnimationFrame(raf);
-  }, [speed]);
+  }, [speed, skills]);
+
+  const renderSkills = (suffix: string) =>
+    skills.map((skill, i) => (
+      <span
+        key={`${suffix}-${i}`}
+        className="inline-flex items-center gap-5 font-sans text-base md:text-lg font-light tracking-wide whitespace-nowrap"
+        style={{ color: "#e1decc", paddingRight: "2.5rem" }}
+      >
+        {skill}
+        <span style={{ color: "#e70f0e", opacity: 0.55, fontSize: "0.45rem" }}>◆</span>
+      </span>
+    ));
 
   return (
-    // Outer: clip + edge fade via mask
+    // Container: sized dynamically to exactly one-copy width
     <div
-      className="relative flex-1 overflow-hidden"
+      ref={containerRef}
+      className="overflow-hidden flex-shrink-0"
       style={{
-        maskImage: "linear-gradient(to right, transparent 0%, black 8%, black 88%, transparent 100%)",
-        WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 8%, black 88%, transparent 100%)",
+        maskImage: "linear-gradient(to right, transparent 0%, black 7%, black 93%, transparent 100%)",
+        WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 7%, black 93%, transparent 100%)",
       }}
     >
-      {/* Moving track — contains two copies for seamless loop */}
-      <div ref={trackRef} className="flex items-center gap-0 will-change-transform" style={{ width: "max-content" }}>
-        {doubled.map((skill, i) => (
-          <span
-            key={i}
-            className="inline-flex items-center gap-6 px-5 font-sans text-base md:text-lg font-light tracking-wide whitespace-nowrap"
-            style={{ color: "#e1decc" }}
-          >
-            {skill}
-            <span style={{ color: "#e70f0e", opacity: 0.6, fontSize: "0.5rem" }}>◆</span>
-          </span>
-        ))}
+      {/* Hidden measure element — one copy, natural width */}
+      <div
+        ref={measureRef}
+        aria-hidden="true"
+        style={{ position: "absolute", visibility: "hidden", display: "flex", width: "max-content" }}
+      >
+        {renderSkills("m")}
+      </div>
+
+      {/* Scrolling track — two copies for seamless loop */}
+      <div
+        ref={trackRef}
+        className="flex will-change-transform"
+        style={{ width: "max-content" }}
+      >
+        {renderSkills("a")}
+        {renderSkills("b")}
       </div>
     </div>
   );
@@ -69,9 +113,8 @@ export default function SkillsSection() {
       ref={sectionRef}
       className="relative w-full flex flex-col bg-[#010101] border-t border-[#474145]/40 scroll-mt-10 overflow-hidden py-0"
     >
-      {/* Massive Bleeding Header — matches Education style */}
+      {/* Massive Bleeding Header */}
       <div className="w-full relative mb-16 sm:mb-24 flex justify-center h-[12vw] sm:h-[15vw] items-center mt-24 sm:mt-32">
-        {/* Outline ghost layer */}
         <h2
           className="font-anton uppercase tracking-tight select-none whitespace-nowrap absolute"
           style={{
@@ -86,7 +129,6 @@ export default function SkillsSection() {
         >
           SKILLS SKILLS SKILLS
         </h2>
-        {/* Solid Bone layer */}
         <h2
           className="font-anton uppercase tracking-tight select-none whitespace-nowrap absolute z-10"
           style={{
@@ -116,12 +158,12 @@ export default function SkillsSection() {
         </p>
       </div>
 
-      {/* Editorial Rows — border-top matches Education */}
+      {/* Editorial Rows */}
       <div className="flex flex-col w-full border-t border-[#474145]">
         {skillCategories.map((cat, idx) => {
           const delay = 0.3 + idx * 0.12;
-          // Speed varies slightly per row for organic feel
-          const speed = 22 + idx * 6;
+          // Speed scales gently with skill count — more skills, slightly faster
+          const speed = 20 + cat.skills.length * 2.5;
 
           return (
             <div
@@ -133,8 +175,8 @@ export default function SkillsSection() {
                 transition: `all 1s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s`,
               }}
             >
-              {/* LEFT — Big category name, same style as Education year */}
-              <div className="flex-shrink-0 w-full md:w-[28%] px-6 md:px-12 lg:px-16 py-8 md:py-10 flex items-start justify-start border-b md:border-b-0 md:border-r border-[#474145]/60">
+              {/* LEFT — Big category name */}
+              <div className="flex-shrink-0 w-full md:w-[28%] px-6 md:px-12 lg:px-16 py-8 md:py-10 flex items-center justify-start border-b md:border-b-0 md:border-r border-[#474145]/60">
                 <span
                   className="font-sans font-bold tracking-tighter text-[#e1decc] leading-[0.85]"
                   style={{ fontSize: "clamp(2.2rem, 4.5vw, 5rem)" }}
@@ -143,8 +185,8 @@ export default function SkillsSection() {
                 </span>
               </div>
 
-              {/* RIGHT — Horizontal rolling ticker */}
-              <div className="flex-1 flex items-center py-8 md:py-10 min-w-0">
+              {/* RIGHT — Ticker, naturally sized to its content */}
+              <div className="flex-1 flex items-center py-8 md:py-10 px-4 min-w-0 overflow-hidden">
                 <SkillTicker skills={cat.skills} speed={speed} />
               </div>
             </div>
@@ -152,7 +194,6 @@ export default function SkillsSection() {
         })}
       </div>
 
-      {/* Bottom padding */}
       <div className="h-24 sm:h-32" />
     </section>
   );
