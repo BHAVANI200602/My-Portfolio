@@ -58,7 +58,7 @@ export default function NavBar() {
           href="https://github.com/BHAVANI200602/My-Portfolio"
           target="_blank"
           rel="noopener noreferrer"
-          className="w-12 h-12 md:w-14 md:h-14 bg-[#000000] rounded-full flex items-center justify-center text-[#e1decc] shadow-lg hover:scale-105 hover:bg-[#e70f0e] transition-all duration-300"
+          className={`w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-all duration-300 ${isOpen ? "bg-[#e1decc] text-[#000000] hover:bg-[#e70f0e] hover:text-[#e1decc]" : "bg-[#000000] text-[#e1decc] hover:bg-[#e70f0e]"}`}
           aria-label="GitHub Repository"
         >
           <Github className="w-5 h-5 md:w-6 md:h-6" />
@@ -67,7 +67,7 @@ export default function NavBar() {
         {/* Menu Toggle Button with morphing Hamburger / X */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="relative w-12 h-12 md:w-14 md:h-14 bg-[#000000] rounded-full flex items-center justify-center text-[#e1decc] shadow-lg hover:scale-105 hover:bg-[#e70f0e] transition-all duration-300 outline-none"
+          className={`relative w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-all duration-300 outline-none ${isOpen ? "bg-[#e1decc] text-[#000000] hover:bg-[#e70f0e] hover:text-[#e1decc]" : "bg-[#000000] text-[#e1decc] hover:bg-[#e70f0e]"}`}
           aria-label="Toggle Menu"
         >
           <div className="relative w-5 h-4 flex flex-col justify-between items-center">
@@ -75,19 +75,19 @@ export default function NavBar() {
             <motion.span
               animate={isOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="w-full h-0.5 bg-[#e1decc] rounded-full origin-center"
+              className={`w-full h-0.5 rounded-full origin-center ${isOpen ? "bg-[#000000]" : "bg-[#e1decc]"}`}
             />
             {/* Middle Line */}
             <motion.span
               animate={isOpen ? { opacity: 0, x: 10 } : { opacity: 1, x: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="w-full h-0.5 bg-[#e1decc] rounded-full"
+              className={`w-full h-0.5 rounded-full ${isOpen ? "bg-[#000000]" : "bg-[#e1decc]"}`}
             />
             {/* Bottom Line */}
             <motion.span
               animate={isOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="w-full h-0.5 bg-[#e1decc] rounded-full origin-center"
+              className={`w-full h-0.5 rounded-full origin-center ${isOpen ? "bg-[#000000]" : "bg-[#e1decc]"}`}
             />
           </div>
         </button>
