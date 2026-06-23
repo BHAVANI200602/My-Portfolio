@@ -25,14 +25,14 @@ export default function ProjectsSection() {
   const jOpacity = useTransform(scrollYProgress, [0.8, 0.9], [1, 0]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 1, 0]);
 
-  const bgColor = useTransform(scrollYProgress, [0.7, 1], ["#010101", "#e1decc"]);
+
 
   return (
     <section id="section-4" className="w-full bg-[#010101]">
       {/* Zoom Phase Container */}
       <div ref={containerRef} className="relative h-[150vh] w-full">
         <motion.div
-          style={{ backgroundColor: bgColor }}
+          className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center items-center px-4 md:px-8 z-10 bg-[#010101]"
           className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center items-center px-4 md:px-8 z-10"
         >
           <motion.div style={{ opacity: textOpacity }} className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-10 px-4">
@@ -53,29 +53,29 @@ export default function ProjectsSection() {
       </div>
 
       {/* Stacked Projects List (Normal Scrolling after J-zoom) */}
-      <div className="relative z-20 w-full bg-[#e1decc]">
+      <div className="relative z-20 w-full bg-[#010101]">
           <div className="w-full max-w-7xl mx-auto px-6 md:px-12 py-32 flex flex-col gap-32">
             {PROJECTS.map((project, idx) => (
-              <div key={project.id} className="flex flex-col md:flex-row w-full gap-8 md:gap-16 items-start border-t border-[#010101]/10 pt-12">
+              <div key={project.id} className="flex flex-col md:flex-row w-full gap-8 md:gap-16 items-start border-t border-[#e1decc]/10 pt-12">
                 {/* Left Side: Massive Project Name */}
                 <div className="w-full md:w-[45%] flex flex-col">
                   <span className="font-mono text-[10px] tracking-[0.3em] text-[#e70f0e] mb-4 uppercase">
                     {String(idx + 1).padStart(2, "0")} — {String(PROJECTS.length).padStart(2, "0")}
                   </span>
-                  <h2 className="font-anton uppercase leading-[0.85] tracking-tight text-[#010101] text-6xl md:text-7xl lg:text-[7rem]">
+                  <h2 className="font-anton uppercase leading-[0.85] tracking-tight text-[#e1decc] text-6xl md:text-7xl lg:text-[7rem]">
                     {project.title}
                   </h2>
-                  <p className="font-mono text-[10px] tracking-[0.2em] text-[#010101]/60 uppercase mt-4">
+                  <p className="font-mono text-[10px] tracking-[0.2em] text-[#e1decc]/60 uppercase mt-4">
                     {project.subtitle}
                   </p>
-                  <span className="inline-block mt-8 font-mono text-[10px] tracking-widest uppercase text-[#010101]/50 border border-[#010101]/20 px-3 py-1.5 rounded-sm w-fit">
+                  <span className="inline-block mt-8 font-mono text-[10px] tracking-widest uppercase text-[#e1decc]/50 border border-[#e1decc]/20 px-3 py-1.5 rounded-sm w-fit">
                     {project.year}
                   </span>
                 </div>
 
                 {/* Right Side: Info */}
                 <div className="w-full md:w-[55%] flex flex-col mt-4 md:mt-12">
-                  <p className="font-sans text-base md:text-[17px] font-medium text-[#010101] leading-relaxed mb-8">
+                  <p className="font-sans text-base md:text-[17px] font-medium text-[#e1decc] leading-relaxed mb-8">
                     {project.description}
                   </p>
 
@@ -86,7 +86,7 @@ export default function ProjectsSection() {
                       </span>
                       <ul className="space-y-3">
                         {project.bulletPoints.map((pt, i) => (
-                          <li key={i} className="flex items-start gap-3 text-[15px] text-[#010101] font-sans font-medium leading-snug">
+                          <li key={i} className="flex items-start gap-3 text-[15px] text-[#e1decc] font-sans font-medium leading-snug">
                             <span className="text-[#e70f0e] mt-0.5 shrink-0 leading-none font-bold">›</span>
                             {pt}
                           </li>
@@ -97,7 +97,7 @@ export default function ProjectsSection() {
 
                   <div className="flex flex-wrap gap-2 mb-10">
                     {project.tags.map((tag) => (
-                      <span key={tag} className="font-mono text-[10px] tracking-widest uppercase px-3 py-1.5 border border-[#010101]/40 text-[#010101] font-semibold rounded-sm">
+                      <span key={tag} className="font-mono text-[10px] tracking-widest uppercase px-3 py-1.5 border border-[#e1decc]/40 text-[#e1decc] font-semibold rounded-sm">
                         {tag}
                       </span>
                     ))}
@@ -105,13 +105,8 @@ export default function ProjectsSection() {
 
                   <div className="flex items-center gap-4">
                     {project.githubUrl && (
-                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 font-mono text-[11px] tracking-widest uppercase font-semibold text-[#010101] border-2 border-[#010101]/40 hover:border-[#010101] hover:bg-[#010101] hover:text-[#e1decc] px-5 py-3 rounded-sm transition-all duration-300">
+                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 font-mono text-[11px] tracking-widest uppercase font-semibold text-[#e1decc] border-2 border-[#e1decc]/40 hover:border-[#e1decc] hover:bg-[#e1decc] hover:text-[#010101] px-5 py-3 rounded-sm transition-all duration-300">
                         <Github className="w-4 h-4" /> Source
-                      </a>
-                    )}
-                    {project.liveUrl && (
-                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 font-mono text-[11px] tracking-widest uppercase font-semibold text-[#e70f0e] border-2 border-[#e70f0e]/50 hover:border-[#e70f0e] hover:bg-[#e70f0e] hover:text-[#e1decc] px-5 py-3 rounded-sm transition-all duration-300">
-                        Live &rarr;
                       </a>
                     )}
                   </div>

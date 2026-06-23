@@ -55,18 +55,18 @@ export default function BackgroundShader() {
       const cycle = time * 0.18 + normX * 1.0 + layerIdx * 1.4;
 
       if (part === "primary") {
-        // Main body: Bone (#e1decc) — warm off-white, dominant aurora color
+        // Main body: Soft White — dominant aurora color
         const mix = (Math.sin(cycle * 0.6) + 1) / 2;
-        const r = Math.round(225 + mix * (235 - 225));
-        const g = Math.round(222 + mix * (230 - 222));
-        const b = Math.round(204 + mix * (215 - 204));
+        const r = Math.round(245 + mix * (255 - 245));
+        const g = Math.round(242 + mix * (250 - 242));
+        const b = Math.round(238 + mix * (245 - 238));
         return `${r}, ${g}, ${b}`;
       } else {
-        // Edge accent: Ku Crimson (#e70f0e) — only bleeds at outer edges
+        // Edge accent: Muted Terracotta — warm, earthy red-orange
         const mix = (Math.cos(cycle * 0.82) + 1) / 2;
-        const r = Math.round(231 + mix * (200 - 231));
-        const g = Math.round(15 + mix * (10 - 15));
-        const b = Math.round(14 + mix * (10 - 14));
+        const r = Math.round(210 + mix * (190 - 210)); 
+        const g = Math.round(110 + mix * (90 - 110));
+        const b = Math.round(85 + mix * (75 - 85));
         return `${r}, ${g}, ${b}`;
       }
     }
@@ -123,19 +123,27 @@ export default function BackgroundShader() {
       ctx.fillStyle = "#010101";
       ctx.fillRect(0, 0, width, height);
 
-      // Very subtle Bone warmth in the center — should barely be noticeable on its own
+      // Soft white ambient warmth in the center
       const baseGrad = ctx.createRadialGradient(width * 0.62, height * 0.35, 0, width * 0.62, height * 0.35, width * 0.7);
-      baseGrad.addColorStop(0,   "rgba(225, 222, 204, 0.06)"); // dim Bone warmth
-      baseGrad.addColorStop(0.5, "rgba(225, 222, 204, 0.02)");
+      baseGrad.addColorStop(0,   "rgba(245, 242, 238, 0.05)"); 
+      baseGrad.addColorStop(0.5, "rgba(245, 242, 238, 0.01)");
       baseGrad.addColorStop(1,   "rgba(1, 1, 1, 0)");
       ctx.fillStyle = baseGrad;
       ctx.fillRect(0, 0, width, height);
 
-      // Very subtle Crimson heat — bottom right corner only
+      // Terracotta Horizon — subtle earthy glow along the bottom
+      const horizon = ctx.createLinearGradient(0, height * 0.55, 0, height);
+      horizon.addColorStop(0, "rgba(210, 100, 80, 0)");
+      horizon.addColorStop(0.6, "rgba(210, 100, 80, 0.1)");
+      horizon.addColorStop(1, "rgba(210, 100, 80, 0.25)");
+      ctx.fillStyle = horizon;
+      ctx.fillRect(0, 0, width, height);
+
+      // Terracotta right edge warmth
       const rightEdge = ctx.createRadialGradient(width * 0.9, height * 0.75, 0, width * 0.9, height * 0.75, width * 0.5);
-      rightEdge.addColorStop(0,   "rgba(231, 15, 14, 0.1)");
-      rightEdge.addColorStop(0.5, "rgba(231, 15, 14, 0.03)");
-      rightEdge.addColorStop(1,   "rgba(231, 15, 14, 0)");
+      rightEdge.addColorStop(0,   "rgba(210, 100, 80, 0.12)");
+      rightEdge.addColorStop(0.5, "rgba(210, 100, 80, 0.04)");
+      rightEdge.addColorStop(1,   "rgba(1, 1, 1, 0)");
       ctx.fillStyle = rightEdge;
       ctx.fillRect(0, 0, width, height);
 
@@ -237,10 +245,10 @@ export default function BackgroundShader() {
       ctx.fillStyle = vignette;
       ctx.fillRect(0, 0, width, height);
 
-      // Extra crush along the very bottom — aurora should never reach the footer
-      const bottomCrush = ctx.createLinearGradient(0, height * 0.6, 0, height);
+      // Extra crush along the very bottom — pushed down slightly to let the horizon glow breathe
+      const bottomCrush = ctx.createLinearGradient(0, height * 0.8, 0, height);
       bottomCrush.addColorStop(0, "rgba(0,0,0,0)");
-      bottomCrush.addColorStop(1, "rgba(0,0,0,0.92)");
+      bottomCrush.addColorStop(1, "rgba(0,0,0,0.85)");
       ctx.fillStyle = bottomCrush;
       ctx.fillRect(0, 0, width, height);
 

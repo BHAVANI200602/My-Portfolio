@@ -17,14 +17,14 @@ export default function ScrollBlur() {
         bottom: 0,
         left: 0,
         right: 0,
-        height: "22vh",
-        backdropFilter: "blur(14px)",
-        WebkitBackdropFilter: "blur(14px)",
+        height: "12vh",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
         // Gradient mask: opaque at bottom (full blur) → transparent at top (no blur)
         maskImage:
-          "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 35%, rgba(0,0,0,0) 100%)",
+          "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0) 100%)",
         WebkitMaskImage:
-          "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 35%, rgba(0,0,0,0) 100%)",
+          "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0) 100%)",
         pointerEvents: "none",
         zIndex: 9998,
       }}

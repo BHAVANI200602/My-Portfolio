@@ -70,18 +70,17 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
           >
             <div className="relative flex justify-center w-full overflow-hidden">
               <span
-                className="font-anton uppercase tracking-tight select-none relative z-10 text-center"
+                className="font-anton uppercase tracking-tight select-none relative z-10 text-center flex flex-col md:flex-row md:gap-6 items-center justify-center"
                 style={{
-                  fontSize: "clamp(3.5rem, 12.5vw, 18rem)",
+                  fontSize: "clamp(4.5rem, 11vw, 15rem)",
                   lineHeight: 0.85,
                   color: "#e1decc",
                   letterSpacing: "-0.02em",
                   textShadow: "0 8px 40px rgba(0,0,0,0.9), 0 2px 0 rgba(0,0,0,0.6)",
-                  wordBreak: "break-all",
-                  whiteSpace: "nowrap",
                 }}
               >
-                BHAVANI SHANKAR.
+                <span>BHAVANI</span>
+                <span>SHANKAR.</span>
               </span>
             </div>
           </motion.div>
