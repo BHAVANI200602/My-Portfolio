@@ -49,7 +49,7 @@ function FitText({ text }: { text: string }) {
     textTransform: "uppercase",
     letterSpacing: "-0.03em",
     whiteSpace: "nowrap",
-    lineHeight: 0.85,
+    lineHeight: 1.1,
     fontWeight: 400,
   };
 
@@ -138,7 +138,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
           ? { opacity: 1, y: 0, filter: "blur(0px)" }
           : { opacity: 0, y: 40, filter: "blur(12px)" }}
         transition={{ duration: 1.4, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute inset-x-0 z-20"
+        className="absolute inset-x-0 z-20 px-2 md:px-6"
         /* sits just above the footer bar — footer ~48px tall */
         style={{ bottom: "52px" }}
       >
