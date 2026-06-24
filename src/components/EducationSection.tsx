@@ -1,5 +1,6 @@
 import { useInView } from "./useInView";
 import { EDUCATION } from "../data";
+import TextReveal from "./TextReveal";
 
 export default function EducationSection() {
   const [sectionRef, isInView] = useInView();

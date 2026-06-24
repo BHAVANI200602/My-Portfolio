@@ -33,7 +33,6 @@ export default function ProjectsSection() {
       <div ref={containerRef} className="relative h-[150vh] w-full">
         <motion.div
           className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center items-center px-4 md:px-8 z-10 bg-[#010101]"
-          className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center items-center px-4 md:px-8 z-10"
         >
           <motion.div style={{ opacity: textOpacity }} className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-10 px-4">
             <div className="font-anton flex items-center justify-center uppercase leading-none text-[20vw] md:text-[16vw] gap-2 md:gap-4 tracking-normal text-[var(--color-theme)] w-full max-w-7xl mx-auto">

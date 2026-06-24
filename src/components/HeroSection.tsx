@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { PERSONAL_BIO } from "../data";
 import WebGLHeroShader from "./WebGLHeroShader";
+import MagneticWrapper from "./MagneticWrapper";
+import TextReveal from "./TextReveal";
 
 interface HeroSectionProps {
   isDived?: boolean;
@@ -128,7 +130,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
         className="absolute top-28 left-6 md:left-12 lg:left-16 z-20 max-w-[240px] text-[#e1decc]/80 font-sans text-sm leading-relaxed tracking-wide font-light"
       >
-        {PERSONAL_BIO.aboutMe}
+        <TextReveal delay={0.6}>{PERSONAL_BIO.aboutMe}</TextReveal>
       </motion.p>
 
       {/* ── MASSIVE NAME — centered, just above footer ── */}
@@ -153,12 +155,18 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         className="absolute inset-x-0 bottom-0 z-30 flex justify-center md:justify-between items-center px-6 md:px-12 lg:px-16 h-12 border-t border-[#e1decc]/10 text-xs font-sans font-medium tracking-widest uppercase"
       >
         <span className="text-[#474145] hidden md:block">&rarr; V3.0</span>
-        <div className="flex gap-6 text-[#e1decc]/70">
-          <a href={PERSONAL_BIO.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#e70f0e] transition-colors">LINKEDIN</a>
+        <div className="flex justify-center w-full md:w-auto gap-6 text-[#e1decc]/70">
+          <MagneticWrapper strength={0.3}>
+            <a href={PERSONAL_BIO.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#e70f0e] transition-colors">LINKEDIN</a>
+          </MagneticWrapper>
           <span className="text-[#474145]/40">·</span>
-          <a href={PERSONAL_BIO.github} target="_blank" rel="noopener noreferrer" className="hover:text-[#e70f0e] transition-colors">GITHUB</a>
+          <MagneticWrapper strength={0.3}>
+            <a href={PERSONAL_BIO.github} target="_blank" rel="noopener noreferrer" className="hover:text-[#e70f0e] transition-colors">GITHUB</a>
+          </MagneticWrapper>
           <span className="text-[#474145]/40">·</span>
-          <a href={PERSONAL_BIO.leetcode} target="_blank" rel="noopener noreferrer" className="hover:text-[#e70f0e] transition-colors">LEETCODE</a>
+          <MagneticWrapper strength={0.3}>
+            <a href={PERSONAL_BIO.leetcode} target="_blank" rel="noopener noreferrer" className="hover:text-[#e70f0e] transition-colors">LEETCODE</a>
+          </MagneticWrapper>
         </div>
       </motion.div>
     </section>

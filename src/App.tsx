@@ -13,6 +13,8 @@ import FooterSection from "./components/FooterSection";
 import NavBar from "./components/NavBar";
 import ScrollBlur from "./components/LensDistortion";
 import SmoothScroll from "./components/SmoothScroll";
+import CustomCursor from "./components/CustomCursor";
+import CinematicNoise from "./components/CinematicNoise";
 
 export default function App() {
   const [isDived, setIsDived] = useState(false);
@@ -24,6 +26,8 @@ export default function App() {
 
   return (
     <SmoothScroll>
+      <CustomCursor />
+      <CinematicNoise />
       {/* Intro sequence pre-loader phase */}
       {preloaderMounted && (
         <Preloader

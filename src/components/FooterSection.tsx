@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowUp, Mail, Github, Linkedin, Code2, Check, Copy } from "lucide-react";
 import { motion } from "motion/react";
 import FooterAurora from "./FooterAurora";
+import MagneticWrapper from "./MagneticWrapper";
 
 
 interface FooterSectionProps {
@@ -85,49 +86,54 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
 
           {/* Social Icons row: circular button design with matching color theme */}
           <div className="flex items-center gap-6 font-sans">
-            {/* Github */}
-            <a
-              href="https://github.com/BHAVANI200602"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-white/70 hover:text-[var(--color-neon-pink)] hover:border-[var(--color-neon-pink)] hover:shadow-[0_0_15px_rgba(212,118,255,0.2)] bg-neutral-900/30 transition-all duration-300 scale-100 hover:scale-110"
-              title="GitHub Profile"
-            >
-              <Github className="w-5 h-5" />
-            </a>
+            <MagneticWrapper strength={0.4}>
+              <a
+                href="https://github.com/BHAVANI200602"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-white/70 hover:text-[var(--color-neon-pink)] hover:border-[var(--color-neon-pink)] hover:shadow-[0_0_15px_rgba(212,118,255,0.2)] bg-neutral-900/30 transition-all duration-300 scale-100 hover:scale-110"
+                title="GitHub Profile"
+              >
+                <Github className="w-5 h-5" />
+              </a>
+            </MagneticWrapper>
 
-            {/* LinkedIn */}
-            <a
-              href="https://www.linkedin.com/in/bhavani-02-24-2006-shankar/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-white/70 hover:text-[var(--color-theme)] hover:border-[var(--color-theme)] hover:shadow-[0_0_15px_rgba(0,229,255,0.2)] bg-neutral-900/30 transition-all duration-300 scale-100 hover:scale-110"
-              title="LinkedIn Profile"
-            >
-              <Linkedin className="w-5 h-5" />
-            </a>
+            <MagneticWrapper strength={0.4}>
+              <a
+                href="https://www.linkedin.com/in/bhavani-02-24-2006-shankar/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-white/70 hover:text-[var(--color-theme)] hover:border-[var(--color-theme)] hover:shadow-[0_0_15px_rgba(0,229,255,0.2)] bg-neutral-900/30 transition-all duration-300 scale-100 hover:scale-110"
+                title="LinkedIn Profile"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
+            </MagneticWrapper>
 
-            {/* LeetCode */}
-            <a
-              href="https://leetcode.com/u/GV2023006238/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-white/70 hover:text-[var(--color-neon-pink)] hover:border-[var(--color-neon-pink)] hover:shadow-[0_0_15px_rgba(192,132,252,0.2)] bg-neutral-900/30 transition-all duration-300 scale-100 hover:scale-110"
-              title="LeetCode Profile"
-            >
-              <Code2 className="w-5 h-5" />
-            </a>
+            <MagneticWrapper strength={0.4}>
+              <a
+                href="https://leetcode.com/u/GV2023006238/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-white/70 hover:text-[var(--color-neon-pink)] hover:border-[var(--color-neon-pink)] hover:shadow-[0_0_15px_rgba(192,132,252,0.2)] bg-neutral-900/30 transition-all duration-300 scale-100 hover:scale-110"
+                title="LeetCode Profile"
+              >
+                <Code2 className="w-5 h-5" />
+              </a>
+            </MagneticWrapper>
           </div>
 
           {/* Upward Scroll-to-Top circular anchor */}
           <div className="flex flex-col items-center gap-2">
-            <button
-              onClick={scrollToTop}
-              className="group flex items-center justify-center w-14 h-14 rounded-full border-2 border-[var(--color-theme)] hover:border-[var(--color-neon-pink)] bg-transparent text-[var(--color-theme)] hover:text-[var(--color-neon-pink)] hover:shadow-[0_0_20px_rgba(212,118,255,0.35)] transition-all duration-500 scale-100 hover:scale-105 active:scale-95"
-              title="Scroll to Top"
-            >
-              <ArrowUp className="w-6 h-6 group-hover:-translate-y-1 transition-transform duration-300" />
-            </button>
+            <MagneticWrapper strength={0.4}>
+              <button
+                onClick={scrollToTop}
+                className="group flex items-center justify-center w-14 h-14 rounded-full border-2 border-[var(--color-theme)] hover:border-[var(--color-neon-pink)] bg-transparent text-[var(--color-theme)] hover:text-[var(--color-neon-pink)] hover:shadow-[0_0_20px_rgba(212,118,255,0.35)] transition-all duration-500 scale-100 hover:scale-105 active:scale-95"
+                title="Scroll to Top"
+              >
+                <ArrowUp className="w-6 h-6 group-hover:-translate-y-1 transition-transform duration-300" />
+              </button>
+            </MagneticWrapper>
             <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[var(--color-theme)]/40 group-hover:text-[var(--color-theme)] transition-colors mt-1 select-none">
               scroll to top
             </span>
