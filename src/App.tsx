@@ -12,6 +12,7 @@ import ProjectsSection from "./components/ProjectsSection";
 import FooterSection from "./components/FooterSection";
 import NavBar from "./components/NavBar";
 import ScrollBlur from "./components/LensDistortion";
+import SmoothScroll from "./components/SmoothScroll";
 
 export default function App() {
   const [isDived, setIsDived] = useState(false);
@@ -22,7 +23,7 @@ export default function App() {
   };
 
   return (
-    <>
+    <SmoothScroll>
       {/* Intro sequence pre-loader phase */}
       {preloaderMounted && (
         <Preloader
@@ -64,6 +65,6 @@ export default function App() {
 
         <FooterSection scrollToTop={scrollToTop} />
       </div>
-    </>
+    </SmoothScroll>
   );
 }
