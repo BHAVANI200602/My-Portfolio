@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { motion } from "motion/react";
+import { motion, useSpring, useMotionTemplate } from "motion/react";
 import { PERSONAL_BIO } from "../data";
 import WebGLHeroShader from "./WebGLHeroShader";
 import MagneticWrapper from "./MagneticWrapper";
@@ -93,8 +93,14 @@ function FitText({ text }: { text: string }) {
 
 export default function HeroSection({ isDived = false }: HeroSectionProps) {
   const [isRevealed, setIsRevealed] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
-  const [isNameHovered, setIsNameHovered] = useState(false);
+
+  // Smooth springs for mouse tracking
+  const mouseX = useSpring(50, { stiffness: 250, damping: 30 });
+  const mouseY = useSpring(50, { stiffness: 250, damping: 30 });
+
+  // Dynamically template the CSS mask using the spring values.
+  // The size "ellipse 45% 150%" exactly matches the initial unblurred area.
+  const spotlightMask = useMotionTemplate`radial-gradient(ellipse 45% 150% at ${mouseX}% ${mouseY}%, black 0%, transparent 100%)`;
 
   useEffect(() => {
     if (isDived) {
@@ -146,12 +152,13 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
           const rect = e.currentTarget.getBoundingClientRect();
           const x = ((e.clientX - rect.left) / rect.width) * 100;
           const y = ((e.clientY - rect.top) / rect.height) * 100;
-          setMousePos({ x, y });
+          mouseX.set(x);
+          mouseY.set(y);
         }}
-        onMouseEnter={() => setIsNameHovered(true)}
         onMouseLeave={() => {
-          setIsNameHovered(false);
-          setMousePos({ x: 50, y: 50 });
+          // Smoothly glide back to center when mouse leaves
+          mouseX.set(50);
+          mouseY.set(50);
         }}
       >
         <div className="relative w-full">
@@ -161,20 +168,15 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
           </div>
 
           {/* Sharp Foreground Layer with Mask */}
-          <div 
+          <motion.div 
             className="absolute inset-0 w-full"
             style={{
-              maskImage: isNameHovered 
-                ? `radial-gradient(circle 250px at ${mousePos.x}% ${mousePos.y}%, black 0%, transparent 100%)`
-                : `radial-gradient(ellipse 45% 150% at 50% 50%, black 0%, transparent 100%)`,
-              WebkitMaskImage: isNameHovered 
-                ? `radial-gradient(circle 250px at ${mousePos.x}% ${mousePos.y}%, black 0%, transparent 100%)`
-                : `radial-gradient(ellipse 45% 150% at 50% 50%, black 0%, transparent 100%)`,
-              transition: isNameHovered ? "none" : "mask-image 0.5s ease-out, -webkit-mask-image 0.5s ease-out"
+              maskImage: spotlightMask,
+              WebkitMaskImage: spotlightMask
             }}
           >
             <FitText text="BHAVANI SHANKAR" />
-          </div>
+          </motion.div>
         </div>
       </motion.div>
 
