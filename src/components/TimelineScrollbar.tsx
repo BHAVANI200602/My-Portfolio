@@ -102,7 +102,7 @@ export default function TimelineScrollbar() {
                 transition={{ duration: 0.2, ease: "easeOut" }}
                 className="absolute right-6 font-mono text-[9px] tracking-[0.25em] uppercase whitespace-nowrap pointer-events-none"
                 style={{
-                  color: isActive ? "#e70f0e" : "#e1decc",
+                  color: "#e1decc",
                   opacity: isHovered ? 1 : 0,
                 }}
               >
@@ -116,16 +116,6 @@ export default function TimelineScrollbar() {
                 aria-label={`Scroll to ${section.label}`}
                 style={{ width: 20, height: 20 }}
               >
-                {/* Outer ring — only on active */}
-                {isActive && (
-                  <motion.span
-                    layoutId="activeRing"
-                    className="absolute rounded-full border border-[#e70f0e]"
-                    style={{ width: 16, height: 16 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
-                )}
-
                 {/* Core dot */}
                 <span
                   className="rounded-full transition-all duration-300"
@@ -133,11 +123,11 @@ export default function TimelineScrollbar() {
                     width: isActive ? 5 : isHovered ? 5 : 3,
                     height: isActive ? 5 : isHovered ? 5 : 3,
                     backgroundColor: isActive
-                      ? "#e70f0e"
+                      ? "#e1decc"
                       : isPast
                       ? "#D9C3AB"
                       : "#474145",
-                    boxShadow: isActive ? "0 0 8px #e70f0e" : "none",
+                    boxShadow: "none",
                   }}
                 />
               </button>

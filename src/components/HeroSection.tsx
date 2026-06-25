@@ -94,14 +94,6 @@ function FitText({ text }: { text: string }) {
 export default function HeroSection({ isDived = false }: HeroSectionProps) {
   const [isRevealed, setIsRevealed] = useState(false);
 
-  // Smooth springs for mouse tracking
-  const mouseX = useSpring(50, { stiffness: 250, damping: 30 });
-  const mouseY = useSpring(50, { stiffness: 250, damping: 30 });
-
-  // Dynamically template the CSS mask using the spring values.
-  // The size "ellipse 45% 150%" exactly matches the initial unblurred area.
-  const spotlightMask = useMotionTemplate`radial-gradient(ellipse 45% 150% at ${mouseX}% ${mouseY}%, black 0%, transparent 100%)`;
-
   useEffect(() => {
     if (isDived) {
       const timer = setTimeout(() => setIsRevealed(true), 1500);
@@ -128,56 +120,16 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       {/* Bottom vignette — darkened and extended to make name pop */}
       <div className="absolute inset-x-0 bottom-0 h-[45vh] bg-gradient-to-t from-[#010101] via-[#010101]/80 to-transparent pointer-events-none z-10" />
 
-      {/* ── BIO — top-left ── */}
-      <motion.p
-        initial={{ opacity: 0, y: 15, filter: "blur(4px)" }}
-        animate={isRevealed
-          ? { opacity: 1, y: 0, filter: "blur(0px)" }
-          : { opacity: 0, y: 15, filter: "blur(4px)" }}
-        transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute top-28 left-6 md:left-12 lg:left-16 z-20 max-w-[240px] text-[#e1decc]/80 font-sans text-sm leading-relaxed tracking-wide font-light"
-      >
-        {PERSONAL_BIO.aboutMe}
-      </motion.p>
-
       {/* ── MASSIVE NAME — centered, just above footer ── */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
         transition={{ duration: 1.4, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute inset-x-0 z-20 px-2 md:px-6 cursor-none"
+        className="absolute inset-x-0 z-20 px-2 md:px-6 pointer-events-none"
         /* sits just above the footer bar — footer ~48px tall */
         style={{ bottom: "52px" }}
-        onMouseMove={(e) => {
-          const rect = e.currentTarget.getBoundingClientRect();
-          const x = ((e.clientX - rect.left) / rect.width) * 100;
-          const y = ((e.clientY - rect.top) / rect.height) * 100;
-          mouseX.set(x);
-          mouseY.set(y);
-        }}
-        onMouseLeave={() => {
-          // Smoothly glide back to center when mouse leaves
-          mouseX.set(50);
-          mouseY.set(50);
-        }}
       >
-        <div className="relative w-full">
-          {/* Blurred Background Layer (still readable) */}
-          <div className="w-full opacity-50 filter blur-[5px] transition-opacity duration-300">
-            <FitText text="BHAVANI SHANKAR" />
-          </div>
-
-          {/* Sharp Foreground Layer with Mask */}
-          <motion.div 
-            className="absolute inset-0 w-full"
-            style={{
-              maskImage: spotlightMask,
-              WebkitMaskImage: spotlightMask
-            }}
-          >
-            <FitText text="BHAVANI SHANKAR" />
-          </motion.div>
-        </div>
+        <FitText text="BHAVANI SHANKAR" />
       </motion.div>
 
       {/* ── FOOTER BAR — absolute bottom ── */}

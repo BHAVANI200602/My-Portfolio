@@ -52,12 +52,16 @@ const fsSource = `
     vec2 uv = v_uv;
     float t = u_time;
 
-    // PASS 1 — FBM DOMAIN WARP
+    // PASS 1 — FBM DOMAIN WARP (Increased magnitude and non-linear time)
     vec2 warpVec = vec2(
-      fbm(uv * 2.2 + vec2(t * 0.031, 0.0)),
-      fbm(uv * 2.2 + vec2(0.0, t * 0.027))
-    ) * 0.22 - 0.11;
+      fbm(uv * 2.5 + vec2(t * 0.04, sin(t * 0.05))),
+      fbm(uv * 2.5 + vec2(cos(t * 0.03), t * 0.06))
+    ) * 0.45 - 0.225;
     vec2 warpedUV = uv + warpVec;
+    
+    // Add sinusoidal swirling to break the diagonal strictness
+    warpedUV.x += sin(warpedUV.y * 3.5 + t * 0.25) * 0.15;
+    warpedUV.y += cos(warpedUV.x * 3.0 - t * 0.22) * 0.15;
 
     // PASS 2 — PRIMARY WAVE STACK
     // Diagonal driver: top-left corner = 0 (void/crimson), bottom-right = 1 (silk)
@@ -81,8 +85,8 @@ const fsSource = `
     // PASS 3 — CONTINUOUS ROLLING COLOR DRIVER
     float mousePush = (u_mouse.x / u_res.x - 0.5) * 0.28;
     
-    // Add a continuous time drift to make the colors roll
-    float drift = t * 0.18;
+    // Add a continuous time drift to make the colors roll, plus a curvy sine wave
+    float drift = t * 0.15 + sin(t * 0.4 + warpedUV.y * 2.5) * 0.3;
 
     float xDriver = diagUV * 1.5 + w + sway + mousePush - drift;
     
