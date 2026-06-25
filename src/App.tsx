@@ -14,7 +14,6 @@ import NavBar from "./components/NavBar";
 import ScrollBlur from "./components/LensDistortion";
 import SmoothScroll from "./components/SmoothScroll";
 import CustomCursor from "./components/CustomCursor";
-import CinematicNoise from "./components/CinematicNoise";
 import TimelineScrollbar from "./components/TimelineScrollbar";
 
 export default function App() {
@@ -28,7 +27,6 @@ export default function App() {
   return (
     <SmoothScroll>
       <CustomCursor />
-      <CinematicNoise />
       <TimelineScrollbar />
       {/* Intro sequence pre-loader phase */}
       {preloaderMounted && (
