@@ -30,8 +30,11 @@ html::-webkit-scrollbar {
 }
 
 
-*, *::before, *::after {
-  cursor: none !important;
+/* Kill the native cursor only on devices with a mouse (fine pointer) */
+@media (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
 }
 
 @layer base {

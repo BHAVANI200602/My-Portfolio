@@ -117,8 +117,8 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         <WebGLHeroShader />
       </div>
 
-      {/* Bottom vignette — darkened and extended to make name pop */}
-      <div className="absolute inset-x-0 bottom-0 h-[45vh] bg-gradient-to-t from-[#010101] via-[#010101]/80 to-transparent pointer-events-none z-10" />
+      {/* Bottom vignette — dynamic height: shorter on mobile so it doesn't swallow the screen, taller on desktop */}
+      <div className="absolute inset-x-0 bottom-0 h-40 md:h-[45vh] bg-gradient-to-t from-[#010101] via-[#010101]/60 md:via-[#010101]/80 to-transparent pointer-events-none z-10" />
 
       {/* ── MASSIVE NAME — centered, just above footer ── */}
       <motion.div
@@ -137,18 +137,18 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         initial={{ opacity: 0 }}
         animate={isRevealed ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 1.2, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute inset-x-0 bottom-0 z-30 flex justify-center md:justify-between items-center px-6 md:px-12 lg:px-16 h-12 border-t border-[#e1decc]/10 text-xs font-sans font-medium tracking-widest uppercase"
+        className="absolute inset-x-0 bottom-0 z-30 flex justify-center md:justify-between items-center px-6 md:px-12 lg:px-16 h-12 border-t border-[#e1decc]/10 text-[10px] md:text-xs font-sans font-medium tracking-widest uppercase"
       >
-        <span className="text-[#474145] hidden md:block">&rarr; V3.0</span>
-        <div className="flex justify-center w-full md:w-auto gap-6 text-[#e1decc]/70">
+        <span className="text-[#e1decc]/50 hidden md:block">&rarr; V3.0</span>
+        <div className="flex justify-center w-full md:w-auto gap-4 md:gap-6 text-[#e1decc]">
           <MagneticWrapper strength={0.3}>
             <a href={PERSONAL_BIO.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#e70f0e] transition-colors">LINKEDIN</a>
           </MagneticWrapper>
-          <span className="text-[#474145]/40">·</span>
+          <span className="text-[#e1decc]/30">·</span>
           <MagneticWrapper strength={0.3}>
             <a href={PERSONAL_BIO.github} target="_blank" rel="noopener noreferrer" className="hover:text-[#e70f0e] transition-colors">GITHUB</a>
           </MagneticWrapper>
-          <span className="text-[#474145]/40">·</span>
+          <span className="text-[#e1decc]/30">·</span>
           <MagneticWrapper strength={0.3}>
             <a href={PERSONAL_BIO.leetcode} target="_blank" rel="noopener noreferrer" className="hover:text-[#e70f0e] transition-colors">LEETCODE</a>
           </MagneticWrapper>

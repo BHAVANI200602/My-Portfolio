@@ -176,10 +176,10 @@ export default function SkillsSection() {
               }}
             >
               {/* LEFT — Big category name */}
-              <div className="flex-shrink-0 w-full md:w-[28%] px-6 md:px-12 lg:px-16 py-8 md:py-10 flex items-center justify-start border-b md:border-b-0 md:border-r border-[#474145]/60">
+              <div className="flex-shrink-0 w-full md:w-[35%] lg:w-[30%] px-6 md:px-8 lg:px-16 py-8 md:py-10 flex items-center justify-start border-b md:border-b-0 md:border-r border-[#474145]/60">
                 <span
                   className="font-sans font-bold tracking-tighter text-[#e1decc] leading-[0.85]"
-                  style={{ fontSize: "clamp(2.2rem, 4.5vw, 5rem)" }}
+                  style={{ fontSize: "clamp(1.8rem, 3.8vw, 5rem)" }}
                 >
                   {cat.title}
                 </span>

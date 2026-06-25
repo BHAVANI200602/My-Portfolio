@@ -11,7 +11,6 @@ import SkillsSection from "./components/SkillsSection";
 import ProjectsSection from "./components/ProjectsSection";
 import FooterSection from "./components/FooterSection";
 import NavBar from "./components/NavBar";
-import ScrollBlur from "./components/LensDistortion";
 import SmoothScroll from "./components/SmoothScroll";
 import CustomCursor from "./components/CustomCursor";
 import TimelineScrollbar from "./components/TimelineScrollbar";
@@ -44,9 +43,6 @@ export default function App() {
           onDiveComplete={() => setPreloaderMounted(false)}
         />
       )}
-
-      {/* Bottom blur overlay — blurs incoming content, clears as it scrolls up */}
-      {isDived && <ScrollBlur />}
 
       {/* Navigation Bar */}
       <div

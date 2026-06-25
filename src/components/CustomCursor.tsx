@@ -13,6 +13,12 @@ export default function CustomCursor() {
   const ringRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches || window.matchMedia("(hover: none)").matches;
+    setIsMobile(isTouchDevice);
+  }, []);
 
   // Track ring position in a ref for the raf loop
   const ring = useRef({ x: 0, y: 0 });
@@ -69,6 +75,8 @@ export default function CustomCursor() {
       cancelAnimationFrame(rafId.current);
     };
   }, []);
+
+  if (isMobile) return null;
 
   return (
     <>

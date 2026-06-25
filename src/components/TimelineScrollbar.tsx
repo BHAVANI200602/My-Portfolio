@@ -66,7 +66,7 @@ export default function TimelineScrollbar() {
   };
 
   return (
-    <div className="fixed right-5 top-1/2 -translate-y-1/2 z-[500] flex flex-col items-center select-none"
+    <div className="hidden md:flex fixed right-5 top-1/2 -translate-y-1/2 z-[500] flex-col items-center select-none"
       style={{ height: "60vh" }}
     >
       {/* Background track line */}
