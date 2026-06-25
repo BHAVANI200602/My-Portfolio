@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { PROJECTS } from "../data";
 import { Github } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
+import TextReveal from "./TextReveal";
 
 export default function ProjectsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -73,9 +74,9 @@ export default function ProjectsSection() {
                 </div>
 
                 {/* Right Side: Info */}
-                <div className="w-full md:w-[55%] flex flex-col mt-4 md:mt-12">
-                  <p className="font-sans text-base md:text-[17px] font-medium text-[#e1decc] leading-relaxed mb-8">
-                    {project.description}
+                <div className="w-full md:w-[55%] flex flex-col justify-center">
+                  <p className="font-sans font-light text-sm md:text-base text-[#e1decc]/70 leading-relaxed mb-8 max-w-lg">
+                    <TextReveal delay={0.2}>{project.description}</TextReveal>
                   </p>
 
                   {project.bulletPoints && project.bulletPoints.length > 0 && (

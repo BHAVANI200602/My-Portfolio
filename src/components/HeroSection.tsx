@@ -3,7 +3,6 @@ import { motion } from "motion/react";
 import { PERSONAL_BIO } from "../data";
 import WebGLHeroShader from "./WebGLHeroShader";
 import MagneticWrapper from "./MagneticWrapper";
-import TextReveal from "./TextReveal";
 
 interface HeroSectionProps {
   isDived?: boolean;
@@ -130,7 +129,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
         className="absolute top-28 left-6 md:left-12 lg:left-16 z-20 max-w-[240px] text-[#e1decc]/80 font-sans text-sm leading-relaxed tracking-wide font-light"
       >
-        <TextReveal delay={0.6}>{PERSONAL_BIO.aboutMe}</TextReveal>
+        {PERSONAL_BIO.aboutMe}
       </motion.p>
 
       {/* ── MASSIVE NAME — centered, just above footer ── */}

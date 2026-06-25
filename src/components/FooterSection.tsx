@@ -142,8 +142,7 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
 
       </div>
 
-      {/* Massive display header: "BHAVANI SHANKAR" standing on the bottom border with responsive scaling and matching gradient theme */}
-      {/* Massive display header: "BHAVANI SHANKAR" standing on the bottom border with responsive scaling and matching gradient theme */}
+      {/* Massive display header: "BHAVANI SHANKAR" standing on the bottom border */}
       <div className="absolute bottom-0 left-0 w-full overflow-hidden select-none pointer-events-none leading-none z-0">
         <motion.div
           initial={{ opacity: 0, y: 80, filter: "blur(8px)" }}

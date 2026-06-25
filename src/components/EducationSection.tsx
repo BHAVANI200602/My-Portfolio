@@ -109,7 +109,7 @@ export default function EducationSection() {
                     {edu.location}
                   </div>
                   <p className="font-sans font-light text-sm md:text-base text-[#e1decc]/70 leading-relaxed max-w-sm">
-                    {edu.description}
+                    <TextReveal delay={0.2}>{edu.description}</TextReveal>
                   </p>
                 </div>
               </div>
