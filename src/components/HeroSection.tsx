@@ -117,8 +117,8 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         <WebGLHeroShader />
       </div>
 
-      {/* Bottom vignette */}
-      <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#010101] to-transparent pointer-events-none z-10" />
+      {/* Bottom vignette — darkened and extended to make name pop */}
+      <div className="absolute inset-x-0 bottom-0 h-[45vh] bg-gradient-to-t from-[#010101] via-[#010101]/80 to-transparent pointer-events-none z-10" />
 
       {/* ── BIO — top-left ── */}
       <motion.p
@@ -136,10 +136,11 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       <motion.div
         initial={{ opacity: 0, y: 40, filter: "blur(12px)" }}
         animate={isRevealed
-          ? { opacity: 1, y: 0, filter: "blur(0px)" }
+          ? { opacity: 1, y: 0, filter: "blur(3.5px)" } // stays blurred but readable
           : { opacity: 0, y: 40, filter: "blur(12px)" }}
+        whileHover={{ filter: "blur(0px)", scale: 1.01 }}
         transition={{ duration: 1.4, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute inset-x-0 z-20 px-2 md:px-6"
+        className="absolute inset-x-0 z-20 px-2 md:px-6 cursor-pointer"
         /* sits just above the footer bar — footer ~48px tall */
         style={{ bottom: "52px" }}
       >
