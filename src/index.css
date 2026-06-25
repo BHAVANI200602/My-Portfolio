@@ -21,6 +21,19 @@
   --color-surface-card-hover: #141414;
 }
 
+/* Hide native scrollbar — our TimelineScrollbar replaces it */
+html {
+  scrollbar-width: none; /* Firefox */
+}
+html::-webkit-scrollbar {
+  display: none; /* Chrome / Safari / Edge */
+}
+
+
+*, *::before, *::after {
+  cursor: none !important;
+}
+
 @layer base {
   body {
     background-color: #010101;
@@ -29,10 +42,6 @@
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     transition: background-color 0.8s ease, color 0.8s ease;
-    cursor: none !important;
-  }
-  a {
-    cursor: none !important;
   }
 }
 

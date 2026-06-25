@@ -15,6 +15,7 @@ import ScrollBlur from "./components/LensDistortion";
 import SmoothScroll from "./components/SmoothScroll";
 import CustomCursor from "./components/CustomCursor";
 import CinematicNoise from "./components/CinematicNoise";
+import TimelineScrollbar from "./components/TimelineScrollbar";
 
 export default function App() {
   const [isDived, setIsDived] = useState(false);
@@ -28,6 +29,7 @@ export default function App() {
     <SmoothScroll>
       <CustomCursor />
       <CinematicNoise />
+      <TimelineScrollbar />
       {/* Intro sequence pre-loader phase */}
       {preloaderMounted && (
         <Preloader
