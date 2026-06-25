@@ -93,6 +93,8 @@ function FitText({ text }: { text: string }) {
 
 export default function HeroSection({ isDived = false }: HeroSectionProps) {
   const [isRevealed, setIsRevealed] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+  const [isNameHovered, setIsNameHovered] = useState(false);
 
   useEffect(() => {
     if (isDived) {
@@ -134,17 +136,46 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
 
       {/* ── MASSIVE NAME — centered, just above footer ── */}
       <motion.div
-        initial={{ opacity: 0, y: 40, filter: "blur(12px)" }}
-        animate={isRevealed
-          ? { opacity: 1, y: 0, filter: "blur(3.5px)" } // stays blurred but readable
-          : { opacity: 0, y: 40, filter: "blur(12px)" }}
-        whileHover={{ filter: "blur(0px)", scale: 1.01 }}
+        initial={{ opacity: 0, y: 40 }}
+        animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
         transition={{ duration: 1.4, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute inset-x-0 z-20 px-2 md:px-6 cursor-pointer"
+        className="absolute inset-x-0 z-20 px-2 md:px-6 cursor-none"
         /* sits just above the footer bar — footer ~48px tall */
         style={{ bottom: "52px" }}
+        onMouseMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const x = ((e.clientX - rect.left) / rect.width) * 100;
+          const y = ((e.clientY - rect.top) / rect.height) * 100;
+          setMousePos({ x, y });
+        }}
+        onMouseEnter={() => setIsNameHovered(true)}
+        onMouseLeave={() => {
+          setIsNameHovered(false);
+          setMousePos({ x: 50, y: 50 });
+        }}
       >
-        <FitText text="BHAVANI SHANKAR" />
+        <div className="relative w-full">
+          {/* Blurred Background Layer (still readable) */}
+          <div className="w-full opacity-50 filter blur-[5px] transition-opacity duration-300">
+            <FitText text="BHAVANI SHANKAR" />
+          </div>
+
+          {/* Sharp Foreground Layer with Mask */}
+          <div 
+            className="absolute inset-0 w-full"
+            style={{
+              maskImage: isNameHovered 
+                ? `radial-gradient(circle 250px at ${mousePos.x}% ${mousePos.y}%, black 0%, transparent 100%)`
+                : `radial-gradient(ellipse 45% 150% at 50% 50%, black 0%, transparent 100%)`,
+              WebkitMaskImage: isNameHovered 
+                ? `radial-gradient(circle 250px at ${mousePos.x}% ${mousePos.y}%, black 0%, transparent 100%)`
+                : `radial-gradient(ellipse 45% 150% at 50% 50%, black 0%, transparent 100%)`,
+              transition: isNameHovered ? "none" : "mask-image 0.5s ease-out, -webkit-mask-image 0.5s ease-out"
+            }}
+          >
+            <FitText text="BHAVANI SHANKAR" />
+          </div>
+        </div>
       </motion.div>
 
       {/* ── FOOTER BAR — absolute bottom ── */}
