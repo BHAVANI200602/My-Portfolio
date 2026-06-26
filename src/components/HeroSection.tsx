@@ -50,14 +50,14 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         </h1>
       </motion.div>
 
-      {/* ── INTRO SENTENCE — centered ── */}
+      {/* ── INTRO SENTENCE — Bottom Left ── */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
         transition={{ duration: 1.4, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none px-6 md:px-12"
+        className="absolute bottom-20 md:bottom-28 lg:bottom-32 left-6 md:left-12 lg:left-16 z-20 pointer-events-none"
       >
-        <p className="font-sans text-[var(--color-text)] text-2xl md:text-4xl lg:text-5xl font-medium tracking-tight max-w-5xl text-center leading-[1.3]">
+        <p className="font-sans text-[var(--color-text)] text-xl md:text-3xl lg:text-4xl font-medium tracking-tight max-w-3xl text-left leading-[1.3]">
           <span className="font-bold text-[var(--color-text)] text-4xl md:text-6xl lg:text-7xl block mb-2">Hello,</span>
           I'm Bhavani Shankar, aspiring developer, building code with an eye for design.
         </p>
