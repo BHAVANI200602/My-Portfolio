@@ -45,7 +45,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         transition={{ duration: 1.2, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className="absolute top-24 md:top-32 left-6 md:left-12 lg:left-16 z-20 pointer-events-none"
       >
-        <h1 className="font-sans font-bold text-3xl md:text-4xl lg:text-5xl text-[var(--color-text)] tracking-tight leading-none">
+        <h1 className="font-sans font-extrabold text-5xl md:text-7xl lg:text-[6rem] text-[var(--color-text)] tracking-tighter leading-[0.9]">
           Design &<br />Engineering
         </h1>
       </motion.div>
@@ -57,9 +57,15 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         transition={{ duration: 1.4, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
         className="absolute bottom-20 md:bottom-28 lg:bottom-32 left-6 md:left-12 lg:left-16 z-20 pointer-events-none"
       >
-        <p className="font-sans text-[var(--color-text)] text-xl md:text-3xl lg:text-4xl font-medium tracking-tight max-w-3xl text-left leading-[1.3]">
-          <span className="font-bold text-[var(--color-text)] text-4xl md:text-6xl lg:text-7xl block mb-2">Hello,</span>
-          I'm Bhavani Shankar, aspiring developer, building code with an eye for design.
+        <p className="font-sans text-[var(--color-text)] text-3xl md:text-5xl lg:text-6xl font-medium tracking-tight max-w-4xl lg:max-w-6xl text-left leading-[1.1] md:leading-[1.1]">
+          <span className="font-bold text-[var(--color-text)] text-6xl md:text-[7rem] lg:text-[9rem] tracking-tighter block mb-2 md:mb-4 leading-[0.8]">
+            Hello,
+          </span>
+          <span className="opacity-80">I'm </span>
+          <span className="font-anton uppercase text-[var(--color-theme)] tracking-normal text-4xl md:text-6xl lg:text-[5rem] mx-2 align-baseline">
+            Bhavani Shankar
+          </span>
+          <span className="opacity-80">, aspiring developer, building code with an eye for design.</span>
         </p>
       </motion.div>
 
