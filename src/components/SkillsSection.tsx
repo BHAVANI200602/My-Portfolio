@@ -65,10 +65,10 @@ function SkillTicker({ skills, speed = 28 }: { skills: string[]; speed?: number 
       <span
         key={`${suffix}-${i}`}
         className="inline-flex items-center gap-5 font-sans text-base md:text-lg font-light tracking-wide whitespace-nowrap"
-        style={{ color: "#e1decc", paddingRight: "2.5rem" }}
+        style={{ color: "#E5D9FF", paddingRight: "2.5rem" }}
       >
         {skill}
-        <span style={{ color: "#e70f0e", opacity: 0.55, fontSize: "0.45rem" }}>◆</span>
+        <span style={{ color: "#B5FF47", opacity: 0.55, fontSize: "0.45rem" }}>◆</span>
       </span>
     ));
 
@@ -111,7 +111,7 @@ export default function SkillsSection() {
     <section
       id="section-3"
       ref={sectionRef}
-      className="relative w-full flex flex-col bg-[#010101] border-t border-[#474145]/40 scroll-mt-10 overflow-hidden py-0"
+      className="relative w-full flex flex-col bg-[#030014] border-t border-[#2A1E5C]/40 scroll-mt-10 overflow-hidden py-0"
     >
       {/* Massive Bleeding Header */}
       <div className="w-full relative mb-16 sm:mb-24 flex justify-center h-[12vw] sm:h-[15vw] items-center mt-24 sm:mt-32">
@@ -121,7 +121,7 @@ export default function SkillsSection() {
             fontSize: "clamp(6rem, 18vw, 22rem)",
             lineHeight: 0.8,
             color: "transparent",
-            WebkitTextStroke: "2px #474145",
+            WebkitTextStroke: "2px #2A1E5C",
             opacity: 0.5,
             transform: isInView ? "translateY(0)" : "translateY(50px)",
             transition: "transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.2s",
@@ -134,7 +134,7 @@ export default function SkillsSection() {
           style={{
             fontSize: "clamp(6rem, 18vw, 22rem)",
             lineHeight: 0.8,
-            color: "#e1decc",
+            color: "#E5D9FF",
             transform: isInView ? "translateY(0)" : "translateY(50px)",
             transition: "transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.1s, opacity 1.2s",
             opacity: isInView ? 1 : 0,
@@ -147,7 +147,7 @@ export default function SkillsSection() {
       {/* Sub-header */}
       <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 flex justify-end mb-16 md:mb-24">
         <p
-          className="font-sans text-sm md:text-base text-[#e1decc]/80 max-w-[280px] tracking-widest leading-relaxed uppercase text-right"
+          className="font-sans text-sm md:text-base text-[#E5D9FF]/80 max-w-[280px] tracking-widest leading-relaxed uppercase text-right"
           style={{
             transform: isInView ? "translateY(0)" : "translateY(20px)",
             opacity: isInView ? 1 : 0,
@@ -159,7 +159,7 @@ export default function SkillsSection() {
       </div>
 
       {/* Editorial Rows */}
-      <div className="flex flex-col w-full border-t border-[#474145]">
+      <div className="flex flex-col w-full border-t border-[#2A1E5C]">
         {skillCategories.map((cat, idx) => {
           const delay = 0.3 + idx * 0.12;
           // Speed scales gently with skill count — more skills, slightly faster
@@ -168,7 +168,7 @@ export default function SkillsSection() {
           return (
             <div
               key={cat.title}
-              className="group flex flex-col md:flex-row w-full border-b border-[#474145] transition-all duration-700 hover:bg-[#e70f0e]/5 overflow-hidden"
+              className="group flex flex-col md:flex-row w-full border-b border-[#2A1E5C] transition-all duration-700 hover:bg-[#B5FF47]/5 overflow-hidden"
               style={{
                 opacity: isInView ? 1 : 0,
                 transform: isInView ? "translateY(0)" : "translateY(30px)",
@@ -176,9 +176,9 @@ export default function SkillsSection() {
               }}
             >
               {/* LEFT — Big category name */}
-              <div className="flex-shrink-0 w-full md:w-[35%] lg:w-[30%] px-6 md:px-8 lg:px-16 py-8 md:py-10 flex items-center justify-start border-b md:border-b-0 md:border-r border-[#474145]/60">
+              <div className="flex-shrink-0 w-full md:w-[35%] lg:w-[30%] px-6 md:px-8 lg:px-16 py-8 md:py-10 flex items-center justify-start border-b md:border-b-0 md:border-r border-[#2A1E5C]/60">
                 <span
-                  className="font-sans font-bold tracking-tighter text-[#e1decc] leading-[0.85]"
+                  className="font-sans font-bold tracking-tighter text-[#E5D9FF] leading-[0.85]"
                   style={{ fontSize: "clamp(1.8rem, 3.8vw, 5rem)" }}
                 >
                   {cat.title}

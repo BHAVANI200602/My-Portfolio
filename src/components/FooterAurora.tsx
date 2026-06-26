@@ -55,9 +55,9 @@ export default function FooterAurora() {
         W * 0.0, H * 0.95,  0,            // inner point: bottom-left corner
         W * 0.0, H * 0.95,  leftRadius    // outer edge
       );
-      leftGrad.addColorStop(0,    `rgba(193, 8, 1, ${leftAlpha})`);       // Crimson
-      leftGrad.addColorStop(0.45, `rgba(241, 96, 1, ${leftAlpha * 0.5})`); // Ember
-      leftGrad.addColorStop(0.8,  `rgba(193, 8, 1, 0.04)`);               // Faded Crimson
+      leftGrad.addColorStop(0,    `rgba(255, 55, 68, ${leftAlpha})`);       // Animator's Blood
+      leftGrad.addColorStop(0.45, `rgba(181, 255, 71, ${leftAlpha * 0.5})`); // Laser Banana
+      leftGrad.addColorStop(0.8,  `rgba(255, 55, 68, 0.04)`);               // Faded Blood
       leftGrad.addColorStop(1,    `rgba(0, 0, 0, 0)`);
 
       ctx.save();
@@ -79,9 +79,9 @@ export default function FooterAurora() {
         W * 1.0, H * 0.92, 0,
         W * 1.0, H * 0.92, rightRadius
       );
-      rightGrad.addColorStop(0,    `rgba(241, 96, 1, ${rightAlpha})`);       // Ember
-      rightGrad.addColorStop(0.4,  `rgba(217, 195, 171, ${rightAlpha * 0.5})`); // Silk
-      rightGrad.addColorStop(0.8,  `rgba(193, 8, 1, 0.04)`);                 // Faded Crimson
+      rightGrad.addColorStop(0,    `rgba(181, 255, 71, ${rightAlpha})`);       // Laser Banana
+      rightGrad.addColorStop(0.4,  `rgba(169, 135, 255, ${rightAlpha * 0.5})`); // Lilac
+      rightGrad.addColorStop(0.8,  `rgba(255, 55, 68, 0.04)`);                 // Faded Blood
       rightGrad.addColorStop(1,    `rgba(0, 0, 0, 0)`);
 
       ctx.save();

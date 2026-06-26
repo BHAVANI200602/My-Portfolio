@@ -8,9 +8,9 @@ interface PreloaderProps {
 
 // Sequence: Ku Crimson floods the screen, then black wipes over it.
 // The curtain that lifts away is black — matching the actual page behind it.
-const RIPPLE_CRIMSON = "#e70f0e"; // Ku Crimson
-const RIPPLE_BLACK   = "#010101"; // Ink Black — same as the page bg
-const TEXT_COLOR     = "#e1decc"; // Bone
+const RIPPLE_CRIMSON = "#B5FF47"; // Ku Crimson
+const RIPPLE_BLACK   = "#030014"; // Ink Black — same as the page bg
+const TEXT_COLOR     = "#E5D9FF"; // Bone
 
 export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProps) {
   const [progress, setProgress] = useState(0);
@@ -62,7 +62,7 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
   }, [progress]);
 
   return (
-    <div className="fixed inset-0 w-full h-full z-50 select-none overflow-hidden bg-[#010101]">
+    <div className="fixed inset-0 w-full h-full z-50 select-none overflow-hidden bg-[#030014]">
 
       {/* ── RIPPLE 1: Ku Crimson floods in from center ── */}
       <AnimatePresence>

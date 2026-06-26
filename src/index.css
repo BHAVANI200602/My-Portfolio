@@ -12,11 +12,11 @@
   --font-sans: "Hanken Grotesk", sans-serif;
   --font-mono: "JetBrains Mono", sans-serif;
   
-  --color-theme: #e1decc;         /* Bone */
-  --color-accent: #e70f0e;        /* Ku Crimson */
-  --color-neon-pink: #474145;     /* Purple Taupe */
-  --color-neon-blue: #010101;     /* Black */
-  --color-background-deep: #010101;
+  --color-theme: #E5D9FF;         /* Bone */
+  --color-accent: #B5FF47;        /* Ku Crimson */
+  --color-neon-pink: #2A1E5C;     /* Purple Taupe */
+  --color-neon-blue: #030014;     /* Black */
+  --color-background-deep: #030014;
   --color-surface-card: #0a0a0a;
   --color-surface-card-hover: #141414;
 }
@@ -39,7 +39,7 @@ html::-webkit-scrollbar {
 
 @layer base {
   body {
-    background-color: #010101;
+    background-color: #030014;
     color: var(--color-theme);
     font-family: var(--font-sans);
     overflow-x: hidden;
@@ -79,6 +79,6 @@ html::-webkit-scrollbar {
 /* Custom selection */
 ::selection {
   background-color: var(--color-accent);
-  color: #010101;
+  color: #030014;
 }
 

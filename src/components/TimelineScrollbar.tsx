@@ -70,14 +70,14 @@ export default function TimelineScrollbar() {
       style={{ height: "60vh" }}
     >
       {/* Background track line */}
-      <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-[#e1decc]/10" />
+      <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-[#E5D9FF]/10" />
 
       {/* Filled progress line */}
       <motion.div
         className="absolute left-1/2 -translate-x-1/2 top-0 w-[1px] origin-top"
         style={{
           height: `${scrollProgress * 100}%`,
-          background: "linear-gradient(to bottom, #C10801, #F16001, #D9C3AB)",
+          background: "linear-gradient(to bottom, #C10801, #F16001, #A987FF)",
         }}
       />
 
@@ -102,7 +102,7 @@ export default function TimelineScrollbar() {
                 transition={{ duration: 0.2, ease: "easeOut" }}
                 className="absolute right-6 font-mono text-[9px] tracking-[0.25em] uppercase whitespace-nowrap pointer-events-none"
                 style={{
-                  color: "#e1decc",
+                  color: "#E5D9FF",
                   opacity: isHovered ? 1 : 0,
                 }}
               >
@@ -123,10 +123,10 @@ export default function TimelineScrollbar() {
                     width: isActive ? 5 : isHovered ? 5 : 3,
                     height: isActive ? 5 : isHovered ? 5 : 3,
                     backgroundColor: isActive
-                      ? "#e1decc"
+                      ? "#E5D9FF"
                       : isPast
-                      ? "#D9C3AB"
-                      : "#474145",
+                      ? "#A987FF"
+                      : "#2A1E5C",
                     boxShadow: "none",
                   }}
                 />

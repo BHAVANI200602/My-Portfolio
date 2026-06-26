@@ -58,7 +58,7 @@ export default function App() {
 
       {/* Main Portfolio Framework */}
       <div
-        className="w-full relative min-h-screen flex flex-col justify-between bg-[#010101] text-[var(--color-theme)] transition-opacity duration-1000 ease-in-out select-none"
+        className="w-full relative min-h-screen flex flex-col justify-between bg-[#030014] text-[var(--color-theme)] transition-opacity duration-1000 ease-in-out select-none"
         style={{
           opacity: isDived ? 1 : 0,
           visibility: isDived ? "visible" : "hidden",
@@ -80,7 +80,7 @@ export default function App() {
           </motion.div>
 
           {/* Solid content block that slides over the Hero */}
-          <div className="relative z-10 w-full bg-[#010101] flex flex-col items-center border-t border-[#e1decc]/5 shadow-[0_-30px_60px_rgba(1,1,1,0.8)] pt-8">
+          <div className="relative z-10 w-full bg-[#030014] flex flex-col items-center border-t border-[#E5D9FF]/5 shadow-[0_-30px_60px_rgba(1,1,1,0.8)] pt-8">
             <EducationSection />
             <SkillsSection />
             <ProjectsSection />

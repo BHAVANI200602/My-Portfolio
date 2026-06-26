@@ -18,10 +18,10 @@ const fsSource = `
   uniform vec2 u_mouse;
   uniform float u_speed;
 
-  vec3 C_VOID    = vec3(0.000, 0.000, 0.000); // #000000 — pure black
-  vec3 C_CRIMSON = vec3(0.757, 0.031, 0.004); // #C10801 — rich crimson
-  vec3 C_EMBER   = vec3(0.945, 0.376, 0.004); // #F16001 — vibrant orange
-  vec3 C_SILK    = vec3(0.851, 0.765, 0.671); // #D9C3AB — muted beige/cream
+  vec3 C_VOID    = vec3(0.012, 0.000, 0.078); // #000000 — pure black
+  vec3 C_CRIMSON = vec3(1.000, 0.216, 0.267); // #C10801 — rich crimson
+  vec3 C_EMBER   = vec3(0.710, 1.000, 0.278); // #F16001 — vibrant orange
+  vec3 C_SILK    = vec3(0.663, 0.529, 1.000); // #A987FF — muted beige/cream
 
   float hash(vec2 p) {
     return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
