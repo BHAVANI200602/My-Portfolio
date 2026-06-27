@@ -15,129 +15,50 @@ const fsSource = `
 
   uniform float u_time;
   uniform vec2 u_res;
-  uniform vec2 u_mouse;
-  uniform float u_speed;
-
-  vec3 C_VOID    = vec3(0.012, 0.000, 0.078); // #000000 — pure black
-  vec3 C_CRIMSON = vec3(1.000, 0.216, 0.267); // #C10801 — rich crimson
-  vec3 C_EMBER   = vec3(0.710, 1.000, 0.278); // #F16001 — vibrant orange
-  vec3 C_SILK    = vec3(0.663, 0.529, 1.000); // #A987FF — muted beige/cream
-
-  float hash(vec2 p) {
-    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
-  }
-  
-  float noise(vec2 p) {
-    vec2 i = floor(p);
-    vec2 f = fract(p);
-    vec2 u = f * f * (3.0 - 2.0 * f);
-    return mix(mix(hash(i + vec2(0.0,0.0)), hash(i + vec2(1.0,0.0)), u.x),
-               mix(hash(i + vec2(0.0,1.0)), hash(i + vec2(1.0,1.0)), u.x), u.y);
-  }
-
-  float fbm(vec2 p) {
-    float v = 0.0;
-    float a = 0.5;
-    vec2 shift = vec2(100.0);
-    mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.50));
-    for (int i = 0; i < 6; ++i) {
-      v += a * noise(p);
-      p = rot * p * 2.0 + shift;
-      a *= 0.5;
-    }
-    return v;
-  }
 
   void main() {
-    vec2 uv = v_uv;
-    float t = u_time;
+    // Aspect ratio correction
+    vec2 p = v_uv * 2.0 - 1.0;
+    p.x *= u_res.x / u_res.y;
 
-    // PASS 1 — FBM DOMAIN WARP (Increased magnitude and non-linear time)
-    vec2 warpVec = vec2(
-      fbm(uv * 2.5 + vec2(t * 0.04, sin(t * 0.05))),
-      fbm(uv * 2.5 + vec2(cos(t * 0.03), t * 0.06))
-    ) * 0.45 - 0.225;
-    vec2 warpedUV = uv + warpVec;
+    float t = u_time * 0.15;
+
+    // Charcoal Palette
+    vec3 c0 = vec3(0.04, 0.04, 0.05); // Deep Charcoal / Black
+    vec3 c1 = vec3(0.12, 0.13, 0.15); // Dark Grey
+    vec3 c2 = vec3(0.35, 0.36, 0.40); // Mid Grey
+    vec3 c3 = vec3(0.90, 0.92, 0.95); // White / Silver
     
-    // Add sinusoidal swirling to break the diagonal strictness
-    warpedUV.x += sin(warpedUV.y * 3.5 + t * 0.25) * 0.15;
-    warpedUV.y += cos(warpedUV.x * 3.0 - t * 0.22) * 0.15;
-
-    // PASS 2 — PRIMARY WAVE STACK
-    // Diagonal driver: top-left corner = 0 (void/crimson), bottom-right = 1 (silk)
-    // Mix x and y such that top-left is dark and bottom-right is warm
-    float diagUV = (warpedUV.x * 0.6 + (1.0 - warpedUV.y) * 0.4);
-
-    float yInfluence = clamp(u_mouse.y / u_res.y, 0.0, 1.0);
-    float waveScale = mix(0.8, 1.6, yInfluence);
-
-    float w = 0.0;
-    w += sin(diagUV * 6.283 * 1.0  - t * 0.55) * 0.095;
-    w += sin(diagUV * 6.283 * 2.3  + t * 0.38) * 0.068;
-    w += cos(diagUV * 6.283 * 3.7  - t * 0.28) * 0.051;
-    w += sin(diagUV * 6.283 * 5.1  + t * 0.21) * 0.034;
-    w += cos(diagUV * 6.283 * 7.9  - t * 0.15) * 0.022;
-    w *= waveScale;
-
-    float sway = sin(warpedUV.y * 3.14 * 1.3 + t * 0.18) * 0.052
-               + cos(warpedUV.y * 3.14 * 2.9 - t * 0.11) * 0.029;
-
-    // PASS 3 — CONTINUOUS ROLLING COLOR DRIVER
-    float mousePush = (u_mouse.x / u_res.x - 0.5) * 0.28;
+    // Domain warping to create sweeping waves
+    // We recursively distort the coordinate space
+    for(float i = 1.0; i <= 3.0; i++) {
+        vec2 newP = p;
+        newP.x += 0.5 / i * sin(i * 2.1 * p.y + t + i);
+        newP.y += 0.5 / i * cos(i * 1.8 * p.x - t + i);
+        p = newP;
+    }
     
-    // Add a continuous time drift to make the colors roll, plus a curvy sine wave
-    float drift = t * 0.15 + sin(t * 0.4 + warpedUV.y * 2.5) * 0.3;
-
-    float xDriver = diagUV * 1.5 + w + sway + mousePush - drift;
+    // A linear driver creates repeating lines in the warped space
+    float driver = p.x * 1.8 + p.y * 1.3 + t * 1.5;
     
-    // Use a mirrored wrap (triangle wave) to loop the gradient seamlessly:
-    // 0.0 -> 1.0 -> 0.0 -> 1.0 (Void -> Crimson -> Ember -> Silk -> Ember -> Crimson -> Void)
-    xDriver = abs(fract(xDriver * 0.45) * 2.0 - 1.0);
-
-    // PASS 4 — 4-COLOR SMOOTH BAND REMAP
-    float t0 = smoothstep(0.0,  0.4,  xDriver);
-    float t1 = smoothstep(0.28, 0.68, xDriver);
-    float t2 = smoothstep(0.58, 1.0,  xDriver);
-
-    vec3 col = mix(C_VOID, C_CRIMSON, t0);
-    col      = mix(col,    C_EMBER,   t1);
-    col      = mix(col,    C_SILK,    t2);
-
-    // PASS 5 — VERTICAL UNDULATION
-    float yRipple = sin(uv.y * 6.28 * 1.8  + uv.x * 3.1  + t * 0.53) * 0.028
-                  + sin(uv.y * 6.28 * 4.2  - uv.x * 1.7  - t * 0.37) * 0.016
-                  + cos(uv.y * 6.28 * 7.6  + uv.x * 5.3  + t * 0.24) * 0.009;
-
-    col.r += yRipple * 0.55;
-    col.g += yRipple * 0.18;
-    col = clamp(col, 0.0, 1.0);
-
-    // PASS 6 — HEAT SHIMMER / CAUSTIC LAYER
-    vec2 causticUV = warpedUV * 4.5 + vec2(t * 0.06, -t * 0.04);
-    float caustic = fbm(causticUV) * fbm(causticUV + vec2(0.5));
-    caustic = pow(caustic, 2.2) * 0.07;
-
-    float causMask = smoothstep(0.2, 0.5, xDriver) * smoothstep(0.9, 0.5, xDriver);
-    col += vec3(caustic * 0.9, caustic * 0.3, 0.0) * causMask;
-
-    // PASS 7 — DEPTH PULSE (more alive)
-    float pulse = 1.0
-      + sin(t * 0.41) * 0.032
-      + sin(t * 0.27) * 0.021
-      + sin(t * 0.13) * 0.013
-      + cos(t * 0.08) * 0.009;
-
-    col *= pulse;
-
-    // PASS 8 — FILM GRAIN
-    float grain = fract(sin(dot(gl_FragCoord.xy + t * 0.07,
-                  vec2(127.1, 311.7))) * 43758.5453) * 0.032 - 0.016;
-    col += vec3(grain);
-
-    // PASS 9 — VIGNETTE CRUSH
-    vec2 vigUV = (uv - 0.5) * vec2(1.0, 1.25);
-    float vig = smoothstep(0.38, 1.05, length(vigUV));
-    col = mix(col, vec3(0.0), vig * 0.68);
+    // Fract creates sharp fold edges
+    float fold = fract(driver);
+    
+    // Smooth step across the fold to create gradients
+    // 0.0 -> 0.5: c0 to c1 (deep shadow into body)
+    // 0.5 -> 0.9: c1 to c2 (body into highlight rim)
+    // 0.9 -> 1.0: c2 to c3 (sharp glowing white edge)
+    vec3 col = mix(c0, c1, smoothstep(0.0, 0.5, fold));
+    col = mix(col, c2, smoothstep(0.5, 0.9, fold));
+    col = mix(col, c3, smoothstep(0.9, 1.0, fold));
+    
+    // Film Grain
+    float grain = fract(sin(dot(v_uv * 123.456 + t, vec2(12.9898, 78.233))) * 43758.5453);
+    col += (grain - 0.5) * 0.04;
+    
+    // Vignette
+    float dist = length(v_uv - 0.5);
+    col *= smoothstep(0.9, 0.2, dist);
 
     gl_FragColor = vec4(col, 1.0);
   }
