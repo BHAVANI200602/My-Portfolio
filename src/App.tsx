@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { useState } from "react";
 import Preloader from "./components/Preloader";
 import HeroSection from "./components/HeroSection";

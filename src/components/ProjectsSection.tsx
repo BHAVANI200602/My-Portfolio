@@ -26,8 +26,6 @@ export default function ProjectsSection() {
   const jOpacity = useTransform(scrollYProgress, [0.8, 0.9], [1, 0]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.8, 1], [1, 1, 0]);
 
-
-
   return (
     <section id="section-4" className="w-full bg-[#111111]">
       {/* Zoom Phase Container */}

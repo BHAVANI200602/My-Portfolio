@@ -1,8 +1,7 @@
-import { useEffect } from "react";
-// @ts-expect-error - lenis types might be missing in some environments
+import { useEffect, type ReactNode } from "react";
 import Lenis from "lenis";
 
-export default function SmoothScroll({ children }: { children: React.ReactNode }) {
+export default function SmoothScroll({ children }: { children: ReactNode }) {
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2, // Smoothness duration

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { motion } from "motion/react";
 
 export default function MagneticWrapper({
@@ -6,14 +6,14 @@ export default function MagneticWrapper({
   className = "",
   strength = 0.5,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   strength?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
-  const handleMouse = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouse = (e: MouseEvent<HTMLDivElement>) => {
     const { clientX, clientY } = e;
     const { height, width, left, top } = ref.current!.getBoundingClientRect();
     const middleX = clientX - (left + width / 2);

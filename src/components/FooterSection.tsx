@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { ArrowUp, Mail, Github, Linkedin, Code2, Check, Copy } from "lucide-react";
 import { motion } from "motion/react";
 import FooterAurora from "./FooterAurora";
 import MagneticWrapper from "./MagneticWrapper";
-import { useInView } from "./useInView";
+import { PERSONAL_BIO } from "../data";
 
 
 interface FooterSectionProps {
@@ -12,9 +12,8 @@ interface FooterSectionProps {
 
 export default function FooterSection({ scrollToTop }: FooterSectionProps) {
   const [copied, setCopied] = useState(false);
-  const email = "ratgrey73@gmail.com";
-  const [sectionRef, isInView] = useInView();
-  void isInView; // available for future use
+  const sectionRef = useRef<HTMLElement>(null);
+  const { email, github, linkedin, leetcode } = PERSONAL_BIO;
 
   const copyEmail = () => {
     navigator.clipboard.writeText(email);
@@ -91,7 +90,7 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
           <div className="flex items-center gap-6 font-sans">
             <MagneticWrapper strength={0.4}>
               <a
-                href="https://github.com/BHAVANI200602"
+                href={github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-white/70 hover:text-[#E5E5E5] hover:border-white/20 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] bg-[#000000]/5 transition-all duration-300 scale-100 hover:scale-110"
@@ -103,7 +102,7 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
 
             <MagneticWrapper strength={0.4}>
               <a
-                href="https://www.linkedin.com/in/bhavani-02-24-2006-shankar/"
+                href={linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-white/70 hover:text-[#E5E5E5] hover:border-white/20 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] bg-[#000000]/5 transition-all duration-300 scale-100 hover:scale-110"
@@ -115,7 +114,7 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
 
             <MagneticWrapper strength={0.4}>
               <a
-                href="https://leetcode.com/u/GV2023006238/"
+                href={leetcode}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-white/70 hover:text-[#E5E5E5] hover:border-white/20 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] bg-[#000000]/5 transition-all duration-300 scale-100 hover:scale-110"

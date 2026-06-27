@@ -1,36 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=League+Spartan:wght@700;800;900&family=Nexa:wght@100;900&family=Sora:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-anton: "Anton", sans-serif;
-  --font-bebas: "Bebas Neue", sans-serif;
-  --font-nexa: "Nexa", sans-serif;
-  --font-dm-serif: "DM Serif Display", serif;
-  --font-spartan: "League Spartan", sans-serif;
-  --font-display: "Sora", sans-serif;
-  --font-heading: "Space Grotesk", sans-serif;
   --font-sans: "Hanken Grotesk", sans-serif;
-  --font-mono: "JetBrains Mono", sans-serif;
-  
-  --color-theme: #E5D9FF;         /* Bone */
-  --color-accent: #FFFFFF;        /* Ku Crimson */
-  --color-neon-pink: #2A1E5C;     /* Purple Taupe */
-  --color-neon-blue: #000000;     /* Black */
-  --color-background-deep: #000000;
-  --color-surface-card: #0a0a0a;
-  --color-surface-card-hover: #141414;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-accent: #FFFFFF;
 }
 
 /* Hide native scrollbar — our TimelineScrollbar replaces it */
 html {
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
 html::-webkit-scrollbar {
-  display: none; /* Chrome / Safari / Edge */
+  display: none;
 }
 
-
-/* Kill the native cursor only on devices with a mouse (fine pointer) */
 @media (pointer: fine) {
   *, *::before, *::after {
     cursor: none !important;
@@ -48,37 +34,7 @@ html::-webkit-scrollbar {
   }
 }
 
-/* Custom visual helpers */
-.svg-outline {
-  fill: none;
-  stroke: #F5F5F5;
-  stroke-width: 2px;
-  vector-effect: non-scaling-stroke;
-  transition: stroke 0.8s ease;
-}
-
-.svg-fill {
-  fill: #F5F5F5;
-  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), fill 0.8s ease;
-}
-
-/* Smooth custom cursor or neon glows */
-.neon-glow-pink {
-  box-shadow: 0 0 20px rgba(71, 65, 69, 0.35);
-}
-
-.neon-glow-blue {
-  box-shadow: 0 0 20px rgba(231, 15, 14, 0.35);
-}
-
-#dashed-line-anim {
-  clip-path: inset(100% 0 0 0);
-  will-change: clip-path;
-}
-
-/* Custom selection */
 ::selection {
   background-color: var(--color-accent);
   color: #000000;
 }
-
