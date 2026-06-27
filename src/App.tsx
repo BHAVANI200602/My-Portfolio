@@ -75,7 +75,7 @@ export default function App() {
           </motion.div>
 
           {/* Solid content block that slides over the Hero */}
-          <div className="relative z-10 w-full bg-[#000000] flex flex-col items-center border-t border-[#E5D9FF]/5 shadow-[0_-30px_60px_rgba(1,1,1,0.8)] pt-8">
+          <div className="relative z-10 w-full bg-black flex flex-col items-center border-t border-white/10 shadow-[0_-30px_60px_rgba(0,0,0,0.8)] pt-8">
             <EducationSection />
             <SkillsSection />
             <ProjectsSection />

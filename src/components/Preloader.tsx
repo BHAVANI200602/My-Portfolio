@@ -6,11 +6,8 @@ interface PreloaderProps {
   onDiveComplete: () => void;
 }
 
-// Sequence: Ku Crimson floods the screen, then black wipes over it.
-// The curtain that lifts away is black — matching the actual page behind it.
-const RIPPLE_CRIMSON = "#FFFFFF"; // Ku Crimson
-const RIPPLE_BLACK   = "#000000"; // Ink Black — same as the page bg
-const TEXT_COLOR     = "#E5D9FF"; // Bone
+const SOFT_WHITE = "#F0F0F0";
+const BLACK = "#000000";
 
 export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProps) {
   const [progress, setProgress] = useState(0);
@@ -34,20 +31,15 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
     return () => clearInterval(interval);
   }, []);
 
-  // When progress hits 100, kick off the ripple sequence
   useEffect(() => {
     if (progress < 100) return;
 
-    // Small pause at 100%, then crimson floods in
     const t1 = setTimeout(() => setPhase("ripple1"), 200);
-    // Black ripple follows — covers the crimson
     const t2 = setTimeout(() => setPhase("ripple2"), 900);
-    // Black curtain lifts to reveal the page
     const t3 = setTimeout(() => {
       setPhase("curtain");
-      if (onDiveStart) onDiveStart();
+      onDiveStart?.();
     }, 1700);
-    // Unmount preloader
     const t4 = setTimeout(() => {
       document.body.style.overflow = "auto";
       onDiveComplete();
@@ -59,19 +51,18 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
       clearTimeout(t3);
       clearTimeout(t4);
     };
-  }, [progress]);
+  }, [progress, onDiveStart, onDiveComplete]);
 
   return (
-    <div className="fixed inset-0 w-full h-full z-50 select-none overflow-hidden bg-[#000000]">
+    <div className="fixed inset-0 w-full h-full z-50 select-none overflow-hidden bg-black">
 
-      {/* ── RIPPLE 1: Ku Crimson floods in from center ── */}
       <AnimatePresence>
         {(phase === "ripple1" || phase === "ripple2" || phase === "curtain") && (
           <motion.div
             key="ripple1"
             className="absolute rounded-full"
             style={{
-              background: RIPPLE_CRIMSON,
+              background: SOFT_WHITE,
               left: "50%",
               top: "50%",
               translateX: "-50%",
@@ -86,14 +77,13 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
         )}
       </AnimatePresence>
 
-      {/* ── RIPPLE 2: Black wipes over the crimson ── */}
       <AnimatePresence>
         {(phase === "ripple2" || phase === "curtain") && (
           <motion.div
             key="ripple2"
             className="absolute rounded-full"
             style={{
-              background: RIPPLE_BLACK,
+              background: BLACK,
               left: "50%",
               top: "50%",
               translateX: "-50%",
@@ -108,13 +98,11 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
         )}
       </AnimatePresence>
 
-      {/* ── CURTAIN: Black slides UP — reveals the page beneath ── */}
       <AnimatePresence>
         {phase === "curtain" && (
           <motion.div
             key="curtain"
-            className="absolute inset-0 z-30"
-            style={{ backgroundColor: RIPPLE_BLACK }}
+            className="absolute inset-0 z-30 bg-black"
             initial={{ y: "0%" }}
             animate={{ y: "-100%" }}
             transition={{ duration: 1.35, ease: [0.76, 0, 0.24, 1], delay: 0.1 }}
@@ -122,7 +110,6 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
         )}
       </AnimatePresence>
 
-      {/* ── PROGRESS COUNTER — bottom right ── */}
       <AnimatePresence>
         {phase === "counting" && (
           <motion.div
@@ -133,31 +120,17 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
             exit={{ opacity: 0, transition: { duration: 0.25 } }}
           >
             <span
-              className="font-anton tabular-nums leading-none"
-              style={{
-                fontSize: "clamp(3.5rem, 10vw, 7rem)",
-                color: "transparent",
-                WebkitTextFillColor: "transparent",
-                WebkitTextStroke: `1.5px ${TEXT_COLOR}`,
-                backgroundImage: `linear-gradient(to top, ${RIPPLE_CRIMSON} 50%, ${TEXT_COLOR} 50%)`,
-                backgroundSize: "100% 200%",
-                backgroundPosition: `0% ${progress}%`,
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-              }}
+              className="font-display font-bold tabular-nums leading-none text-white-soft"
+              style={{ fontSize: "clamp(3.5rem, 10vw, 7rem)" }}
             >
               {String(progress).padStart(3, "0")}%
             </span>
-            <div
-              className="mt-1 font-mono text-[9px] uppercase tracking-[0.3em] text-right"
-              style={{ color: `${TEXT_COLOR}99` }}
-            >
+            <div className="mt-1 font-mono text-[9px] uppercase tracking-[0.3em] text-right text-white/40">
               Loading
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-
     </div>
   );
 }

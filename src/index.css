@@ -1,15 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-anton: "Anton", sans-serif;
+  --font-display: "Sora", sans-serif;
   --font-sans: "Hanken Grotesk", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 
-  --color-accent: #FFFFFF;
+  --color-black: #000000;
+  --color-white-soft: #F0F0F0;
+  --color-grey-100: #E8E8E8;
+  --color-grey-200: #AAAAAA;
+  --color-grey-300: #666666;
+  --color-grey-400: #333333;
+  --color-grey-500: #1A1A1A;
 }
 
-/* Hide native scrollbar — our TimelineScrollbar replaces it */
 html {
   scrollbar-width: none;
 }
@@ -25,16 +30,15 @@ html::-webkit-scrollbar {
 
 @layer base {
   body {
-    background-color: #000000;
-    color: #F5F5F5;
+    background-color: var(--color-black);
+    color: var(--color-white-soft);
     font-family: var(--font-sans);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
-    transition: background-color 0.8s ease, color 0.8s ease;
   }
 }
 
 ::selection {
-  background-color: var(--color-accent);
-  color: #000000;
+  background-color: var(--color-white-soft);
+  color: var(--color-black);
 }

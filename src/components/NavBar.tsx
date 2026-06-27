@@ -14,13 +14,8 @@ export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Prevent scrolling when menu is open
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = isOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
@@ -28,77 +23,62 @@ export default function NavBar() {
 
   const handleNavClick = (targetId: string) => {
     if (isTransitioning) return;
-    
+
     const el = document.getElementById(targetId);
     if (!el) return;
 
     setIsTransitioning(true);
-
-    // Scroll to the element behind the curtain immediately
     el.scrollIntoView({ behavior: "instant" });
-    
-    // Close the curtain to reveal the new section
     setIsOpen(false);
-
-    // Reset transition lock
-    setTimeout(() => {
-      setIsTransitioning(false);
-    }, 1000); // Wait for exit animation to finish
+    setTimeout(() => setIsTransitioning(false), 1000);
   };
+
+  const btnBase = "w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center border transition-all duration-300 hover:scale-105";
+  const btnClosed = `${btnBase} bg-black border-white/15 text-white-soft hover:border-white/30`;
+  const btnOpen = `${btnBase} bg-white-soft border-white-soft text-black hover:bg-black hover:text-white-soft hover:border-white/30`;
 
   return (
     <>
-      {/* 
-        1. Top Right Floating Widgets 
-        Absolute positioned so they stay at the top of the Home Section and don't drag down on scroll.
-      */}
       <div className="absolute top-0 right-0 p-6 md:p-10 z-[110] flex items-center gap-4">
-        
-        {/* GitHub Repository Link */}
         <MagneticWrapper strength={0.4}>
           <a
             href="https://github.com/BHAVANI200602/My-Portfolio"
             target="_blank"
             rel="noopener noreferrer"
-            className={`w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-all duration-300 ${isOpen ? "bg-[#E5D9FF] text-[#000000] hover:bg-[#000000] hover:text-[#E5D9FF]" : "bg-[#000000] text-[#E5D9FF] hover:bg-[#000000]"}`}
+            className={isOpen ? btnOpen : btnClosed}
             aria-label="GitHub Repository"
           >
             <Github className="w-5 h-5 md:w-6 md:h-6" />
           </a>
         </MagneticWrapper>
 
-        {/* Menu Toggle Button with morphing Hamburger / X */}
         <MagneticWrapper strength={0.4}>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={`relative w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-all duration-300 outline-none ${isOpen ? "bg-[#E5D9FF] text-[#000000] hover:bg-[#000000] hover:text-[#E5D9FF]" : "bg-[#000000] text-[#E5D9FF] hover:bg-[#000000]"}`}
+            className={isOpen ? btnOpen : btnClosed}
             aria-label="Toggle Menu"
           >
             <div className="relative w-5 h-4 flex flex-col justify-between items-center">
-              {/* Top Line */}
               <motion.span
                 animate={isOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className={`w-full h-0.5 rounded-full origin-center ${isOpen ? "bg-[#000000]" : "bg-[#E5D9FF]"}`}
+                className={`w-full h-0.5 rounded-full origin-center ${isOpen ? "bg-black" : "bg-white-soft"}`}
               />
-            {/* Middle Line */}
-            <motion.span
-              animate={isOpen ? { opacity: 0, x: 10 } : { opacity: 1, x: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className={`w-full h-0.5 rounded-full ${isOpen ? "bg-[#000000]" : "bg-[#E5D9FF]"}`}
-            />
-            {/* Bottom Line */}
-            <motion.span
-              animate={isOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className={`w-full h-0.5 rounded-full origin-center ${isOpen ? "bg-[#000000]" : "bg-[#E5D9FF]"}`}
-            />
-          </div>
+              <motion.span
+                animate={isOpen ? { opacity: 0, x: 10 } : { opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className={`w-full h-0.5 rounded-full ${isOpen ? "bg-black" : "bg-white-soft"}`}
+              />
+              <motion.span
+                animate={isOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className={`w-full h-0.5 rounded-full origin-center ${isOpen ? "bg-black" : "bg-white-soft"}`}
+              />
+            </div>
           </button>
         </MagneticWrapper>
       </div>
 
-      {/* 2. Full-Screen Editorial Curtain Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -106,7 +86,7 @@ export default function NavBar() {
             animate={{ y: "0%" }}
             exit={{ y: "-100%" }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 z-[100] bg-[#000000] flex flex-col justify-center pl-4 pr-8 md:pl-12 md:pr-24"
+            className="fixed inset-0 z-[100] bg-black flex flex-col justify-center pl-4 pr-8 md:pl-12 md:pr-24"
           >
             <div className="flex flex-col items-start gap-4 md:gap-8 max-w-4xl">
               {NAV_LINKS.map((link, i) => (
@@ -120,7 +100,7 @@ export default function NavBar() {
                 >
                   <button
                     onClick={() => handleNavClick(link.targetId)}
-                    className="group relative text-[#E5D9FF] font-anton uppercase text-5xl sm:text-7xl md:text-8xl tracking-wider text-left transition-colors hover:text-[#F5F5F5]"
+                    className="group relative text-white-soft font-display font-bold uppercase text-5xl sm:text-7xl md:text-8xl tracking-tight text-left transition-colors hover:text-white"
                   >
                     {link.label}
                   </button>
