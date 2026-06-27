@@ -8,8 +8,8 @@ interface PreloaderProps {
 
 // Sequence: Ku Crimson floods the screen, then black wipes over it.
 // The curtain that lifts away is black — matching the actual page behind it.
-const RIPPLE_CRIMSON = "#B5FF47"; // Ku Crimson
-const RIPPLE_BLACK   = "#030014"; // Ink Black — same as the page bg
+const RIPPLE_CRIMSON = "#FFFFFF"; // Ku Crimson
+const RIPPLE_BLACK   = "#000000"; // Ink Black — same as the page bg
 const TEXT_COLOR     = "#E5D9FF"; // Bone
 
 export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProps) {

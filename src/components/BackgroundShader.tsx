@@ -120,7 +120,7 @@ export default function BackgroundShader() {
       const elapsed = now - startTime;
       const seconds = elapsed * 0.001;
 
-      ctx.fillStyle = "#030014";
+      ctx.fillStyle = "#000000";
       ctx.fillRect(0, 0, width, height);
 
       // Soft white ambient warmth in the center

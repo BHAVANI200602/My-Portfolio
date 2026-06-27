@@ -65,10 +65,10 @@ function SkillTicker({ skills, speed = 28 }: { skills: string[]; speed?: number 
       <span
         key={`${suffix}-${i}`}
         className="inline-flex items-center gap-5 font-sans text-base md:text-lg font-light tracking-wide whitespace-nowrap"
-        style={{ color: "#030014", paddingRight: "2.5rem" }}
+        style={{ color: "#FFFFFF", paddingRight: "2.5rem" }}
       >
         {skill}
-        <span style={{ color: "#FF3744", opacity: 0.7, fontSize: "0.45rem" }}>◆</span>
+        <span style={{ color: "#555555", opacity: 0.7, fontSize: "0.45rem" }}>◆</span>
       </span>
     ));
 
@@ -134,7 +134,7 @@ export default function SkillsSection() {
           style={{
             fontSize: "clamp(6rem, 18vw, 22rem)",
             lineHeight: 0.8,
-            color: "#030014",
+            color: "#000000",
             transform: isInView ? "translateY(0)" : "translateY(50px)",
             transition: "transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.1s, opacity 1.2s",
             opacity: isInView ? 1 : 0,

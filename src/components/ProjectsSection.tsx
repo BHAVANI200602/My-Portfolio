@@ -36,7 +36,7 @@ export default function ProjectsSection() {
           className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center items-center px-4 md:px-8 z-10 bg-[#111111]"
         >
           <motion.div style={{ opacity: textOpacity }} className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-10 px-4">
-            <div className="font-anton flex items-center justify-center uppercase leading-none text-[20vw] md:text-[16vw] gap-2 md:gap-4 tracking-normal text-[var(--color-theme)] w-full max-w-7xl mx-auto">
+            <div className="font-anton flex items-center justify-center uppercase leading-none text-[20vw] md:text-[16vw] gap-2 md:gap-4 tracking-normal text-[#F5F5F5] w-full max-w-7xl mx-auto">
               <motion.span style={{ x: leftX, opacity: leftOpacity }} className="inline-block origin-center">P</motion.span>
               <motion.span style={{ x: leftX, opacity: leftOpacity }} className="inline-block origin-center">R</motion.span>
               <motion.span style={{ x: leftX, opacity: leftOpacity }} className="inline-block origin-center">O</motion.span>

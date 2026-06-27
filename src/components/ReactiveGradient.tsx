@@ -84,7 +84,7 @@ export default function ReactiveGradient() {
         .reactive-highlight {
           background: radial-gradient(
             circle at var(--mouse-x) var(--mouse-y),
-            #A987FF 0%,
+            #FFFFFF 0%,
             transparent 25%
           );
         }

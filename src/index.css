@@ -13,10 +13,10 @@
   --font-mono: "JetBrains Mono", sans-serif;
   
   --color-theme: #E5D9FF;         /* Bone */
-  --color-accent: #B5FF47;        /* Ku Crimson */
+  --color-accent: #FFFFFF;        /* Ku Crimson */
   --color-neon-pink: #2A1E5C;     /* Purple Taupe */
-  --color-neon-blue: #030014;     /* Black */
-  --color-background-deep: #030014;
+  --color-neon-blue: #000000;     /* Black */
+  --color-background-deep: #000000;
   --color-surface-card: #0a0a0a;
   --color-surface-card-hover: #141414;
 }
@@ -39,8 +39,8 @@ html::-webkit-scrollbar {
 
 @layer base {
   body {
-    background-color: #030014;
-    color: var(--color-theme);
+    background-color: #000000;
+    color: #F5F5F5;
     font-family: var(--font-sans);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
@@ -51,14 +51,14 @@ html::-webkit-scrollbar {
 /* Custom visual helpers */
 .svg-outline {
   fill: none;
-  stroke: var(--color-theme);
+  stroke: #F5F5F5;
   stroke-width: 2px;
   vector-effect: non-scaling-stroke;
   transition: stroke 0.8s ease;
 }
 
 .svg-fill {
-  fill: var(--color-theme);
+  fill: #F5F5F5;
   transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), fill 0.8s ease;
 }
 
@@ -79,6 +79,6 @@ html::-webkit-scrollbar {
 /* Custom selection */
 ::selection {
   background-color: var(--color-accent);
-  color: #030014;
+  color: #000000;
 }
 

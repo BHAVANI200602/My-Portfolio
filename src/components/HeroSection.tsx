@@ -46,7 +46,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       />
 
       {/* Bottom vignette */}
-      <div className="absolute inset-x-0 bottom-0 h-40 md:h-[45vh] bg-gradient-to-t from-[#030014] via-[#030014]/60 md:via-[#030014]/80 to-transparent pointer-events-none z-10" />
+      <div className="absolute inset-x-0 bottom-0 h-40 md:h-[45vh] bg-gradient-to-t from-[#000000] via-[#000000]/60 md:via-[#000000]/80 to-transparent pointer-events-none z-10" />
 
       {/* ── EDITORIAL BADGE — Top Left ── */}
       <motion.div
@@ -72,7 +72,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
             Hello,
           </span>
           <span className="opacity-80">I'm </span>
-          <span className="font-anton uppercase text-[var(--color-theme)] tracking-normal text-4xl md:text-6xl lg:text-[5rem] mx-2 align-baseline">
+          <span className="font-anton uppercase text-[#F5F5F5] tracking-normal text-4xl md:text-6xl lg:text-[5rem] mx-2 align-baseline">
             Bhavani Shankar
           </span>
           <span className="opacity-80">, aspiring developer, building code with an eye for design.</span>

@@ -77,7 +77,7 @@ export default function TimelineScrollbar() {
         className="absolute left-1/2 -translate-x-1/2 top-0 w-[1px] origin-top"
         style={{
           height: `${scrollProgress * 100}%`,
-          background: "linear-gradient(to bottom, #C10801, #F16001, #A987FF)",
+          background: "linear-gradient(to bottom, #C10801, #F16001, #FFFFFF)",
         }}
       />
 
@@ -125,7 +125,7 @@ export default function TimelineScrollbar() {
                     backgroundColor: isActive
                       ? "#E5D9FF"
                       : isPast
-                      ? "#A987FF"
+                      ? "#FFFFFF"
                       : "#2A1E5C",
                     boxShadow: "none",
                   }}

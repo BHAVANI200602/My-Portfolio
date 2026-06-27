@@ -29,7 +29,7 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
         <FooterAurora />
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-transparent via-[#A987FF]/40 to-[#A987FF] pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-gradient-to-t from-transparent via-[#FFFFFF]/40 to-[#FFFFFF] pointer-events-none z-0" />
 
       <div className="relative w-full max-w-6xl mx-auto px-6 md:px-12 flex flex-col items-center justify-center text-center z-10">
         

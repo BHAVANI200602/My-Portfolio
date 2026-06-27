@@ -35,7 +35,7 @@ export default function EducationSection() {
           style={{
             fontSize: "clamp(6rem, 18vw, 22rem)",
             lineHeight: 0.8,
-            color: "#B5FF47",
+            color: "#FFFFFF",
             transform: isInView ? "translateY(0)" : "translateY(50px)",
             transition: "transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.1s, opacity 1.2s",
             opacity: isInView ? 1 : 0
@@ -97,7 +97,7 @@ export default function EducationSection() {
                   <h3 className="font-sans font-bold text-2xl md:text-3xl lg:text-4xl text-white tracking-tight leading-none mb-4 group-hover:text-[#F5F5F5] transition-colors duration-500">
                     {edu.degree}
                   </h3>
-                  <div className="font-mono text-[10px] md:text-xs text-[#561CFF] bg-[#000000] self-start px-3 py-1.5 tracking-[0.2em] uppercase font-bold">
+                  <div className="font-mono text-[10px] md:text-xs text-[#111111] bg-[#000000] self-start px-3 py-1.5 tracking-[0.2em] uppercase font-bold">
                     {edu.institution}
                   </div>
                 </div>
