@@ -89,7 +89,7 @@ export default function SkillsSection() {
     >
       <div className="w-full relative mb-16 sm:mb-24 flex justify-center h-[12vw] sm:h-[15vw] items-center mt-24 sm:mt-32">
         <h2
-          className="font-display font-bold uppercase tracking-tight select-none whitespace-nowrap absolute"
+          className="font-anton uppercase tracking-tight select-none whitespace-nowrap absolute"
           style={{
             fontSize: "clamp(6rem, 18vw, 22rem)",
             lineHeight: 0.8,
@@ -103,7 +103,7 @@ export default function SkillsSection() {
           SKILLS SKILLS SKILLS
         </h2>
         <h2
-          className="font-display font-bold uppercase tracking-tight select-none whitespace-nowrap absolute z-10 text-white-soft"
+          className="font-anton uppercase tracking-tight select-none whitespace-nowrap absolute z-10 text-white-soft"
           style={{
             fontSize: "clamp(6rem, 18vw, 22rem)",
             lineHeight: 0.8,

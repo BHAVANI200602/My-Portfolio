@@ -120,7 +120,7 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
             exit={{ opacity: 0, transition: { duration: 0.25 } }}
           >
             <span
-              className="font-display font-bold tabular-nums leading-none text-white-soft"
+              className="font-anton tabular-nums leading-none text-white-soft"
               style={{ fontSize: "clamp(3.5rem, 10vw, 7rem)" }}
             >
               {String(progress).padStart(3, "0")}%

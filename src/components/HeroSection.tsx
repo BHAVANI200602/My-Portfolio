@@ -55,8 +55,8 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
           <span className="font-mono text-[9px] md:text-[10px] tracking-[0.35em] uppercase text-white/40 block mb-3">
             Discipline
           </span>
-          <p className="font-display font-bold text-3xl md:text-5xl lg:text-6xl text-white-soft tracking-tight leading-[0.95]">
-            Art<span className="text-white/40 font-normal">+</span>computing
+          <p className="font-anton uppercase text-4xl md:text-6xl lg:text-[5.5rem] text-white-soft tracking-normal leading-[0.95]">
+            Art<span className="font-sans font-light normal-case text-white/35 text-3xl md:text-5xl lg:text-6xl align-middle">+</span>computing
           </p>
         </motion.div>
 
@@ -68,11 +68,11 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
           className="col-span-4 md:col-span-6 lg:col-span-7 row-start-5 md:row-start-6 self-end pb-16 md:pb-20 lg:pb-24"
         >
           <p className="font-sans text-lg md:text-2xl lg:text-[1.75rem] text-white/60 font-light leading-[1.55] tracking-tight max-w-2xl lg:max-w-3xl">
-            <span className="font-display font-bold text-white-soft text-2xl md:text-4xl lg:text-5xl block mb-3 md:mb-4 tracking-tight leading-[1.05]">
+            <span className="font-anton uppercase text-white-soft text-4xl md:text-6xl lg:text-7xl block mb-3 md:mb-4 tracking-normal leading-[0.9]">
               Hello,
             </span>
             im{" "}
-            <span className="font-display font-bold text-white-soft">Bhavani Shankar</span>
+            <span className="font-anton uppercase text-white-soft tracking-normal">Bhavani Shankar</span>
             , aspiring developer, building code that some times just works
           </p>
         </motion.div>

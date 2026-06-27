@@ -140,7 +140,7 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
           transition={{ duration: 2.0, ease: [0.16, 1, 0.3, 1] }}
           className="w-full flex justify-center"
         >
-          <h2 className="font-display font-bold text-[19vw] md:text-[18.5vw] lg:text-[18vw] uppercase text-center text-white/[0.06] leading-none tracking-tighter translate-y-[15%] select-none">
+          <h2 className="font-anton uppercase text-[19vw] md:text-[18.5vw] lg:text-[18vw] text-center text-white/[0.06] leading-none tracking-tighter translate-y-[15%] select-none">
             BHAVANI SHANKAR
           </h2>
         </motion.div>

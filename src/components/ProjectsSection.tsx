@@ -28,7 +28,7 @@ export default function ProjectsSection() {
             style={{ opacity: textOpacity }}
             className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-10 px-4"
           >
-            <div className="font-display font-bold flex items-center justify-center uppercase leading-none text-[20vw] md:text-[16vw] gap-2 md:gap-4 tracking-tight text-white-soft w-full max-w-7xl mx-auto">
+            <div className="font-anton uppercase flex items-center justify-center leading-none text-[20vw] md:text-[16vw] gap-2 md:gap-4 tracking-normal text-white-soft w-full max-w-7xl mx-auto">
               <motion.span style={{ x: leftX, opacity: leftOpacity }} className="inline-block origin-center">P</motion.span>
               <motion.span style={{ x: leftX, opacity: leftOpacity }} className="inline-block origin-center">R</motion.span>
               <motion.span style={{ x: leftX, opacity: leftOpacity }} className="inline-block origin-center">O</motion.span>
@@ -50,7 +50,7 @@ export default function ProjectsSection() {
                 <span className="font-mono text-[10px] tracking-[0.3em] text-white/40 mb-4 uppercase">
                   {String(idx + 1).padStart(2, "0")} — {String(PROJECTS.length).padStart(2, "0")}
                 </span>
-                <h2 className="font-display font-bold uppercase leading-[0.85] tracking-tight text-white-soft text-6xl md:text-7xl lg:text-[7rem]">
+                <h2 className="font-anton uppercase leading-[0.85] tracking-normal text-white-soft text-6xl md:text-7xl lg:text-[7rem]">
                   {project.title}
                 </h2>
                 <p className="font-mono text-[10px] tracking-[0.2em] text-white/40 uppercase mt-4">

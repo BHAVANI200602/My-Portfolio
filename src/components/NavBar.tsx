@@ -100,7 +100,7 @@ export default function NavBar() {
                 >
                   <button
                     onClick={() => handleNavClick(link.targetId)}
-                    className="group relative text-white-soft font-display font-bold uppercase text-5xl sm:text-7xl md:text-8xl tracking-tight text-left transition-colors hover:text-white"
+                    className="group relative text-white-soft font-anton uppercase text-5xl sm:text-7xl md:text-8xl tracking-normal text-left transition-colors hover:text-white"
                   >
                     {link.label}
                   </button>
