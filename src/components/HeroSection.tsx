@@ -35,6 +35,16 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         <WebGLHeroShader />
       </div>
 
+      {/* ── MASSIVE ARCHITECTURAL GRID OVERLAY ── */}
+      <div
+        className="absolute inset-0 z-[1] pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 L 0 0 0 100' fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='1' /%3E%3Cpath d='M -4 0 L 4 0 M 0 -4 L 0 4' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='1' /%3E%3C/svg%3E")`,
+          backgroundSize: "25vw 25vh",
+          backgroundPosition: "0 0"
+        }}
+      />
+
       {/* Bottom vignette */}
       <div className="absolute inset-x-0 bottom-0 h-40 md:h-[45vh] bg-gradient-to-t from-[#030014] via-[#030014]/60 md:via-[#030014]/80 to-transparent pointer-events-none z-10" />
 
