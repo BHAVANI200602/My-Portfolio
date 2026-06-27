@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from "react";
-import { motion, useSpring, useMotionTemplate } from "motion/react";
+import { useState, useEffect } from "react";
+import { motion } from "motion/react";
 import { PERSONAL_BIO } from "../data";
-import WebGLHeroShader from "./WebGLHeroShader";
+import SnakeCanvas from "./SnakeCanvas";
 import MagneticWrapper from "./MagneticWrapper";
 
 interface HeroSectionProps {
@@ -27,15 +27,25 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       className="relative w-full overflow-hidden bg-[#000000]"
       style={{ height: "100svh" }}
     >
-      {/* ── SHADER BACKGROUND ── */}
+      {/* ── SNAKE CANVAS BACKGROUND ── */}
       <div
         className="absolute inset-0 z-0 pointer-events-none transition-opacity duration-1000"
         style={{ opacity: isRevealed ? 1 : 0 }}
       >
-        <WebGLHeroShader />
+        <SnakeCanvas />
       </div>
 
-      {/* Bottom vignette — dynamic height: shorter on mobile so it doesn't swallow the screen, taller on desktop */}
+      {/* ── EDITORIAL GRID OVERLAY ── */}
+      <div
+        className="absolute inset-0 z-[1] pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(229,217,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(229,217,255,0.04) 1px, transparent 1px)",
+          backgroundSize: "80px 80px",
+        }}
+      />
+
+      {/* Bottom vignette */}
       <div className="absolute inset-x-0 bottom-0 h-40 md:h-[45vh] bg-gradient-to-t from-[#030014] via-[#030014]/60 md:via-[#030014]/80 to-transparent pointer-events-none z-10" />
 
       {/* ── EDITORIAL BADGE — Top Left ── */}
