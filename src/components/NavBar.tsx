@@ -13,6 +13,7 @@ const NAV_LINKS = [
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -33,9 +34,12 @@ export default function NavBar() {
     setTimeout(() => setIsTransitioning(false), 1000);
   };
 
-  const btnBase = "w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center border transition-all duration-300 hover:scale-105";
-  const btnClosed = `${btnBase} bg-black border-white/15 text-white-soft hover:border-white/30`;
-  const btnOpen = `${btnBase} bg-white-soft border-white-soft text-black hover:bg-black hover:text-white-soft hover:border-white/30`;
+  const btnBase =
+    "w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center border transition-all duration-300 hover:scale-105";
+
+  const btnClosed = `${btnBase} bg-black border-white/15 text-white-soft hover:bg-white/[0.06] hover:border-white/35 hover:text-white`;
+
+  const btnOpen = `${btnBase} bg-black border-black text-white-soft hover:bg-grey-400 hover:border-grey-400 hover:text-black`;
 
   return (
     <>
@@ -62,17 +66,17 @@ export default function NavBar() {
               <motion.span
                 animate={isOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className={`w-full h-0.5 rounded-full origin-center ${isOpen ? "bg-black" : "bg-white-soft"}`}
+                className={`w-full h-0.5 rounded-full origin-center ${isOpen ? "bg-white-soft" : "bg-white-soft"}`}
               />
               <motion.span
                 animate={isOpen ? { opacity: 0, x: 10 } : { opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className={`w-full h-0.5 rounded-full ${isOpen ? "bg-black" : "bg-white-soft"}`}
+                className="w-full h-0.5 rounded-full bg-white-soft"
               />
               <motion.span
                 animate={isOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className={`w-full h-0.5 rounded-full origin-center ${isOpen ? "bg-black" : "bg-white-soft"}`}
+                className={`w-full h-0.5 rounded-full origin-center ${isOpen ? "bg-white-soft" : "bg-white-soft"}`}
               />
             </div>
           </button>
@@ -86,26 +90,54 @@ export default function NavBar() {
             animate={{ y: "0%" }}
             exit={{ y: "-100%" }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 z-[100] bg-black flex flex-col justify-center pl-4 pr-8 md:pl-12 md:pr-24"
+            className="fixed inset-0 z-[100] bg-white-soft flex flex-col justify-center pl-4 pr-8 md:pl-12 md:pr-24"
           >
-            <div className="flex flex-col items-start gap-4 md:gap-8 max-w-4xl">
-              {NAV_LINKS.map((link, i) => (
-                <motion.div
-                  key={link.label}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5, delay: 0.2 + i * 0.1, ease: "easeOut" }}
-                  className="overflow-hidden"
-                >
-                  <button
-                    onClick={() => handleNavClick(link.targetId)}
-                    className="group relative text-white-soft font-anton uppercase text-5xl sm:text-7xl md:text-8xl tracking-normal text-left transition-colors hover:text-white"
+            <div className="flex flex-col items-start gap-2 md:gap-4 max-w-5xl w-full">
+              {NAV_LINKS.map((link, i) => {
+                const isHovered = hoveredLink === link.label;
+
+                return (
+                  <motion.div
+                    key={link.label}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.5, delay: 0.2 + i * 0.1, ease: "easeOut" }}
+                    className="w-full overflow-hidden"
+                    onMouseEnter={() => setHoveredLink(link.label)}
+                    onMouseLeave={() => setHoveredLink(null)}
                   >
-                    {link.label}
-                  </button>
-                </motion.div>
-              ))}
+                    <button
+                      onClick={() => handleNavClick(link.targetId)}
+                      className="group relative w-full text-left py-1 md:py-2"
+                    >
+                      {/* Black fill sweeps in on hover — white menu, black text inverts */}
+                      <span
+                        className="absolute inset-0 bg-black origin-left transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                        style={{
+                          transform: isHovered ? "scaleX(1)" : "scaleX(0)",
+                        }}
+                      />
+
+                      <span
+                        className={`relative z-10 block font-anton uppercase tracking-normal transition-colors duration-300
+                          text-5xl sm:text-7xl md:text-8xl leading-[0.95]
+                          ${isHovered ? "text-white-soft" : "text-black"}`}
+                      >
+                        {link.label}
+                      </span>
+
+                      {/* Grey index label on hover */}
+                      <span
+                        className={`relative z-10 font-mono text-[9px] tracking-[0.3em] uppercase mt-1 block transition-colors duration-300
+                          ${isHovered ? "text-white/40" : "text-grey-300"}`}
+                      >
+                        0{i + 1} — Navigate
+                      </span>
+                    </button>
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.div>
         )}

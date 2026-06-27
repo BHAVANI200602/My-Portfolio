@@ -30,7 +30,6 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         <WebGLHeroShader />
       </div>
 
-      {/* Architectural grid overlay */}
       <div
         className="absolute inset-0 z-[1] pointer-events-none"
         style={{
@@ -40,43 +39,55 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         }}
       />
 
-      <div className="absolute inset-x-0 bottom-0 h-40 md:h-[45vh] bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none z-10" />
+      {/* Bottom ambient light — soft glow + depth fade */}
+      <div
+        className="absolute inset-x-0 bottom-0 pointer-events-none z-[5]"
+        style={{
+          height: "55vh",
+          background:
+            "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(240,240,240,0.07) 0%, rgba(240,240,240,0.02) 40%, transparent 70%)",
+        }}
+      />
+      <div className="absolute inset-x-0 bottom-0 h-32 sm:h-40 md:h-48 bg-gradient-to-t from-black via-black/85 to-transparent pointer-events-none z-[6]" />
 
-      {/* Editorial grid — aligns copy to grid intersections */}
-      <div className="absolute inset-0 z-20 grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 grid-rows-6 pointer-events-none px-6 md:px-12 lg:px-16 py-8 md:py-12">
+      {/* Art+computing — mobile: upper-left (unchanged feel); desktop: tiny corner tag */}
+      <motion.div
+        initial={{ opacity: 0, y: -12 }}
+        animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: -12 }}
+        transition={{ duration: 1.0, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute z-20 pointer-events-none
+          top-[4.5rem] left-5
+          sm:top-20 sm:left-6
+          md:top-7 md:left-7
+          lg:top-8 lg:left-8"
+      >
+        <span className="font-mono text-[8px] md:text-[7px] tracking-[0.35em] uppercase text-white/35 block mb-1 md:mb-0.5">
+          Discipline
+        </span>
+        <p className="font-anton uppercase text-white-soft/90 leading-none
+          text-2xl sm:text-3xl
+          md:text-sm md:text-white/50
+          lg:text-xs lg:tracking-[0.12em]">
+          Art<span className="font-sans font-light normal-case text-white/30 md:text-[10px]">+</span>computing
+        </p>
+      </motion.div>
 
-        {/* Top left — editorial quote */}
-        <motion.div
-          initial={{ opacity: 0, y: -16 }}
-          animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: -16 }}
-          transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="col-span-3 md:col-span-4 lg:col-span-5 row-start-1 self-start pt-16 md:pt-20 lg:pt-24"
+      {/* Editorial name — bottom, edge-to-edge */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+        transition={{ duration: 1.3, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute inset-x-0 bottom-0 z-20 pointer-events-none
+          px-2 sm:px-3 md:px-4 lg:px-5
+          pb-6 sm:pb-8 md:pb-10 lg:pb-12"
+      >
+        <h1
+          className="font-anton uppercase text-white-soft text-center leading-[0.82] tracking-[-0.01em] w-full select-none"
+          style={{ fontSize: "clamp(2.8rem, 13.5vw, 12rem)" }}
         >
-          <span className="font-mono text-[9px] md:text-[10px] tracking-[0.35em] uppercase text-white/40 block mb-3">
-            Discipline
-          </span>
-          <p className="font-anton uppercase text-4xl md:text-6xl lg:text-[5.5rem] text-white-soft tracking-normal leading-[0.95]">
-            Art<span className="font-sans font-light normal-case text-white/35 text-3xl md:text-5xl lg:text-6xl align-middle">+</span>computing
-          </p>
-        </motion.div>
-
-        {/* Bottom left — intro */}
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
-          transition={{ duration: 1.4, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="col-span-4 md:col-span-6 lg:col-span-7 row-start-5 md:row-start-6 self-end pb-16 md:pb-20 lg:pb-24"
-        >
-          <p className="font-sans text-lg md:text-2xl lg:text-[1.75rem] text-white/60 font-light leading-[1.55] tracking-tight max-w-2xl lg:max-w-3xl">
-            <span className="font-anton uppercase text-white-soft text-4xl md:text-6xl lg:text-7xl block mb-3 md:mb-4 tracking-normal leading-[0.9]">
-              Hello,
-            </span>
-            im{" "}
-            <span className="font-anton uppercase text-white-soft tracking-normal">Bhavani Shankar</span>
-            , aspiring developer, building code that some times just works
-          </p>
-        </motion.div>
-      </div>
+          Bhavani Shankar
+        </h1>
+      </motion.div>
     </section>
   );
 }
