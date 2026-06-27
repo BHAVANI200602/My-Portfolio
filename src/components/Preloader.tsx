@@ -62,7 +62,7 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
   }, [progress]);
 
   return (
-    <div className="fixed inset-0 w-full h-full z-50 select-none overflow-hidden bg-[#030014]">
+    <div className="fixed inset-0 w-full h-full z-50 select-none overflow-hidden bg-[#000000]">
 
       {/* ── RIPPLE 1: Ku Crimson floods in from center ── */}
       <AnimatePresence>

@@ -9,7 +9,7 @@ export default function EducationSection() {
     <section
       id="section-2"
       ref={sectionRef}
-      className="relative min-h-screen w-full flex flex-col py-24 sm:py-32 bg-[#561CFF] border-t border-[#B5FF47]/20 scroll-mt-10 overflow-hidden"
+      className="relative min-h-screen w-full flex flex-col py-24 sm:py-32 bg-[#111111] border-t border-white/20/20 scroll-mt-10 overflow-hidden"
     >
       {/* Massive Bleeding Header */}
       <div className="w-full relative mb-16 sm:mb-24 flex justify-center h-[12vw] sm:h-[15vw] items-center">
@@ -61,7 +61,7 @@ export default function EducationSection() {
         </div>
 
         {/* Horizontal Rows */}
-        <div className="flex flex-col w-full border-t border-[#B5FF47]/30">
+        <div className="flex flex-col w-full border-t border-white/20/30">
           {EDUCATION.map((edu, idx) => {
             const delay = 0.3 + idx * 0.15;
             
@@ -73,7 +73,7 @@ export default function EducationSection() {
             return (
               <div
                 key={idx}
-                className="group relative flex flex-col md:flex-row w-full pt-6 pb-12 md:pt-8 md:pb-16 border-b border-[#B5FF47]/20 transition-all duration-700 hover:bg-[#B5FF47]/10"
+                className="group relative flex flex-col md:flex-row w-full pt-6 pb-12 md:pt-8 md:pb-16 border-b border-white/20/20 transition-all duration-700 hover:bg-[#000000]/10"
                 style={{
                   opacity: isInView ? 1 : 0,
                   transform: isInView ? "translateY(0)" : "translateY(30px)",
@@ -94,10 +94,10 @@ export default function EducationSection() {
 
                 {/* 2. Degree & Institution */}
                 <div className="w-full md:w-[45%] flex flex-col pr-8 mb-6 md:mb-0 justify-start pt-2">
-                  <h3 className="font-sans font-bold text-2xl md:text-3xl lg:text-4xl text-white tracking-tight leading-none mb-4 group-hover:text-[#B5FF47] transition-colors duration-500">
+                  <h3 className="font-sans font-bold text-2xl md:text-3xl lg:text-4xl text-white tracking-tight leading-none mb-4 group-hover:text-[#F5F5F5] transition-colors duration-500">
                     {edu.degree}
                   </h3>
-                  <div className="font-mono text-[10px] md:text-xs text-[#561CFF] bg-[#B5FF47] self-start px-3 py-1.5 tracking-[0.2em] uppercase font-bold">
+                  <div className="font-mono text-[10px] md:text-xs text-[#561CFF] bg-[#000000] self-start px-3 py-1.5 tracking-[0.2em] uppercase font-bold">
                     {edu.institution}
                   </div>
                 </div>

@@ -79,15 +79,15 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
         <span className="text-[#E5D9FF]/50 hidden md:block">&rarr; V3.0</span>
         <div className="flex justify-center w-full md:w-auto gap-4 md:gap-6 text-[#E5D9FF]">
           <MagneticWrapper strength={0.3}>
-            <a href={PERSONAL_BIO.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#B5FF47] transition-colors">LINKEDIN</a>
+            <a href={PERSONAL_BIO.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[#F5F5F5] transition-colors">LINKEDIN</a>
           </MagneticWrapper>
           <span className="text-[#E5D9FF]/30">·</span>
           <MagneticWrapper strength={0.3}>
-            <a href={PERSONAL_BIO.github} target="_blank" rel="noopener noreferrer" className="hover:text-[#B5FF47] transition-colors">GITHUB</a>
+            <a href={PERSONAL_BIO.github} target="_blank" rel="noopener noreferrer" className="hover:text-[#F5F5F5] transition-colors">GITHUB</a>
           </MagneticWrapper>
           <span className="text-[#E5D9FF]/30">·</span>
           <MagneticWrapper strength={0.3}>
-            <a href={PERSONAL_BIO.leetcode} target="_blank" rel="noopener noreferrer" className="hover:text-[#B5FF47] transition-colors">LEETCODE</a>
+            <a href={PERSONAL_BIO.leetcode} target="_blank" rel="noopener noreferrer" className="hover:text-[#F5F5F5] transition-colors">LEETCODE</a>
           </MagneticWrapper>
         </div>
       </motion.div>

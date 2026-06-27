@@ -111,7 +111,7 @@ export default function SkillsSection() {
     <section
       id="section-3"
       ref={sectionRef}
-      className="relative w-full flex flex-col bg-[#B5FF47] border-t border-[#030014]/20 scroll-mt-10 overflow-hidden py-0"
+      className="relative w-full flex flex-col bg-[#000000] border-t border-white/10 scroll-mt-10 overflow-hidden py-0"
     >
       {/* Massive Bleeding Header */}
       <div className="w-full relative mb-16 sm:mb-24 flex justify-center h-[12vw] sm:h-[15vw] items-center mt-24 sm:mt-32">
@@ -147,7 +147,7 @@ export default function SkillsSection() {
       {/* Sub-header */}
       <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 flex justify-end mb-16 md:mb-24">
         <p
-          className="font-sans text-sm md:text-base text-[#030014]/60 max-w-[280px] tracking-widest leading-relaxed uppercase text-right"
+          className="font-sans text-sm md:text-base text-white/60 max-w-[280px] tracking-widest leading-relaxed uppercase text-right"
           style={{
             transform: isInView ? "translateY(0)" : "translateY(20px)",
             opacity: isInView ? 1 : 0,
@@ -159,7 +159,7 @@ export default function SkillsSection() {
       </div>
 
       {/* Editorial Rows */}
-      <div className="flex flex-col w-full border-t border-[#030014]/20">
+      <div className="flex flex-col w-full border-t border-white/10">
         {skillCategories.map((cat, idx) => {
           const delay = 0.3 + idx * 0.12;
           // Speed scales gently with skill count — more skills, slightly faster
@@ -168,7 +168,7 @@ export default function SkillsSection() {
           return (
             <div
               key={cat.title}
-              className="group flex flex-col md:flex-row w-full border-b border-[#030014]/20 transition-all duration-700 hover:bg-[#FF3744]/10 overflow-hidden"
+              className="group flex flex-col md:flex-row w-full border-b border-white/10 transition-all duration-700 hover:bg-[#111111]/10 overflow-hidden"
               style={{
                 opacity: isInView ? 1 : 0,
                 transform: isInView ? "translateY(0)" : "translateY(30px)",
@@ -176,9 +176,9 @@ export default function SkillsSection() {
               }}
             >
               {/* LEFT — Big category name */}
-              <div className="flex-shrink-0 w-full md:w-[35%] lg:w-[30%] px-6 md:px-8 lg:px-16 py-8 md:py-10 flex items-center justify-start border-b md:border-b-0 md:border-r border-[#030014]/20">
+              <div className="flex-shrink-0 w-full md:w-[35%] lg:w-[30%] px-6 md:px-8 lg:px-16 py-8 md:py-10 flex items-center justify-start border-b md:border-b-0 md:border-r border-white/10">
                 <span
-                  className="font-sans font-bold tracking-tighter text-[#030014] leading-[0.85]"
+                  className="font-sans font-bold tracking-tighter text-white leading-[0.85]"
                   style={{ fontSize: "clamp(1.8rem, 3.8vw, 5rem)" }}
                 >
                   {cat.title}
