@@ -54,10 +54,12 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
   }, [progress, onDiveStart, onDiveComplete]);
 
   return (
-    <div className="fixed inset-0 w-full h-full z-50 select-none overflow-hidden bg-black">
-
+    <div 
+      className="fixed inset-0 w-full h-full z-50 select-none overflow-hidden" 
+      style={{ backgroundColor: phase === "counting" ? "black" : "transparent" }}
+    >
       <AnimatePresence>
-        {(phase === "ripple1" || phase === "ripple2" || phase === "curtain") && (
+        {(phase === "ripple1" || phase === "ripple2") && (
           <motion.div
             key="ripple1"
             className="absolute rounded-full"
@@ -78,7 +80,7 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
       </AnimatePresence>
 
       <AnimatePresence>
-        {(phase === "ripple2" || phase === "curtain") && (
+        {phase === "ripple2" && (
           <motion.div
             key="ripple2"
             className="absolute rounded-full"
@@ -120,7 +122,7 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
             exit={{ opacity: 0, transition: { duration: 0.25 } }}
           >
             <span
-              className="font-anton tabular-nums leading-none text-white-soft"
+              className="font-anton tabular-nums leading-none text-white"
               style={{ fontSize: "clamp(3.5rem, 10vw, 7rem)" }}
             >
               {String(progress).padStart(3, "0")}%

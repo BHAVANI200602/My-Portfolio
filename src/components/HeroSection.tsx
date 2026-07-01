@@ -24,8 +24,13 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       style={{ height: "100svh" }}
     >
       <div
-        className="absolute inset-0 z-0 pointer-events-none transition-opacity duration-1000"
-        style={{ opacity: isRevealed ? 1 : 0 }}
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{ 
+          opacity: isRevealed ? 1 : 0,
+          filter: isRevealed ? "blur(0px)" : "blur(24px)",
+          transform: isRevealed ? "scale(1)" : "scale(1.05)",
+          transition: "opacity 1.5s ease-out, filter 2s ease-out, transform 2s ease-out"
+        }}
       >
         <WebGLHeroShader />
       </div>
@@ -51,10 +56,11 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       <div className="absolute inset-x-0 bottom-0 h-32 sm:h-40 md:h-48 bg-gradient-to-t from-black via-black/85 to-transparent pointer-events-none z-[6]" />
 
       {/* Art+computing — mobile: upper-left (unchanged feel); desktop: tiny corner tag */}
+      {/* Art+computing — mobile: upper-left (unchanged feel); desktop: tiny corner tag */}
       <motion.div
-        initial={{ opacity: 0, y: -12 }}
-        animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: -12 }}
-        transition={{ duration: 1.0, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        initial={{ opacity: 0, y: 30 }}
+        animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+        transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="absolute z-20 pointer-events-none
           top-[4.5rem] left-5
           sm:top-20 sm:left-6
@@ -73,10 +79,11 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       </motion.div>
 
       {/* Editorial name — bottom, edge-to-edge */}
+      {/* Editorial name — bottom, edge-to-edge */}
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-        transition={{ duration: 1.3, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        initial={{ opacity: 0, y: 60 }}
+        animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+        transition={{ duration: 1.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
         className="absolute inset-x-0 bottom-0 z-20 pointer-events-none
           px-2 sm:px-3 md:px-4 lg:px-5
           pb-6 sm:pb-8 md:pb-10 lg:pb-12"

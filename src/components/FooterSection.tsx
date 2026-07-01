@@ -43,78 +43,13 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 1.2, ease: "easeOut", delay: 0.15 }}
-          className="w-full max-w-3xl flex flex-col items-center gap-12 mb-16"
+          className="w-full max-w-4xl flex flex-col items-start mb-20 border-t border-white/10"
         >
-          <div className="flex flex-col items-center gap-3 max-w-full">
-            <span className="font-mono text-[9px] uppercase tracking-widest text-white/40 select-none">
-              direct communication channel
-            </span>
-            <div className="relative group flex items-center gap-1.5 sm:gap-2.5 px-4 sm:px-6 py-2.5 sm:py-3 bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-white/20 rounded-full transition-all duration-300 max-w-full overflow-hidden">
-              <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/60 shrink-0" />
-              <a
-                href={`mailto:${email}`}
-                className="font-mono text-xs sm:text-sm md:text-base text-white-soft/80 hover:text-white-soft transition-colors truncate max-w-[170px] xs:max-w-none"
-              >
-                {email}
-              </a>
-              <button
-                onClick={copyEmail}
-                className="ml-1 sm:ml-2 p-1 text-white/40 hover:text-white-soft transition-colors shrink-0"
-                title="Copy email to clipboard"
-              >
-                {copied ? (
-                  <Check className="w-3.5 h-3.5 text-white/70" />
-                ) : (
-                  <Copy className="w-3.5 h-3.5" />
-                )}
-              </button>
-
-              {copied && (
-                <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-white/10 border border-white/20 text-white-soft font-mono text-[10px] uppercase tracking-widest rounded shadow-sm">
-                  Copied!
-                </span>
-              )}
-            </div>
-          </div>
-
-          <div className="flex items-center gap-6 font-sans">
-            <MagneticWrapper strength={0.4}>
-              <a
-                href={github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-white/60 hover:text-white-soft hover:border-white/25 bg-white/[0.03] transition-all duration-300 scale-100 hover:scale-110"
-                title="GitHub Profile"
-              >
-                <Github className="w-5 h-5" />
-              </a>
-            </MagneticWrapper>
-
-            <MagneticWrapper strength={0.4}>
-              <a
-                href={linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-white/60 hover:text-white-soft hover:border-white/25 bg-white/[0.03] transition-all duration-300 scale-100 hover:scale-110"
-                title="LinkedIn Profile"
-              >
-                <Linkedin className="w-5 h-5" />
-              </a>
-            </MagneticWrapper>
-
-            <MagneticWrapper strength={0.4}>
-              <a
-                href={leetcode}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center w-12 h-12 rounded-full border border-white/10 text-white/60 hover:text-white-soft hover:border-white/25 bg-white/[0.03] transition-all duration-300 scale-100 hover:scale-110"
-                title="LeetCode Profile"
-              >
-                <Code2 className="w-5 h-5" />
-              </a>
-            </MagneticWrapper>
-          </div>
-
+          <FooterLink label="Email" icon={Mail} href={`mailto:${email}`} />
+          <FooterLink label="LinkedIn" icon={Linkedin} href={linkedin} />
+          <FooterLink label="GitHub" icon={Github} href={github} />
+          <FooterLink label="LeetCode" icon={Code2} href={leetcode} />
+        </motion.div>
           <div className="flex flex-col items-center gap-2">
             <MagneticWrapper strength={0.4}>
               <button
@@ -146,5 +81,35 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
         </motion.div>
       </div>
     </footer>
+  );
+}
+
+function FooterLink({ label, icon: Icon, href }: { label: string, icon: any, href: string }) {
+  const [isHovered, setIsHovered] = useState(false);
+  
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group relative w-full text-left py-6 md:py-8 border-b border-white/10 block overflow-hidden"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <span
+        className="absolute inset-0 bg-white origin-left transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+        style={{ transform: isHovered ? "scaleX(1)" : "scaleX(0)" }}
+      />
+      <div className="relative z-10 flex items-center gap-6 md:gap-10 px-4 md:px-8">
+        <Icon className={`w-8 h-8 md:w-10 md:h-10 transition-colors duration-300 ${isHovered ? "text-black" : "text-white/40"}`} strokeWidth={1.5} />
+        <span
+          className={`font-anton uppercase tracking-normal transition-colors duration-300
+            text-4xl sm:text-5xl md:text-7xl leading-[0.9]
+            ${isHovered ? "text-black" : "text-white-soft"}`}
+        >
+          {label}
+        </span>
+      </div>
+    </a>
   );
 }
