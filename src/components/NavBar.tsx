@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Github } from "lucide-react";
+import { Github, SkipForward } from "lucide-react";
 import MagneticWrapper from "./MagneticWrapper";
 
 const NAV_LINKS = [
@@ -10,7 +10,11 @@ const NAV_LINKS = [
   { label: "PROJECTS", targetId: "section-4" },
 ];
 
-export default function NavBar() {
+interface NavBarProps {
+  cycleShader?: () => void;
+}
+
+export default function NavBar({ cycleShader }: NavBarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
@@ -44,6 +48,20 @@ export default function NavBar() {
   return (
     <>
       <div className="absolute top-0 right-0 p-6 md:p-10 z-[110] flex items-center gap-4">
+        {/* Toggle Shader Button */}
+        {cycleShader && (
+          <MagneticWrapper strength={0.4}>
+            <button
+              onClick={cycleShader}
+              className={isOpen ? btnOpen : btnClosed}
+              aria-label="Next Shader"
+              title="Change Background Shader"
+            >
+              <SkipForward className="w-5 h-5 md:w-6 md:h-6" fill="currentColor" />
+            </button>
+          </MagneticWrapper>
+        )}
+
         <MagneticWrapper strength={0.4}>
           <a
             href="https://github.com/BHAVANI200602/My-Portfolio"

@@ -14,6 +14,11 @@ import { motion, useScroll, useTransform } from "motion/react";
 export default function App() {
   const [isDived, setIsDived] = useState(false);
   const [preloaderMounted, setPreloaderMounted] = useState(true);
+  const [activeShader, setActiveShader] = useState(0);
+
+  const cycleShader = useCallback(() => {
+    setActiveShader((prev) => (prev + 1) % 7);
+  }, []);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -52,7 +57,7 @@ export default function App() {
           transition: "opacity 1s ease-in-out",
         }}
       >
-        <NavBar />
+        <NavBar cycleShader={cycleShader} />
       </div>
 
       {/* Main Portfolio Framework */}
@@ -75,7 +80,7 @@ export default function App() {
               transformOrigin: "center center"
             }}
           >
-            <HeroSection isDived={isDived} />
+            <HeroSection isDived={isDived} activeShader={activeShader} />
           </motion.div>
 
           {/* Solid content block that slides over the Hero */}

@@ -4,9 +4,10 @@ import WebGLHeroShader from "./WebGLHeroShader";
 
 interface HeroSectionProps {
   isDived?: boolean;
+  activeShader?: number;
 }
 
-export default function HeroSection({ isDived = false }: HeroSectionProps) {
+export default function HeroSection({ isDived = false, activeShader = 0 }: HeroSectionProps) {
   const [isRevealed, setIsRevealed] = useState(false);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
           transition: "opacity 1.5s ease-out, filter 2s ease-out, transform 2s ease-out"
         }}
       >
-        <WebGLHeroShader />
+        <WebGLHeroShader activeShader={activeShader} />
       </div>
 
       <div
