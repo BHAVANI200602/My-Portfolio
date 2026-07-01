@@ -25,7 +25,7 @@ export default function HeroSection({ isDived = false, activeShader = 0 }: HeroS
       style={{ height: "100svh" }}
     >
       <div
-        className="absolute inset-0 z-0 pointer-events-none"
+        className="absolute inset-0 z-0 pointer-events-auto"
         style={{ 
           opacity: isRevealed ? 1 : 0,
           filter: isRevealed ? "blur(0px)" : "blur(24px)",

@@ -20,6 +20,7 @@ uniform vec2  uGridMul;
 uniform float uDigitSize;
 uniform float uNoiseAmp;
 uniform float uBrightness;
+uniform vec2  uMouse;
 
 float time;
 
@@ -47,12 +48,18 @@ float digit(vec2 p){
   vec2 q,r;
   float intensity=pattern(s*0.1,q,r)*1.3-0.03;
   p=fract(p); p*=uDigitSize;
+  
+  // Mouse reactivity: digits close to mouse light up more
+  vec2 m = uMouse * uScale;
+  float dist = length(vUv * uScale - m);
+  float mouseGlow = exp(-dist * 1.5) * 0.4;
+  
   float px5=p.x*5.0,py5=(1.0-p.y)*5.0;
   float x=fract(px5),y=fract(py5);
   float i=floor(py5)-2.0,j=floor(px5)-2.0;
   float n=i*i+j*j,f=n*0.0625;
-  float isOn=step(0.1,intensity-f);
-  float brightness=isOn*(0.2+y*0.8)*(0.75+x*0.25);
+  float isOn=step(0.1,intensity-f + mouseGlow);
+  float brightness=isOn*(0.2+y*0.8)*(0.75+x*0.25) * (1.0 + mouseGlow);
   return step(0.0,p.x)*step(p.x,1.0)*step(0.0,p.y)*step(p.y,1.0)*brightness;
 }
 
@@ -67,7 +74,7 @@ vec3 getColor(vec2 p){
 }
 
 void main(){
-  time=iTime*0.333333;
+  time=iTime*1.2; // FASTER ANIMATION
   vec2 p=vUv*uScale;
   vec3 col=getColor(p)*uBrightness;
   gl_FragColor=vec4(col,1.0);
@@ -95,9 +102,22 @@ export default function Shader6FaultyTerminal() {
         uDigitSize:   { value: 1.5 },
         uNoiseAmp:    { value: 0.9 },
         uBrightness:  { value: 0.7 },
+        uMouse:       { value: new Float32Array([0.5, 0.5]) },
       },
     });
     const mesh = new Mesh(gl, { geometry, program });
+
+    let currentMouse = [0.5, 0.5];
+    let targetMouse  = [0.5, 0.5];
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = ctn.getBoundingClientRect();
+      targetMouse = [
+        (e.clientX - rect.left) / rect.width,
+        1.0 - (e.clientY - rect.top) / rect.height, // Flip Y for WebGL
+      ];
+    };
+    ctn.addEventListener('mousemove', handleMouseMove);
 
     const resize = () => {
       renderer.setSize(ctn.offsetWidth, ctn.offsetHeight);
@@ -111,7 +131,12 @@ export default function Shader6FaultyTerminal() {
     const start = performance.now();
     let frame = 0;
     const loop = () => {
-      program.uniforms.iTime.value = ((performance.now() - start) / 1000) * 0.28;
+      program.uniforms.iTime.value = ((performance.now() - start) / 1000) * 0.8; // Also increase base time multiplier
+      currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]);
+      currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]);
+      (program.uniforms.uMouse.value as Float32Array)[0] = currentMouse[0];
+      (program.uniforms.uMouse.value as Float32Array)[1] = currentMouse[1];
+      
       renderer.render({ scene: mesh });
       frame = requestAnimationFrame(loop);
     };
@@ -120,6 +145,7 @@ export default function Shader6FaultyTerminal() {
     return () => {
       cancelAnimationFrame(frame);
       ro.disconnect();
+      ctn.removeEventListener('mousemove', handleMouseMove);
       if (ctn.contains(gl.canvas)) ctn.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };

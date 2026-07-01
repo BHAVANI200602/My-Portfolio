@@ -70,24 +70,30 @@ void main() {
 const fragmentShader = `
 varying float vEdge;
 varying vec3  vNormal;
+varying vec3  vPos;
 
 uniform float uNoiseIntensity;
+uniform vec2 uMouse;
 
 float random(vec2 st){ return fract(sin(dot(st, vec2(12.9898, 78.233))) * 43758.5453123); }
 
 void main() {
-  // Directional light from upper-right
-  vec3 lightDir = normalize(vec3(0.3, 0.5, 1.0));
+  // Directional light from upper-right, influenced by mouse
+  vec3 lightDir = normalize(vec3(0.3 + (uMouse.x - 0.5), 0.5 + (uMouse.y - 0.5), 1.0));
   float diff = max(dot(vNormal, lightDir), 0.0);
 
   // Edge fade — beams are black at the seams
-  float brightness = vEdge * (0.05 + diff * 0.55);
+  float brightness = vEdge * (0.1 + diff * 0.7);
 
   // Subtle noise dither
   float rnd = random(gl_FragCoord.xy);
   brightness -= rnd / 15.0 * uNoiseIntensity;
 
   vec3 col = vec3(brightness);
+  
+  // Make it brighter
+  col *= 1.3;
+
   gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
 }
 `;
@@ -152,13 +158,14 @@ export default function Shader3Beams() {
       uniforms: {
         uTime:          { value: 0 },
         uSpeed:         { value: 2.0 },
-        uScale:         { value: 0.2 },
+        uScale:         { value: 0.15 },
         uNoiseIntensity: { value: 1.5 },
+        uMouse:         { value: new THREE.Vector2(0.5, 0.5) }
       },
     });
 
-    // Mesh — beams, slightly rotated for drama
-    const geo  = createStackedPlanes(12, 2, 15, 100);
+    // Mesh — beams, slightly rotated for drama. Increased size to make sure it covers screen
+    const geo  = createStackedPlanes(24, 2, 30, 100);
     const mesh = new THREE.Mesh(geo, material);
     mesh.rotation.z = Math.PI / 12; // 15° tilt
     scene.add(mesh);
@@ -166,11 +173,30 @@ export default function Shader3Beams() {
     // Ambient
     scene.add(new THREE.AmbientLight('#888888', 0.8));
 
+    // Mouse tracking
+    let currentMouse = { x: 0.5, y: 0.5 };
+    let targetMouse = { x: 0.5, y: 0.5 };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      targetMouse.x = e.clientX / window.innerWidth;
+      targetMouse.y = 1.0 - (e.clientY / window.innerHeight);
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+
     const clock = new THREE.Clock();
     let raf: number;
     const animate = () => {
       raf = requestAnimationFrame(animate);
       material.uniforms.uTime.value += clock.getDelta() * 0.1;
+      
+      currentMouse.x += (targetMouse.x - currentMouse.x) * 0.05;
+      currentMouse.y += (targetMouse.y - currentMouse.y) * 0.05;
+      material.uniforms.uMouse.value.set(currentMouse.x, currentMouse.y);
+      
+      // slightly tilt mesh based on mouse
+      mesh.rotation.y = (currentMouse.x - 0.5) * 0.2;
+      mesh.rotation.x = (currentMouse.y - 0.5) * 0.2;
+
       renderer.render(scene, camera);
     };
     animate();
@@ -187,6 +213,7 @@ export default function Shader3Beams() {
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
+      window.removeEventListener('mousemove', handleMouseMove);
       geo.dispose();
       material.dispose();
       renderer.dispose();

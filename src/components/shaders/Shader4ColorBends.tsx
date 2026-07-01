@@ -88,14 +88,14 @@ export default function Shader4ColorBends() {
     const camera   = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     const geometry = new THREE.PlaneGeometry(2, 2);
 
-    // Charcoal palette: near-blacks → mid-greys → off-white
+    // Charcoal palette: deeper contrast and sharper silver/grey bands
     const charcoalColors = [
-      new THREE.Vector3(0.04, 0.04, 0.04),
-      new THREE.Vector3(0.14, 0.14, 0.15),
-      new THREE.Vector3(0.28, 0.28, 0.30),
-      new THREE.Vector3(0.50, 0.50, 0.52),
-      new THREE.Vector3(0.72, 0.72, 0.74),
-      new THREE.Vector3(0.12, 0.12, 0.13),
+      new THREE.Vector3(0.01, 0.01, 0.01),
+      new THREE.Vector3(0.10, 0.10, 0.11),
+      new THREE.Vector3(0.25, 0.25, 0.27),
+      new THREE.Vector3(0.45, 0.45, 0.48),
+      new THREE.Vector3(0.80, 0.80, 0.82),
+      new THREE.Vector3(0.15, 0.15, 0.17),
     ];
 
     const material = new THREE.ShaderMaterial({
@@ -104,20 +104,20 @@ export default function Shader4ColorBends() {
       uniforms: {
         uCanvas:       { value: new THREE.Vector2(1, 1) },
         uTime:         { value: 0 },
-        uSpeed:        { value: 0.18 },
+        uSpeed:        { value: 0.3 }, // Faster speed
         uRot:          { value: new THREE.Vector2(1, 0) },
         uColorCount:   { value: charcoalColors.length },
         uColors:       { value: charcoalColors },
-        uScale:        { value: 1.1 },
-        uFrequency:    { value: 1.0 },
-        uWarpStrength: { value: 1.2 },
+        uScale:        { value: 1.0 },
+        uFrequency:    { value: 1.2 },
+        uWarpStrength: { value: 1.8 }, // stronger warp
         uPointer:      { value: new THREE.Vector2(0, 0) },
-        uMouseInfluence: { value: 0.8 },
+        uMouseInfluence: { value: 1.5 }, // Stronger mouse interaction
         uParallax:     { value: 0.4 },
-        uNoise:        { value: 0.06 },
-        uIterations:   { value: 2 },
-        uIntensity:    { value: 1.3 },
-        uBandWidth:    { value: 7 },
+        uNoise:        { value: 0.03 }, // Less noise
+        uIterations:   { value: 3 },
+        uIntensity:    { value: 1.5 }, // More contrast
+        uBandWidth:    { value: 12 }, // Sharper bands
       },
       transparent: false,
     });

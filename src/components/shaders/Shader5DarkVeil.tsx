@@ -18,6 +18,7 @@ uniform float uTime;
 uniform float uHueShift;
 uniform float uNoise;
 uniform float uWarp;
+uniform vec2 uMouse;
 
 vec4 buf[8];
 
@@ -56,13 +57,23 @@ vec4 cppn_fn(vec2 coordinate,float in0,float in1,float in2){
 void main(){
   vec2 uv = gl_FragCoord.xy / uResolution.xy * 2.0 - 1.0;
   uv.y *= -1.0;
-  uv += uWarp * vec2(sin(uv.y*6.283+uTime*0.5), cos(uv.x*6.283+uTime*0.5)) * 0.05;
+  
+  // Mouse interaction affects the warp
+  vec2 m = uMouse * 2.0 - 1.0;
+  float dist = length(uv - m);
+  float mouseWarp = exp(-dist * 3.0) * 0.5;
+
+  uv += (uWarp + mouseWarp) * vec2(sin(uv.y*6.283+uTime*0.5), cos(uv.x*6.283+uTime*0.5)) * 0.05;
   vec4 col = cppn_fn(uv, 0.1*sin(0.3*uTime), 0.1*sin(0.69*uTime), 0.1*sin(0.44*uTime));
   col.rgb = hueShiftRGB(col.rgb, uHueShift);
-  // Crush to charcoal: desaturate and darken slightly
+  
+  // Crush to charcoal: desaturate but keep brightness high
   float lum = dot(col.rgb, vec3(0.299, 0.587, 0.114));
   col.rgb = mix(col.rgb, vec3(lum), 0.85); // near-grayscale
-  col.rgb = pow(col.rgb, vec3(1.4));        // darken
+  
+  // Brighten up the dim image instead of darkening it
+  col.rgb = col.rgb * 1.5 + 0.05;
+  
   if(uNoise > 0.0) col.rgb += (fract(sin(dot(gl_FragCoord.xy+uTime, vec2(12.9898,78.233)))*43758.5453)-0.5)*uNoise;
   gl_FragColor = vec4(clamp(col.rgb, 0.0, 1.0), 1.0);
 }
@@ -83,12 +94,25 @@ export default function Shader5DarkVeil() {
       uniforms: {
         uTime:       { value: 0 },
         uResolution: { value: new Vec2() },
-        uHueShift:   { value: 0 },       // no hue shift — neutral charcoal
+        uHueShift:   { value: 0 },
         uNoise:      { value: 0.015 },
         uWarp:       { value: 0.15 },
+        uMouse:      { value: new Float32Array([0.5, 0.5]) },
       },
     });
     const mesh = new Mesh(gl, { geometry, program });
+
+    let currentMouse = [0.5, 0.5];
+    let targetMouse  = [0.5, 0.5];
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      targetMouse = [
+        (e.clientX - rect.left) / rect.width,
+        1.0 - (e.clientY - rect.top) / rect.height,
+      ];
+    };
+    canvas.addEventListener('mousemove', handleMouseMove);
 
     const resize = () => {
       const w = parent.clientWidth, h = parent.clientHeight;
@@ -102,11 +126,19 @@ export default function Shader5DarkVeil() {
     let frame = 0;
     const loop = () => {
       program.uniforms.uTime.value = ((performance.now() - start) / 1000) * 0.4;
+      currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]);
+      currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]);
+      (program.uniforms.uMouse.value as Float32Array)[0] = currentMouse[0];
+      (program.uniforms.uMouse.value as Float32Array)[1] = currentMouse[1];
       renderer.render({ scene: mesh });
       frame = requestAnimationFrame(loop);
     };
     loop();
-    return () => { cancelAnimationFrame(frame); window.removeEventListener('resize', resize); };
+    return () => { 
+      cancelAnimationFrame(frame); 
+      window.removeEventListener('resize', resize); 
+      canvas.removeEventListener('mousemove', handleMouseMove);
+    };
   }, []);
 
   return (
