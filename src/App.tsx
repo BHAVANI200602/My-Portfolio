@@ -16,9 +16,7 @@ export default function App() {
   const [preloaderMounted, setPreloaderMounted] = useState(true);
   const [activeShader, setActiveShader] = useState(0);
 
-  const cycleShader = useCallback(() => {
-    setActiveShader((prev) => (prev + 1) % 7);
-  }, []);
+  const cycleShader = useCallback(() => setActiveShader(s => (s + 1) % 7), []);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -57,7 +55,7 @@ export default function App() {
           transition: "opacity 1s ease-in-out",
         }}
       >
-        <NavBar cycleShader={cycleShader} />
+        <NavBar cycleShader={cycleShader} activeShader={activeShader} />
       </div>
 
       {/* Main Portfolio Framework */}

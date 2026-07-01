@@ -10,11 +10,14 @@ const NAV_LINKS = [
   { label: "PROJECTS", targetId: "section-4" },
 ];
 
+const SHADER_NAMES = ["Lines", "Aurora", "Beams", "Bends", "Veil", "Terminal", "Waves"];
+
 interface NavBarProps {
   cycleShader?: () => void;
+  activeShader?: number;
 }
 
-export default function NavBar({ cycleShader }: NavBarProps) {
+export default function NavBar({ cycleShader, activeShader = 0 }: NavBarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
@@ -47,17 +50,23 @@ export default function NavBar({ cycleShader }: NavBarProps) {
 
   return (
     <>
-      <div className="absolute top-0 right-0 p-6 md:p-10 z-[110] flex items-center gap-4">
-        {/* Toggle Shader Button */}
+      <div className="absolute top-0 right-0 p-6 md:p-10 z-[110] flex items-center gap-3">
+        {/* Shader Cycle Button */}
         {cycleShader && (
           <MagneticWrapper strength={0.4}>
             <button
               onClick={cycleShader}
-              className={isOpen ? btnOpen : btnClosed}
+              className={`${isOpen ? btnOpen : btnClosed} flex-col gap-0.5 relative`}
               aria-label="Next Shader"
-              title="Change Background Shader"
+              title={`Current: ${SHADER_NAMES[activeShader]} — click to cycle`}
             >
-              <SkipForward className="w-5 h-5 md:w-6 md:h-6" fill="currentColor" />
+              <SkipForward className="w-4 h-4 md:w-5 md:h-5" />
+              <span
+                className="font-mono leading-none"
+                style={{ fontSize: '7px', letterSpacing: '0.05em', opacity: 0.6 }}
+              >
+                {String(activeShader + 1).padStart(2, '0')}/{SHADER_NAMES.length}
+              </span>
             </button>
           </MagneticWrapper>
         )}
