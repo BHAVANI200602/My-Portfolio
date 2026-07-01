@@ -9,10 +9,6 @@ const vsSource = `
   }
 `;
 
-// ─── Enhanced Charcoal Fluid Shader ───────────────────────────────────────────
-// Technique: Multi-octave domain warping → smooth luminance ribbons
-// No grain. Deep blacks pool naturally, light ribbons sweep through.
-// Mouse reactive — fluid distorts toward cursor position.
 const fsSource = `
   precision highp float;
   varying vec2 v_uv;
@@ -21,96 +17,74 @@ const fsSource = `
   uniform vec2  u_res;
   uniform vec2  u_mouse;
 
-  // Smooth, grain-free rotation helper
-  vec2 rot(vec2 p, float a) {
-    float s = sin(a), c = cos(a);
-    return vec2(p.x * c - p.y * s, p.x * s + p.y * c);
-  }
-
-  // Smooth value noise — NO fract(sin) so there is zero grain
-  float smoothNoise(vec2 p) {
-    vec2 i = floor(p);
-    vec2 f = fract(p);
-    vec2 u = f * f * (3.0 - 2.0 * f); // smoothstep curve
-
-    float a = sin(i.x * 127.1  + i.y * 311.7)  * 43758.5453;
-    float b = sin((i.x + 1.0) * 127.1 + i.y * 311.7) * 43758.5453;
-    float c = sin(i.x * 127.1  + (i.y + 1.0) * 311.7) * 43758.5453;
-    float d = sin((i.x + 1.0) * 127.1 + (i.y + 1.0) * 311.7) * 43758.5453;
-
-    return mix(mix(fract(a), fract(b), u.x),
-               mix(fract(c), fract(d), u.x), u.y);
-  }
-
-  // 3-octave smooth FBM (Fractional Brownian Motion) — pure smooth waves
-  float fbm(vec2 p) {
-    float v = 0.0;
-    float amp = 0.5;
-    for (int i = 0; i < 4; i++) {
-      v   += amp * smoothNoise(p);
-      p    = rot(p * 2.1, 0.37);
-      amp *= 0.5;
-    }
-    return v;
-  }
-
   void main() {
     vec2 uv = v_uv;
+    
+    // Number of pills/columns across the screen
+    // Adjust based on aspect ratio so they don't get too fat on ultrawide
     float aspect = u_res.x / u_res.y;
+    float N = 12.0 * max(1.0, aspect * 0.7);
+    
+    float x_scaled = uv.x * N;
+    float col_index = floor(x_scaled);
+    
+    // Local x inside the column (-1.0 to 1.0)
+    float nx = fract(x_scaled) * 2.0 - 1.0;
+    
+    // Create the 3D cylinder/pill volume
+    // smoothstep gives a nice soft falloff to black at the edges
+    float volume = smoothstep(1.0, 0.0, abs(nx));
+    // pow makes the highlight tighter and the shadows deeper
+    volume = pow(volume, 1.4);
+    
+    // Gap between pills
+    float gap = smoothstep(0.98, 0.85, abs(nx));
+    
+    // Animation: a wave of brightness passing through the columns
+    float t = u_time * 1.5;
+    
+    // Mouse influence: wave ripples away from mouse X
+    float mouse_norm = u_mouse.x / u_res.x;
+    float dist_to_mouse = abs(uv.x - mouse_norm);
+    float mouse_wave = sin(dist_to_mouse * 10.0 - t * 2.0) * exp(-dist_to_mouse * 3.0);
+    
+    // Base wave driven by column index and time
+    float wave = sin(col_index * 0.4 - t) * 0.5 + 0.5;
+    
+    // Combine waves
+    float brightness = wave + mouse_wave * 0.5;
+    brightness = clamp(brightness, 0.0, 1.0);
+    
+    // Colors
+    vec3 darkShadow = vec3(0.01, 0.01, 0.012);
+    vec3 midTone    = vec3(0.25, 0.25, 0.25);
+    vec3 highlight  = vec3(0.9, 0.9, 0.9);
+    
+    // Mix the color based on the animated brightness
+    vec3 col = mix(darkShadow, midTone, brightness);
+    col = mix(col, highlight, smoothstep(0.6, 1.0, brightness) * 0.8);
+    
+    // Apply the 3D volume shading
+    col *= volume;
+    
+    // Apply the gap (black in between)
+    col *= gap;
+    
+    // Vertical fading to make them look like finite pills
+    // fade out at top and bottom
+    float y_fade = smoothstep(0.0, 0.2, uv.y) * smoothstep(1.0, 0.8, uv.y);
+    col *= mix(0.1, 1.0, y_fade);
+    
+    // Teal edge tint
+    float left_edge = smoothstep(0.15, 0.0, uv.x);
+    float right_edge = smoothstep(0.85, 1.0, uv.x);
+    vec3 teal = vec3(0.0, 0.35, 0.4);
+    
+    // Add the teal glow to the edges of the screen, affected by the 3D volume
+    col += teal * (left_edge + right_edge) * volume * y_fade;
 
-    // Centre-origin coordinates
-    vec2 p = (uv - 0.5) * vec2(aspect, 1.0);
-
-    // Normalised mouse influence (0..1 range)
-    vec2 mouse = (u_mouse / u_res) - 0.5;
-    mouse.x *= aspect;
-    mouse.y  = -mouse.y;
-
-    float t = u_time * 0.12;
-
-    // ── Layer 1: large slow base warp ──────────────────────────────────────────
-    vec2 q;
-    q.x = fbm(p + vec2(0.0, 0.0) + t * 0.40);
-    q.y = fbm(p + vec2(5.2, 1.3) + t * 0.36);
-
-    // ── Layer 2: secondary warp driven by q ────────────────────────────────────
-    vec2 r;
-    r.x = fbm(p + 1.8 * q + vec2(1.7, 9.2) + t * 0.28);
-    r.y = fbm(p + 1.8 * q + vec2(8.3, 2.8) + t * 0.24);
-
-    // ── Mouse ripple: gentle radial pull toward cursor ─────────────────────────
-    float mouseDistSq = dot(p - mouse, p - mouse);
-    float mouseRipple = exp(-mouseDistSq * 1.8) * 0.18;
-    r += mouseRipple * (mouse - p);
-
-    // ── Final noise value ──────────────────────────────────────────────────────
-    float f = fbm(p + 2.4 * r + t * 0.18);
-
-    // ── Charcoal colour map ────────────────────────────────────────────────────
-    // Very dark base; light ribbons emerge only at high f values
-    vec3 deepBlack  = vec3(0.02, 0.02, 0.025);
-    vec3 charcoal   = vec3(0.07, 0.07, 0.085);
-    vec3 darkGrey   = vec3(0.18, 0.18, 0.20);
-    vec3 midGrey    = vec3(0.38, 0.38, 0.42);
-    vec3 silver     = vec3(0.70, 0.72, 0.76);
-    vec3 softWhite  = vec3(0.92, 0.93, 0.96);
-
-    // Map f (0..1) through the palette with smooth transitions
-    vec3 col = deepBlack;
-    col = mix(col, charcoal,  smoothstep(0.00, 0.30, f));
-    col = mix(col, darkGrey,  smoothstep(0.30, 0.50, f));
-    col = mix(col, midGrey,   smoothstep(0.50, 0.68, f));
-    col = mix(col, silver,    smoothstep(0.68, 0.82, f));
-    col = mix(col, softWhite, smoothstep(0.82, 1.00, f));
-
-    // ── Subtle edge vignette (pure math, no texture) ──────────────────────────
-    float vDist = length(uv - 0.5);
-    float vignette = smoothstep(0.85, 0.20, vDist);
-    col *= vignette;
-
-    // ── Very slight warmth at bright peaks ────────────────────────────────────
-    float warmth = smoothstep(0.75, 1.0, f) * 0.04;
-    col += vec3(warmth * 0.5, warmth * 0.4, warmth * 0.0);
+    // Optional: a subtle overall ambient glow so it's not totally pitch black
+    col += vec3(0.02) * (1.0 - volume);
 
     gl_FragColor = vec4(col, 1.0);
   }
@@ -138,7 +112,7 @@ export default function WebGLHeroShader() {
       return shader;
     };
 
-    const vertexShader   = compileShader(gl.VERTEX_SHADER,   vsSource);
+    const vertexShader = compileShader(gl.VERTEX_SHADER, vsSource);
     const fragmentShader = compileShader(gl.FRAGMENT_SHADER, fsSource);
     if (!vertexShader || !fragmentShader) return;
 
@@ -154,33 +128,29 @@ export default function WebGLHeroShader() {
 
     gl.useProgram(program);
 
-    // Full-screen quad
     const buf = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buf);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-      -1,-1,  1,-1,  -1,1,
-      -1, 1,  1,-1,   1,1,
+      -1, -1,  1, -1, -1,  1,
+      -1,  1,  1, -1,  1,  1,
     ]), gl.STATIC_DRAW);
 
     const posLoc = gl.getAttribLocation(program, "a_position");
     gl.enableVertexAttribArray(posLoc);
     gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
 
-    const uTimeLoc  = gl.getUniformLocation(program, "u_time");
-    const uResLoc   = gl.getUniformLocation(program, "u_res");
+    const uTimeLoc = gl.getUniformLocation(program, "u_time");
+    const uResLoc = gl.getUniformLocation(program, "u_res");
     const uMouseLoc = gl.getUniformLocation(program, "u_mouse");
 
-    // Smooth spring mouse
-    let targetX = window.innerWidth  * 0.5;
+    let targetX = window.innerWidth * 0.5;
     let targetY = window.innerHeight * 0.5;
-    let posX = targetX, posY = targetY;
-    let velX = 0, velY = 0;
-    let lastMoveTime = performance.now();
+    let posX = targetX;
+    let posY = targetY;
 
     const onMouseMove = (e: MouseEvent) => {
       targetX = e.clientX;
       targetY = window.innerHeight - e.clientY;
-      lastMoveTime = performance.now();
     };
     window.addEventListener("mousemove", onMouseMove);
 
@@ -192,32 +162,23 @@ export default function WebGLHeroShader() {
       const dt = Math.min((now - lastTime) * 0.001, 0.05);
       lastTime = now;
 
-      // Resize
       if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
-        canvas.width  = window.innerWidth;
+        canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         gl.viewport(0, 0, canvas.width, canvas.height);
       }
 
-      // Drift back to centre after 2.5s idle
-      if (now - lastMoveTime > 2500) {
-        targetX = canvas.width  * 0.5;
-        targetY = canvas.height * 0.5;
-      }
-
-      // Smooth spring
-      const K = 0.04, D = 0.82;
-      velX += (targetX - posX) * K;
-      velY += (targetY - posY) * K;
-      velX *= D; velY *= D;
-      posX += velX; posY += velY;
+      // Smooth mouse follow
+      posX += (targetX - posX) * 0.05;
+      posY += (targetY - posY) * 0.05;
 
       currentT += dt;
 
-      gl.uniform1f(uTimeLoc,  currentT);
-      gl.uniform2f(uResLoc,   canvas.width, canvas.height);
+      gl.uniform1f(uTimeLoc, currentT);
+      gl.uniform2f(uResLoc, canvas.width, canvas.height);
       gl.uniform2f(uMouseLoc, posX, posY);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
+      
       rafId = requestAnimationFrame(render);
     };
 

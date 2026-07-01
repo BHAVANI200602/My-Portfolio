@@ -55,8 +55,6 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
       />
       <div className="absolute inset-x-0 bottom-0 h-32 sm:h-40 md:h-48 bg-gradient-to-t from-black via-black/85 to-transparent pointer-events-none z-[6]" />
 
-      {/* Art+computing — mobile: upper-left (unchanged feel); desktop: tiny corner tag */}
-      {/* Art+computing — mobile: upper-left (unchanged feel); desktop: tiny corner tag */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
@@ -67,9 +65,6 @@ export default function HeroSection({ isDived = false }: HeroSectionProps) {
           md:top-7 md:left-7
           lg:top-8 lg:left-8"
       >
-        <span className="font-mono text-[8px] md:text-[7px] tracking-[0.35em] uppercase text-white/35 block mb-1 md:mb-0.5">
-          Discipline
-        </span>
         <p className="font-anton uppercase text-white-soft/90 leading-none
           text-2xl sm:text-3xl
           md:text-sm md:text-white/50
