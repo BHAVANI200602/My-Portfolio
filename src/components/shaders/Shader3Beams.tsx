@@ -56,8 +56,8 @@ void main() {
 
   // Compute normal for shading
   float eps = 0.01;
-  float dx = cnoise(noiseCoord + vec3(eps, 0, 0)) - disp;
-  float dy = cnoise(noiseCoord + vec3(0, -eps, 0)) - disp;
+  float dx = cnoise(noiseCoord + vec3(eps, 0.0, 0.0)) - disp;
+  float dy = cnoise(noiseCoord + vec3(0.0, -eps, 0.0)) - disp;
   vNormal = normalize(vec3(-dx / eps, dy / eps, 1.0));
 
   // How close to left/right edge of each beam
