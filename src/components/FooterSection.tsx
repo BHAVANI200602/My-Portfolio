@@ -50,21 +50,21 @@ export default function FooterSection({ scrollToTop }: FooterSectionProps) {
           <FooterLink label="GitHub" icon={Github} href={github} />
           <FooterLink label="LeetCode" icon={Code2} href={leetcode} />
         </motion.div>
-          <div className="flex flex-col items-center gap-2">
-            <MagneticWrapper strength={0.4}>
-              <button
-                onClick={scrollToTop}
-                className="group flex items-center justify-center w-14 h-14 rounded-full border border-white/20 hover:border-white/40 bg-transparent text-white/60 hover:text-white-soft transition-all duration-500 scale-100 hover:scale-105 active:scale-95"
-                title="Scroll to Top"
-              >
-                <ArrowUp className="w-6 h-6 group-hover:-translate-y-1 transition-transform duration-300" />
-              </button>
-            </MagneticWrapper>
-            <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-white/40 transition-colors mt-1 select-none">
-              scroll to top
-            </span>
-          </div>
-        </motion.div>
+
+        <div className="flex flex-col items-center gap-2 mb-8">
+          <MagneticWrapper strength={0.4}>
+            <button
+              onClick={scrollToTop}
+              className="group flex items-center justify-center w-14 h-14 rounded-full border border-white/20 hover:border-white/40 bg-transparent text-white/60 hover:text-white-soft transition-all duration-500 scale-100 hover:scale-105 active:scale-95"
+              title="Scroll to Top"
+            >
+              <ArrowUp className="w-6 h-6 group-hover:-translate-y-1 transition-transform duration-300" />
+            </button>
+          </MagneticWrapper>
+          <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-white/40 transition-colors mt-1 select-none">
+            scroll to top
+          </span>
+        </div>
       </div>
 
       <div className="absolute bottom-0 left-0 w-full overflow-hidden select-none pointer-events-none leading-none z-0">
