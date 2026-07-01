@@ -278,7 +278,8 @@ export default function Strands({
     const renderer = new Renderer({
       alpha: true,
       premultipliedAlpha: true,
-      antialias: true
+      antialias: true,
+      webgl2: true,
     });
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
