@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
 interface PreloaderProps {
@@ -9,6 +9,8 @@ interface PreloaderProps {
 export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProps) {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState<"counting" | "white" | "black" | "curtain">("counting");
+  // Guard so the sequence only ever fires ONCE even if props recreate
+  const started = useRef(false);
 
   // Count up to 100
   useEffect(() => {
@@ -24,43 +26,42 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
     return () => clearInterval(interval);
   }, []);
 
+  // Sequence — guarded by ref so it fires exactly once when progress hits 100
   useEffect(() => {
-    if (progress < 100) return;
+    if (progress < 100 || started.current) return;
+    started.current = true;
 
-    // Step 1: White circle expands
-    const t1 = setTimeout(() => setPhase("white"), 300);
-    // Step 2: Black circle expands over white
-    const t2 = setTimeout(() => setPhase("black"), 1500);
-    // Step 3: Black curtain lifts to reveal portfolio
-    const t3 = setTimeout(() => {
+    const t1 = setTimeout(() => setPhase("white"),  300);   // white fills in
+    const t2 = setTimeout(() => setPhase("black"),  1500);  // black fills over white
+    const t3 = setTimeout(() => {                           // curtain lifts
       setPhase("curtain");
       onDiveStart?.();
     }, 2700);
-    // Done — unmount
-    const t4 = setTimeout(() => {
+    const t4 = setTimeout(() => {                           // preloader unmounts
       document.body.style.overflow = "auto";
       onDiveComplete();
     }, 4400);
 
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
-  }, [progress, onDiveStart, onDiveComplete]);
+  }, [progress]); // eslint-disable-line react-hooks/exhaustive-deps
+  // ^ intentionally omitting onDiveStart/onDiveComplete — guarded by ref above
 
   return (
-    <div className="fixed inset-0 w-full h-full z-[200] select-none overflow-hidden bg-black">
-
-      {/* Phase 2 — White circle slowly fills the entire screen */}
+    <div
+      className="fixed inset-0 w-full h-full z-[200] select-none overflow-hidden"
+      // During curtain phase, wrapper must be transparent so the site is visible beneath
+      style={{ background: phase === "curtain" ? "transparent" : "#000" }}
+    >
+      {/* White circle expands to fill screen */}
       <AnimatePresence>
         {(phase === "white" || phase === "black") && (
           <motion.div
             key="white-circle"
             className="absolute rounded-full bg-white"
             style={{
-              left: "50%",
-              top: "50%",
-              translateX: "-50%",
-              translateY: "-50%",
-              width: "10vw",
-              height: "10vw",
+              left: "50%", top: "50%",
+              translateX: "-50%", translateY: "-50%",
+              width: "10vw", height: "10vw",
             }}
             initial={{ scale: 0 }}
             animate={{ scale: 35 }}
@@ -69,19 +70,16 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
         )}
       </AnimatePresence>
 
-      {/* Phase 3 — Black circle fills over the white */}
+      {/* Black circle expands over white */}
       <AnimatePresence>
         {phase === "black" && (
           <motion.div
             key="black-circle"
             className="absolute rounded-full bg-black"
             style={{
-              left: "50%",
-              top: "50%",
-              translateX: "-50%",
-              translateY: "-50%",
-              width: "10vw",
-              height: "10vw",
+              left: "50%", top: "50%",
+              translateX: "-50%", translateY: "-50%",
+              width: "10vw", height: "10vw",
             }}
             initial={{ scale: 0 }}
             animate={{ scale: 35 }}
@@ -90,7 +88,7 @@ export default function Preloader({ onDiveStart, onDiveComplete }: PreloaderProp
         )}
       </AnimatePresence>
 
-      {/* Phase 4 — Black curtain slides up to reveal site */}
+      {/* Black curtain slides upward to reveal portfolio beneath */}
       <AnimatePresence>
         {phase === "curtain" && (
           <motion.div

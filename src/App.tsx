@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Preloader from "./components/Preloader";
 import HeroSection from "./components/HeroSection";
 import EducationSection from "./components/EducationSection";
@@ -19,6 +19,10 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // Stable refs — inline arrows would recreate each render and re-trigger Preloader's useEffect
+  const handleDiveStart = useCallback(() => setIsDived(true), []);
+  const handleDiveComplete = useCallback(() => setPreloaderMounted(false), []);
+
   const { scrollY } = useScroll();
   const windowHeight = typeof window !== "undefined" ? window.innerHeight : 1000;
   
@@ -34,8 +38,8 @@ export default function App() {
       {/* Intro sequence pre-loader phase */}
       {preloaderMounted && (
         <Preloader
-          onDiveStart={() => setIsDived(true)}
-          onDiveComplete={() => setPreloaderMounted(false)}
+          onDiveStart={handleDiveStart}
+          onDiveComplete={handleDiveComplete}
         />
       )}
 
