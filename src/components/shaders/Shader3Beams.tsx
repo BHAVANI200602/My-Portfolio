@@ -70,7 +70,6 @@ void main() {
 const fragmentShader = `
 varying float vEdge;
 varying vec3  vNormal;
-varying vec3  vPos;
 
 uniform float uNoiseIntensity;
 uniform vec2 uMouse;

@@ -138,10 +138,10 @@ export default function Shader1LineWaves() {
       uniforms: {
         uTime:          { value: 0 },
         uResolution:    { value: [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height] },
-        uSpeed:         { value: 0.25 },
-        uInnerLines:    { value: 28.0 },
+        uSpeed:         { value: 0.65 },
+        uInnerLines:    { value: 35.0 },
         uOuterLines:    { value: 32.0 },
-        uWarpIntensity: { value: 0.9 },
+        uWarpIntensity: { value: 1.8 },
         uRotation:      { value: rotRad },
         uEdgeFadeWidth: { value: 0.0 },
         uBrightness:    { value: 0.14 },

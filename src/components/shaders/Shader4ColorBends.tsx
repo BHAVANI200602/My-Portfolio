@@ -9,7 +9,7 @@ uniform vec2 uCanvas;
 uniform float uTime;
 uniform float uSpeed;
 uniform vec2 uRot;
-uniform int uColorCount;
+uniform float uColorCount;
 uniform vec3 uColors[MAX_COLORS];
 uniform float uScale;
 uniform float uFrequency;
@@ -18,7 +18,7 @@ uniform vec2 uPointer;
 uniform float uMouseInfluence;
 uniform float uParallax;
 uniform float uNoise;
-uniform int uIterations;
+uniform float uIterations;
 uniform float uIntensity;
 uniform float uBandWidth;
 varying vec2 vUv;
@@ -36,7 +36,7 @@ void main() {
   q += toward * uMouseInfluence * 0.2;
 
   for(int j=0;j<5;j++){
-    if(j>=uIterations-1) break;
+    if(float(j)>=uIterations-1.0) break;
     vec2 rr=sin(1.5*(q.yx*uFrequency)+2.0*cos(q*uFrequency));
     q+=(rr-q)*0.15;
   }
@@ -44,7 +44,7 @@ void main() {
   vec2 s = q;
   vec3 col = vec3(0.0);
   for(int i=0;i<MAX_COLORS;++i){
-    if(i>=uColorCount) break;
+    if(float(i)>=uColorCount) break;
     s -= 0.01;
     vec2 r=sin(1.5*(s.yx*uFrequency)+2.0*cos(s*uFrequency));
     float kBelow=clamp(uWarpStrength,0.0,1.0);
